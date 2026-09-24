@@ -2,66 +2,48 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 
 import streamlit as st
-
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 
-
-# =========================================================
-# CONFIGURAZIONE
-# =========================================================
 
 SCOPES = [
     "https://www.googleapis.com/auth/calendar"
 ]
 
 TIMEZONE_NAME = "Europe/Rome"
-
-TIMEZONE = ZoneInfo(
-    TIMEZONE_NAME
-)
+TIMEZONE = ZoneInfo(TIMEZONE_NAME)
 
 
 # =========================================================
-# CONNESSIONE GOOGLE CALENDAR
+# GOOGLE CALENDAR
 # =========================================================
 
+@st.cache_resource
 def get_calendar_service():
 
     credentials_info = dict(
-        st.secrets[
-            "gcp_service_account"
-        ]
+        st.secrets["gcp_service_account"]
     )
 
     credentials = (
-        service_account
-        .Credentials
+        service_account.Credentials
         .from_service_account_info(
             credentials_info,
             scopes=SCOPES,
         )
     )
 
-    service = build(
+    return build(
         "calendar",
         "v3",
         credentials=credentials,
         cache_discovery=False,
     )
 
-    return service
-
-
-# =========================================================
-# CALENDAR ID
-# =========================================================
 
 def get_calendar_id():
 
-    return st.secrets[
-        "calendar"
-    ]["id"]
+    return st.secrets["calendar"]["id"]
 
 
 # =========================================================
@@ -73,14 +55,8 @@ def get_events(
     end_date,
 ):
 
-    service = (
-        get_calendar_service()
-    )
-
-    calendar_id = (
-        get_calendar_id()
-    )
-
+    service = get_calendar_service()
+    calendar_id = get_calendar_id()
 
     start_datetime = datetime.combine(
         start_date,
@@ -88,13 +64,11 @@ def get_events(
         tzinfo=TIMEZONE,
     )
 
-
     end_datetime = datetime.combine(
         end_date,
         datetime.max.time(),
         tzinfo=TIMEZONE,
     )
-
 
     result = (
         service
@@ -108,7 +82,6 @@ def get_events(
         )
         .execute()
     )
-
 
     return result.get(
         "items",
@@ -132,7 +105,6 @@ def get_busy_slots(
 
     busy_slots = []
 
-
     for event in events:
 
         start = event.get(
@@ -145,10 +117,7 @@ def get_busy_slots(
             {},
         )
 
-
-        # ---------------------------------------------
-        # EVENTO CON ORARIO
-        # ---------------------------------------------
+        # EVENTI CON ORARIO
 
         if (
             "dateTime" in start
@@ -170,22 +139,14 @@ def get_busy_slots(
                 )
             )
 
-
             busy_slots.append(
                 {
-                    "start":
-                        start_dt,
-
-                    "end":
-                        end_dt,
+                    "start": start_dt,
+                    "end": end_dt,
                 }
             )
 
-
-        # ---------------------------------------------
-        # EVENTO GIORNALIERO
-        # Es. ferie / congresso / non disponibile
-        # ---------------------------------------------
+        # EVENTI GIORNALIERI
 
         elif (
             "date" in start
@@ -209,17 +170,11 @@ def get_busy_slots(
                 .date()
             )
 
-
             start_dt = datetime.combine(
                 start_date_event,
                 datetime.min.time(),
                 tzinfo=TIMEZONE,
             )
-
-
-            # Google Calendar considera
-            # la data finale degli eventi
-            # giornalieri esclusiva.
 
             end_dt = datetime.combine(
                 end_date_event,
@@ -227,17 +182,12 @@ def get_busy_slots(
                 tzinfo=TIMEZONE,
             )
 
-
             busy_slots.append(
                 {
-                    "start":
-                        start_dt,
-
-                    "end":
-                        end_dt,
+                    "start": start_dt,
+                    "end": end_dt,
                 }
             )
-
 
     return busy_slots
 
@@ -257,23 +207,11 @@ def create_appointment(
     email="",
 ):
 
-    service = (
-        get_calendar_service()
-    )
-
-    calendar_id = (
-        get_calendar_id()
-    )
-
-
-    # -----------------------------------------------------
-    # DESCRIZIONE EVENTO
-    # -----------------------------------------------------
+    service = get_calendar_service()
+    calendar_id = get_calendar_id()
 
     descrizione = [
-        "Appuntamento commerciale",
-        "",
-        "Alessandro Iovine",
+        "Appuntamento con Alessandro Iovine",
         "Sales Manager",
         "PIC · CONTROL · EFFERDENT",
         "",
@@ -282,13 +220,11 @@ def create_appointment(
         f"Durata: {durata} minuti",
     ]
 
-
     if referente.strip():
 
         descrizione.append(
             f"Referente: {referente.strip()}"
         )
-
 
     if telefono.strip():
 
@@ -296,29 +232,23 @@ def create_appointment(
             f"Telefono: {telefono.strip()}"
         )
 
-
     if email.strip():
 
         descrizione.append(
             f"Email: {email.strip()}"
         )
 
-
-    # -----------------------------------------------------
-    # EVENTO GOOGLE CALENDAR
-    # -----------------------------------------------------
-
     event = {
+
+        # Sul tuo calendario compare SOLO
+        # il nome della farmacia.
 
         "summary": nome_farmacia,
 
         "description":
-            "\n".join(
-                descrizione
-            ),
+            "\n".join(descrizione),
 
         "start": {
-
             "dateTime":
                 start_datetime.isoformat(),
 
@@ -327,15 +257,38 @@ def create_appointment(
         },
 
         "end": {
-
             "dateTime":
                 end_datetime.isoformat(),
 
             "timeZone":
                 TIMEZONE_NAME,
         },
+
+        # Promemoria dell'appuntamento
+        "reminders": {
+            "useDefault": False,
+
+            "overrides": [
+                {
+                    "method": "popup",
+                    "minutes": 30,
+                }
+            ],
+        },
     }
 
+    # =====================================================
+    # EMAIL CLIENTE
+    # =====================================================
+
+    if email.strip():
+
+        event["attendees"] = [
+            {
+                "email":
+                    email.strip()
+            }
+        ]
 
     created_event = (
         service
@@ -343,10 +296,15 @@ def create_appointment(
         .insert(
             calendarId=calendar_id,
             body=event,
+
+            # Chiede a Google Calendar
+            # di inviare l'invito al cliente.
+            sendUpdates="all"
+            if email.strip()
+            else "none",
         )
         .execute()
     )
-
 
     return created_event
 
@@ -357,14 +315,8 @@ def create_appointment(
 
 def test_connection():
 
-    service = (
-        get_calendar_service()
-    )
-
-    calendar_id = (
-        get_calendar_id()
-    )
-
+    service = get_calendar_service()
+    calendar_id = get_calendar_id()
 
     calendar = (
         service
@@ -374,7 +326,6 @@ def test_connection():
         )
         .execute()
     )
-
 
     return calendar.get(
         "summary",
