@@ -6,6 +6,10 @@ from google.oauth2 import service_account
 from googleapiclient.discovery import build
 
 
+# =========================================================
+# CONFIGURAZIONE
+# =========================================================
+
 SCOPES = [
     "https://www.googleapis.com/auth/calendar"
 ]
@@ -15,7 +19,7 @@ TIMEZONE = ZoneInfo(TIMEZONE_NAME)
 
 
 # =========================================================
-# GOOGLE CALENDAR
+# CONNESSIONE GOOGLE CALENDAR
 # =========================================================
 
 @st.cache_resource
@@ -33,17 +37,25 @@ def get_calendar_service():
         )
     )
 
-    return build(
+    service = build(
         "calendar",
         "v3",
         credentials=credentials,
         cache_discovery=False,
     )
 
+    return service
+
+
+# =========================================================
+# CALENDAR ID
+# =========================================================
 
 def get_calendar_id():
 
-    return st.secrets["calendar"]["id"]
+    return st.secrets[
+        "calendar"
+    ]["id"]
 
 
 # =========================================================
@@ -117,7 +129,9 @@ def get_busy_slots(
             {},
         )
 
-        # EVENTI CON ORARIO
+        # -------------------------------------------------
+        # EVENTO CON ORARIO
+        # -------------------------------------------------
 
         if (
             "dateTime" in start
@@ -146,7 +160,16 @@ def get_busy_slots(
                 }
             )
 
-        # EVENTI GIORNALIERI
+        # -------------------------------------------------
+        # EVENTO GIORNALIERO
+        #
+        # Esempi:
+        # Ferie
+        # Congresso
+        # Non disponibile
+        #
+        # Blocca l'intera giornata.
+        # -------------------------------------------------
 
         elif (
             "date" in start
@@ -175,6 +198,15 @@ def get_busy_slots(
                 datetime.min.time(),
                 tzinfo=TIMEZONE,
             )
+
+            # Google Calendar considera
+            # la data finale esclusiva.
+            #
+            # Esempio:
+            # 10 ottobre tutto il giorno
+            #
+            # start = 10 ottobre
+            # end   = 11 ottobre
 
             end_dt = datetime.combine(
                 end_date_event,
@@ -210,6 +242,10 @@ def create_appointment(
     service = get_calendar_service()
     calendar_id = get_calendar_id()
 
+    # -----------------------------------------------------
+    # DESCRIZIONE
+    # -----------------------------------------------------
+
     descrizione = [
         "Appuntamento con Alessandro Iovine",
         "Sales Manager",
@@ -238,9 +274,14 @@ def create_appointment(
             f"Email: {email.strip()}"
         )
 
+    # -----------------------------------------------------
+    # EVENTO
+    # -----------------------------------------------------
+
     event = {
 
-        # Sul tuo calendario compare SOLO
+        # IMPORTANTE:
+        # nel calendario vedrai solamente
         # il nome della farmacia.
 
         "summary": nome_farmacia,
@@ -264,7 +305,10 @@ def create_appointment(
                 TIMEZONE_NAME,
         },
 
-        # Promemoria dell'appuntamento
+        # -------------------------------------------------
+        # PROMEMORIA
+        # -------------------------------------------------
+
         "reminders": {
             "useDefault": False,
 
@@ -277,18 +321,12 @@ def create_appointment(
         },
     }
 
-    # =====================================================
-    # EMAIL CLIENTE
-    # =====================================================
-
-    if email.strip():
-
-        event["attendees"] = [
-            {
-                "email":
-                    email.strip()
-            }
-        ]
+    # -----------------------------------------------------
+    # CREA EVENTO
+    #
+    # NON aggiungiamo il cliente come attendee.
+    # Questo evita il problema del Service Account.
+    # -----------------------------------------------------
 
     created_event = (
         service
@@ -296,12 +334,6 @@ def create_appointment(
         .insert(
             calendarId=calendar_id,
             body=event,
-
-            # Chiede a Google Calendar
-            # di inviare l'invito al cliente.
-            sendUpdates="all"
-            if email.strip()
-            else "none",
         )
         .execute()
     )
