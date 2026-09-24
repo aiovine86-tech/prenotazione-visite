@@ -310,9 +310,7 @@ def create_appointment(
 
     event = {
 
-        "summary":
-            f"Visita PIC · CONTROL · EFFERDENT - "
-            f"{nome_farmacia}",
+        "summary": nome_farmacia,
 
         "description":
             "\n".join(
