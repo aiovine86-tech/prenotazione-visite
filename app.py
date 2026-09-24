@@ -38,14 +38,28 @@ if "ultima_prenotazione" not in st.session_state:
 # CSS
 # =========================================================
 
-st.markdown("""
+st.markdown(
+    """
 <style>
 
 .stApp {
     background:
-        radial-gradient(circle at 10% 0%, rgba(52,199,89,.10), transparent 28%),
-        radial-gradient(circle at 95% 10%, rgba(0,122,255,.10), transparent 30%),
-        linear-gradient(180deg, #f7faf8 0%, #f4f7fb 50%, #ffffff 100%);
+        radial-gradient(
+            circle at 10% 0%,
+            rgba(52,199,89,.10),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 95% 10%,
+            rgba(0,122,255,.10),
+            transparent 30%
+        ),
+        linear-gradient(
+            180deg,
+            #f7faf8 0%,
+            #f4f7fb 50%,
+            #ffffff 100%
+        );
 }
 
 .block-container {
@@ -65,6 +79,7 @@ st.markdown("""
 .profile-monogram {
     width: 74px;
     height: 74px;
+
     margin: 0 auto 18px auto;
 
     display: flex;
@@ -81,49 +96,64 @@ st.markdown("""
     );
 
     color: white;
+
     font-size: 26px;
     font-weight: 750;
     letter-spacing: -1px;
 
-    box-shadow: 0 14px 34px rgba(22,166,106,.22);
+    box-shadow:
+        0 14px 34px
+        rgba(22,166,106,.22);
 }
 
 .booking-title {
     font-size: 34px;
     line-height: 1.1;
+
     font-weight: 750;
     letter-spacing: -1.2px;
+
     color: #111827;
+
     margin-bottom: 18px;
 }
 
 .profile-name {
     font-size: 21px;
     font-weight: 700;
+
     color: #111827;
+
     margin-bottom: 3px;
 }
 
 .profile-role {
     font-size: 15px;
+
     color: #667085;
+
     margin-bottom: 5px;
 }
 
 .profile-brands {
     font-size: 14px;
     font-weight: 650;
+
     color: #16864c;
+
     letter-spacing: .3px;
+
     margin-bottom: 18px;
 }
 
 .profile-description {
     max-width: 500px;
+
     margin: 0 auto;
 
     font-size: 16px;
     line-height: 1.55;
+
     color: #667085;
 }
 
@@ -133,6 +163,7 @@ st.markdown("""
 .section-header {
     display: flex;
     align-items: center;
+
     gap: 13px;
 
     margin-top: 32px;
@@ -150,25 +181,37 @@ st.markdown("""
     align-items: center;
     justify-content: center;
 
-    background: linear-gradient(135deg, #34c759, #168f50);
+    background:
+        linear-gradient(
+            135deg,
+            #34c759,
+            #168f50
+        );
 
     color: white;
+
     font-size: 14px;
     font-weight: 750;
 
-    box-shadow: 0 7px 16px rgba(52,199,89,.20);
+    box-shadow:
+        0 7px 16px
+        rgba(52,199,89,.20);
 }
 
 .section-title {
     font-size: 19px;
     font-weight: 720;
+
     color: #111827;
+
     margin: 0;
 }
 
 .section-subtitle {
     font-size: 13px;
-    color: #8a94a3;
+
+    color: #667085;
+
     margin-top: 2px;
 }
 
@@ -177,39 +220,64 @@ st.markdown("""
 
 div[data-baseweb="input"] > div,
 div[data-baseweb="select"] > div {
-    background: rgba(255,255,255,.96) !important;
-    border-radius: 14px !important;
-    border: 1px solid #e4e8ee !important;
+
+    background:
+        rgba(255,255,255,.96)
+        !important;
+
+    border-radius:
+        14px
+        !important;
+
+    border:
+        1px solid #e4e8ee
+        !important;
+
     min-height: 48px;
 
-    box-shadow: 0 3px 10px rgba(16,24,40,.025);
+    box-shadow:
+        0 3px 10px
+        rgba(16,24,40,.025);
 }
 
 div[data-baseweb="input"] > div:focus-within,
 div[data-baseweb="select"] > div:focus-within {
-    border-color: #34c759 !important;
-    box-shadow: 0 0 0 3px rgba(52,199,89,.10) !important;
+
+    border-color:
+        #34c759
+        !important;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(52,199,89,.10)
+        !important;
 }
 
 
 /* DISPONIBILITÀ */
 
 .availability-card {
+
     margin-top: 8px;
     margin-bottom: 18px;
+
     padding: 15px 17px;
 
     border-radius: 16px;
 
-    background: linear-gradient(
-        135deg,
-        rgba(52,199,89,.11),
-        rgba(52,199,89,.045)
-    );
+    background:
+        linear-gradient(
+            135deg,
+            rgba(52,199,89,.11),
+            rgba(52,199,89,.045)
+        );
 
-    border: 1px solid rgba(52,199,89,.20);
+    border:
+        1px solid
+        rgba(52,199,89,.20);
 
     color: #176c39;
+
     font-size: 14px;
     font-weight: 600;
 }
@@ -218,51 +286,86 @@ div[data-baseweb="select"] > div:focus-within {
 /* BOTTONI */
 
 div[data-testid="stButton"] button {
+
     min-height: 49px;
-    border-radius: 14px !important;
-    font-weight: 680 !important;
+
+    border-radius:
+        14px
+        !important;
+
+    font-weight:
+        680
+        !important;
 }
 
 div[data-testid="stButton"] button[kind="primary"] {
-    background: linear-gradient(
-        135deg,
-        #34c759 0%,
-        #209447 100%
-    ) !important;
 
-    color: white !important;
-    border: none !important;
+    background:
+        linear-gradient(
+            135deg,
+            #34c759 0%,
+            #209447 100%
+        )
+        !important;
 
-    box-shadow: 0 10px 24px rgba(32,148,71,.24) !important;
+    color:
+        white
+        !important;
+
+    border:
+        none
+        !important;
+
+    box-shadow:
+        0 10px 24px
+        rgba(32,148,71,.24)
+        !important;
 }
 
 div[data-testid="stButton"] button[kind="secondary"] {
-    background: white !important;
-    color: #344054 !important;
-    border: 1px solid #e4e7ec !important;
+
+    background:
+        white
+        !important;
+
+    color:
+        #344054
+        !important;
+
+    border:
+        1px solid #e4e7ec
+        !important;
 }
 
 
 /* CONFERMA */
 
 .success-card {
+
     margin-top: 20px;
+
     padding: 28px;
 
     border-radius: 24px;
 
-    background: linear-gradient(
-        145deg,
-        rgba(52,199,89,.12),
-        rgba(255,255,255,.92)
-    );
+    background:
+        linear-gradient(
+            145deg,
+            rgba(52,199,89,.12),
+            rgba(255,255,255,.92)
+        );
 
-    border: 1px solid rgba(52,199,89,.22);
+    border:
+        1px solid
+        rgba(52,199,89,.22);
 
-    box-shadow: 0 18px 45px rgba(16,24,40,.06);
+    box-shadow:
+        0 18px 45px
+        rgba(16,24,40,.06);
 }
 
 .success-icon {
+
     width: 52px;
     height: 52px;
 
@@ -273,6 +376,7 @@ div[data-testid="stButton"] button[kind="secondary"] {
     border-radius: 50%;
 
     background: #34c759;
+
     color: white;
 
     font-size: 26px;
@@ -282,27 +386,36 @@ div[data-testid="stButton"] button[kind="secondary"] {
 }
 
 .success-title {
+
     font-size: 25px;
     font-weight: 750;
+
     color: #111827;
+
     margin-bottom: 8px;
 }
 
 .success-text {
+
     color: #667085;
+
     font-size: 15px;
     line-height: 1.55;
+
     margin-bottom: 20px;
 }
 
 .success-details {
+
     padding: 17px;
 
     border-radius: 16px;
 
-    background: rgba(255,255,255,.82);
+    background:
+        rgba(255,255,255,.82);
 
     color: #344054;
+
     line-height: 1.8;
 }
 
@@ -310,9 +423,10 @@ div[data-testid="stButton"] button[kind="secondary"] {
 /* FOOTER */
 
 .footer-note {
+
     text-align: center;
 
-    color: #98a2b3;
+    color: #667085;
 
     font-size: 12px;
     line-height: 1.5;
@@ -321,45 +435,100 @@ div[data-testid="stButton"] button[kind="secondary"] {
 }
 
 
+/* TEST EMAIL */
+
+.email-test-box {
+
+    margin-top: 40px;
+
+    padding: 22px;
+
+    border-radius: 20px;
+
+    background:
+        rgba(255,255,255,.90);
+
+    border:
+        1px solid
+        rgba(52,199,89,.20);
+
+    box-shadow:
+        0 8px 25px
+        rgba(16,24,40,.05);
+}
+
+.email-test-title {
+
+    color: #111827;
+
+    font-size: 19px;
+    font-weight: 720;
+
+    margin-bottom: 5px;
+}
+
+.email-test-text {
+
+    color: #667085;
+
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+
 /* MOBILE */
 
 @media (max-width: 640px) {
 
     .block-container {
+
         padding-top: 1.25rem;
+
         padding-left: 1rem;
         padding-right: 1rem;
     }
 
     .booking-title {
+
         font-size: 29px;
     }
 
     .profile-monogram {
+
         width: 66px;
         height: 66px;
+
         border-radius: 21px;
+
         font-size: 23px;
     }
 
     .profile-name {
+
         font-size: 19px;
     }
 
     .section-header {
+
         margin-top: 27px;
     }
 }
 
 </style>
-""", unsafe_allow_html=True)
+""",
+    unsafe_allow_html=True,
+)
 
 
 # =========================================================
 # FUNZIONI UI
 # =========================================================
 
-def section_header(number, title, subtitle):
+def section_header(
+    number,
+    title,
+    subtitle,
+):
 
     markup = (
         '<div class="section-header">'
@@ -382,13 +551,21 @@ def render_main_header():
     markup = (
         '<div class="profile-header">'
         '<div class="profile-monogram">AI</div>'
-        '<div class="booking-title">Prenota un appuntamento</div>'
-        '<div class="profile-name">Alessandro Iovine</div>'
-        '<div class="profile-role">Sales Manager</div>'
-        '<div class="profile-brands">PIC · CONTROL · EFFERDENT</div>'
+        '<div class="booking-title">'
+        'Prenota un appuntamento'
+        '</div>'
+        '<div class="profile-name">'
+        'Alessandro Iovine'
+        '</div>'
+        '<div class="profile-role">'
+        'Sales Manager'
+        '</div>'
+        '<div class="profile-brands">'
+        'PIC · CONTROL · EFFERDENT'
+        '</div>'
         '<div class="profile-description">'
-        'Scegli giorno e orario per fissare un appuntamento '
-        'presso la tua farmacia.'
+        'Scegli giorno e orario per fissare '
+        'un appuntamento presso la tua farmacia.'
         '</div>'
         '</div>'
     )
@@ -404,9 +581,15 @@ def render_small_header():
     markup = (
         '<div class="profile-header">'
         '<div class="profile-monogram">AI</div>'
-        '<div class="profile-name">Alessandro Iovine</div>'
-        '<div class="profile-role">Sales Manager</div>'
-        '<div class="profile-brands">PIC · CONTROL · EFFERDENT</div>'
+        '<div class="profile-name">'
+        'Alessandro Iovine'
+        '</div>'
+        '<div class="profile-role">'
+        'Sales Manager'
+        '</div>'
+        '<div class="profile-brands">'
+        'PIC · CONTROL · EFFERDENT'
+        '</div>'
         '</div>'
     )
 
@@ -422,7 +605,9 @@ def render_small_header():
 
 if st.session_state.prenotazione_completata:
 
-    prenotazione = st.session_state.ultima_prenotazione
+    prenotazione = (
+        st.session_state.ultima_prenotazione
+    )
 
     nome_farmacia = html.escape(
         prenotazione["nome_farmacia"]
@@ -460,11 +645,16 @@ if st.session_state.prenotazione_completata:
         'è stato registrato correttamente.'
         '</div>'
         '<div class="success-details">'
-        f'<strong>Farmacia:</strong> {nome_farmacia}<br>'
-        f'<strong>Data:</strong> {data_testo}<br>'
-        f'<strong>Orario:</strong> {ora_testo} – {fine_testo}<br>'
-        f'<strong>Durata:</strong> {prenotazione["durata"]} minuti<br>'
-        f'<strong>CAP:</strong> {cap}'
+        f'<strong>Farmacia:</strong> '
+        f'{nome_farmacia}<br>'
+        f'<strong>Data:</strong> '
+        f'{data_testo}<br>'
+        f'<strong>Orario:</strong> '
+        f'{ora_testo} – {fine_testo}<br>'
+        f'<strong>Durata:</strong> '
+        f'{prenotazione["durata"]} minuti<br>'
+        f'<strong>CAP:</strong> '
+        f'{cap}'
         '</div>'
         '</div>'
     )
@@ -491,7 +681,7 @@ if st.session_state.prenotazione_completata:
 
 
 # =========================================================
-# HEADER PRINCIPALE
+# HEADER
 # =========================================================
 
 render_main_header()
@@ -520,7 +710,7 @@ cap = st.text_input(
 
 
 # =========================================================
-# 2 - DATA E DURATA
+# 2 - APPUNTAMENTO
 # =========================================================
 
 section_header(
@@ -544,7 +734,9 @@ durata = st.selectbox(
     format_func=lambda x: f"{x} minuti",
 )
 
-oggi = datetime.now(TIMEZONE).date()
+oggi = datetime.now(
+    TIMEZONE
+).date()
 
 data = st.date_input(
     "Data",
@@ -577,7 +769,9 @@ else:
 
         if data == oggi:
 
-            now = datetime.now(TIMEZONE)
+            now = datetime.now(
+                TIMEZONE
+            )
 
             slots = [
                 slot
@@ -683,10 +877,14 @@ if prenota:
             "Inserisci il CAP."
         )
 
-    elif not cap.isdigit() or len(cap) != 5:
+    elif (
+        not cap.isdigit()
+        or len(cap) != 5
+    ):
 
         st.error(
-            "Inserisci un CAP valido di 5 cifre."
+            "Inserisci un CAP valido "
+            "di 5 cifre."
         )
 
     elif selected_slot is None:
@@ -699,18 +897,22 @@ if prenota:
 
         try:
 
-            # ---------------------------------------------
+            # =============================================
             # RICONTROLLO DISPONIBILITÀ
-            # ---------------------------------------------
+            # =============================================
 
-            updated_slots = get_available_slots(
-                data,
-                durata,
+            updated_slots = (
+                get_available_slots(
+                    data,
+                    durata,
+                )
             )
 
             if data == oggi:
 
-                now = datetime.now(TIMEZONE)
+                now = datetime.now(
+                    TIMEZONE
+                )
 
                 updated_slots = [
                     slot
@@ -719,8 +921,15 @@ if prenota:
                 ]
 
             slot_still_available = any(
-                slot["start"] == selected_slot["start"]
-                and slot["end"] == selected_slot["end"]
+
+                slot["start"]
+                == selected_slot["start"]
+
+                and
+
+                slot["end"]
+                == selected_slot["end"]
+
                 for slot in updated_slots
             )
 
@@ -728,39 +937,72 @@ if prenota:
 
                 st.warning(
                     "Questo orario è appena diventato "
-                    "non disponibile. Seleziona un altro orario."
+                    "non disponibile. "
+                    "Seleziona un altro orario."
                 )
 
             else:
 
-                # -----------------------------------------
-                # CREA EVENTO GOOGLE CALENDAR
-                # -----------------------------------------
+                # =========================================
+                # GOOGLE CALENDAR
+                # =========================================
 
                 create_appointment(
-                    nome_farmacia=nome_farmacia.strip(),
-                    cap=cap.strip(),
-                    start_datetime=selected_slot["start"],
-                    end_datetime=selected_slot["end"],
-                    durata=durata,
-                    referente=referente.strip(),
-                    telefono=telefono.strip(),
-                    email=email.strip(),
+
+                    nome_farmacia=
+                        nome_farmacia.strip(),
+
+                    cap=
+                        cap.strip(),
+
+                    start_datetime=
+                        selected_slot["start"],
+
+                    end_datetime=
+                        selected_slot["end"],
+
+                    durata=
+                        durata,
+
+                    referente=
+                        referente.strip(),
+
+                    telefono=
+                        telefono.strip(),
+
+                    email=
+                        email.strip(),
                 )
 
-                # -----------------------------------------
-                # MEMORIZZA CONFERMA
-                # -----------------------------------------
+                # =========================================
+                # SALVA CONFERMA
+                # =========================================
 
                 st.session_state.ultima_prenotazione = {
-                    "nome_farmacia": nome_farmacia.strip(),
-                    "cap": cap.strip(),
-                    "start": selected_slot["start"],
-                    "end": selected_slot["end"],
-                    "durata": durata,
-                    "referente": referente.strip(),
-                    "telefono": telefono.strip(),
-                    "email": email.strip(),
+
+                    "nome_farmacia":
+                        nome_farmacia.strip(),
+
+                    "cap":
+                        cap.strip(),
+
+                    "start":
+                        selected_slot["start"],
+
+                    "end":
+                        selected_slot["end"],
+
+                    "durata":
+                        durata,
+
+                    "referente":
+                        referente.strip(),
+
+                    "telefono":
+                        telefono.strip(),
+
+                    "email":
+                        email.strip(),
                 }
 
                 st.session_state.prenotazione_completata = True
@@ -781,8 +1023,9 @@ if prenota:
 
 footer_markup = (
     '<div class="footer-note">'
-    'La prenotazione verrà registrata direttamente '
-    'nel calendario di Alessandro Iovine.'
+    'La prenotazione verrà registrata '
+    'direttamente nel calendario di '
+    'Alessandro Iovine.'
     '</div>'
 )
 
@@ -793,36 +1036,47 @@ st.markdown(
 
 
 # =========================================================
-# TEST RESEND - TEMPORANEO
+# TEST EMAIL RESEND
+# TEMPORANEO
 # =========================================================
 
+st.markdown(
+    (
+        '<div class="email-test-box">'
+        '<div class="email-test-title">'
+        'Test sistema email'
+        '</div>'
+        '<div class="email-test-text">'
+        'Premi il pulsante qui sotto per verificare '
+        'il collegamento tra questa applicazione '
+        'e Resend.'
+        '</div>'
+        '</div>'
+    ),
+    unsafe_allow_html=True,
+)
+
 st.write("")
-st.divider()
 
-with st.expander("Test sistema email"):
+if st.button(
+    "Invia email di prova",
+    type="primary",
+    use_container_width=True,
+    key="test_resend_button",
+):
 
-    st.caption(
-        "Test temporaneo del collegamento "
-        "tra l'app e Resend."
-    )
+    try:
 
-    if st.button(
-        "Invia email di prova",
-        use_container_width=True,
-        key="test_resend_button",
-    ):
+        send_test_email()
 
-        try:
+        st.success(
+            "Email inviata correttamente. "
+            "Controlla la tua casella email "
+            "e anche la cartella Spam."
+        )
 
-            send_test_email()
+    except Exception as e:
 
-            st.success(
-                "Email di prova inviata. "
-                "Controlla la tua casella email."
-            )
-
-        except Exception as e:
-
-            st.error(
-                f"Errore durante l'invio: {e}"
-            )
+        st.error(
+            f"Errore Resend: {e}"
+        )
