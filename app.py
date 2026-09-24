@@ -1,4 +1,5 @@
-from datetime import date
+from datetime import date, datetime
+from zoneinfo import ZoneInfo
 import html
 
 import streamlit as st
@@ -8,8 +9,10 @@ from google_calendar import create_appointment
 
 
 # =========================================================
-# CONFIGURAZIONE PAGINA
+# CONFIGURAZIONE
 # =========================================================
+
+TIMEZONE = ZoneInfo("Europe/Rome")
 
 st.set_page_config(
     page_title="Prenota una visita",
@@ -23,11 +26,11 @@ st.set_page_config(
 # SESSION STATE
 # =========================================================
 
-if "slot_verificato" not in st.session_state:
-    st.session_state.slot_verificato = None
-
 if "prenotazione_completata" not in st.session_state:
     st.session_state.prenotazione_completata = False
+
+if "ultima_prenotazione" not in st.session_state:
+    st.session_state.ultima_prenotazione = None
 
 
 # =========================================================
@@ -37,10 +40,6 @@ if "prenotazione_completata" not in st.session_state:
 st.markdown(
     """
 <style>
-
-/* =========================================
-   PAGINA
-========================================= */
 
 html,
 body,
@@ -55,11 +54,6 @@ body,
     padding-left: 20px !important;
     padding-right: 20px !important;
 }
-
-
-/* =========================================
-   NASCONDE ELEMENTI STREAMLIT
-========================================= */
 
 #MainMenu {
     visibility: hidden;
@@ -77,11 +71,6 @@ div[data-testid="stToolbar"] {
     visibility: hidden;
 }
 
-
-/* =========================================
-   FONT
-========================================= */
-
 html,
 body,
 [class*="css"],
@@ -97,9 +86,7 @@ body,
 }
 
 
-/* =========================================
-   HERO
-========================================= */
+/* HERO */
 
 .booking-hero {
     text-align: center;
@@ -126,7 +113,7 @@ body,
     font-weight: 600;
 
     box-shadow:
-        0 5px 18px rgba(0, 0, 0, 0.12);
+        0 5px 18px rgba(0,0,0,0.12);
 }
 
 .booking-title {
@@ -150,15 +137,12 @@ body,
 }
 
 
-/* =========================================
-   TITOLI SEZIONI
-========================================= */
+/* TITOLI */
 
 h3 {
     color: #1d1d1f !important;
 
     font-size: 19px !important;
-    line-height: 1.3 !important;
 
     font-weight: 650 !important;
 
@@ -169,23 +153,17 @@ h3 {
 }
 
 
-/* =========================================
-   LABEL
-========================================= */
+/* LABEL */
 
 div[data-testid="stWidgetLabel"] p {
     color: #3a3a3c !important;
 
     font-size: 14px !important;
     font-weight: 500 !important;
-
-    margin-bottom: 5px !important;
 }
 
 
-/* =========================================
-   INPUT
-========================================= */
+/* INPUT */
 
 div[data-baseweb="input"] {
     background: #ffffff !important;
@@ -207,16 +185,18 @@ div[data-baseweb="input"] input {
 
     color: #1d1d1f !important;
 
+    -webkit-text-fill-color: #1d1d1f !important;
+
     font-size: 16px !important;
 
     min-height: 50px !important;
-
-    -webkit-text-fill-color: #1d1d1f !important;
 }
 
 div[data-baseweb="input"] input::placeholder {
     color: #86868b !important;
+
     -webkit-text-fill-color: #86868b !important;
+
     opacity: 1 !important;
 }
 
@@ -224,14 +204,12 @@ div[data-baseweb="input"]:focus-within {
     border-color: #0071e3 !important;
 
     box-shadow:
-        0 0 0 3px rgba(0, 113, 227, 0.12)
+        0 0 0 3px rgba(0,113,227,0.12)
         !important;
 }
 
 
-/* =========================================
-   SELECT
-========================================= */
+/* SELECT */
 
 div[data-baseweb="select"] > div {
     background: #ffffff !important;
@@ -258,14 +236,12 @@ div[data-baseweb="select"] > div:focus-within {
     border-color: #0071e3 !important;
 
     box-shadow:
-        0 0 0 3px rgba(0, 113, 227, 0.12)
+        0 0 0 3px rgba(0,113,227,0.12)
         !important;
 }
 
 
-/* =========================================
-   DATA
-========================================= */
+/* DATA */
 
 div[data-testid="stDateInput"] input {
     background: #ffffff !important;
@@ -278,9 +254,7 @@ div[data-testid="stDateInput"] input {
 }
 
 
-/* =========================================
-   TESTI SECONDARI
-========================================= */
+/* CAPTION */
 
 div[data-testid="stCaptionContainer"] p {
     color: #86868b !important;
@@ -288,20 +262,18 @@ div[data-testid="stCaptionContainer"] p {
 }
 
 
-/* =========================================
-   PULSANTI
-========================================= */
+/* PULSANTE */
 
 div[data-testid="stButton"] {
-    margin-top: 18px;
+    margin-top: 22px;
 }
 
 div[data-testid="stButton"] button {
     width: 100% !important;
 
-    min-height: 54px !important;
+    min-height: 56px !important;
 
-    border-radius: 14px !important;
+    border-radius: 15px !important;
 
     font-size: 16px !important;
     font-weight: 600 !important;
@@ -310,7 +282,6 @@ div[data-testid="stButton"] button {
 
     transition:
         transform 0.12s ease,
-        opacity 0.12s ease,
         background 0.12s ease;
 }
 
@@ -320,15 +291,6 @@ div[data-testid="stButton"] button[kind="primary"] {
 }
 
 div[data-testid="stButton"] button[kind="primary"] p {
-    color: #ffffff !important;
-}
-
-div[data-testid="stButton"] button[kind="secondary"] {
-    background: #1d1d1f !important;
-    color: #ffffff !important;
-}
-
-div[data-testid="stButton"] button[kind="secondary"] p {
     color: #ffffff !important;
 }
 
@@ -343,13 +305,10 @@ div[data-testid="stButton"] button:active {
 div[data-testid="stButton"] button:disabled {
     background: #d2d2d7 !important;
     color: #86868b !important;
-    opacity: 1 !important;
 }
 
 
-/* =========================================
-   ALERT
-========================================= */
+/* ALERT */
 
 div[data-testid="stAlert"] {
     border-radius: 14px !important;
@@ -357,134 +316,94 @@ div[data-testid="stAlert"] {
 }
 
 
-/* =========================================
-   CARD DISPONIBILITÀ
-========================================= */
+/* NOTA DISPONIBILITÀ */
 
-.appointment-card {
+.availability-note {
     background: #ffffff;
 
-    border: 1px solid rgba(0, 0, 0, 0.07);
+    border: 1px solid rgba(0,0,0,0.06);
 
-    border-radius: 22px;
+    border-radius: 14px;
 
-    padding: 24px;
+    padding: 13px 15px;
 
-    margin-top: 26px;
-    margin-bottom: 6px;
+    margin-top: 12px;
 
-    box-shadow:
-        0 10px 35px rgba(0, 0, 0, 0.06);
-}
-
-.available-badge {
-    display: inline-flex;
-
-    align-items: center;
-    justify-content: center;
-
-    background: #e8f7ed;
-    color: #147a35;
-
-    border-radius: 100px;
-
-    padding: 7px 12px;
+    color: #6e6e73;
 
     font-size: 13px;
-    font-weight: 650;
-
-    margin-bottom: 18px;
-}
-
-.appointment-date {
-    color: #6e6e73;
-
-    font-size: 15px;
-    font-weight: 500;
-
-    margin-bottom: 3px;
-}
-
-.appointment-time {
-    color: #1d1d1f;
-
-    font-size: 31px;
-    line-height: 1.15;
-
-    font-weight: 700;
-
-    letter-spacing: -0.8px;
-
-    margin-bottom: 18px;
-}
-
-.appointment-pharmacy {
-    color: #1d1d1f;
-
-    font-size: 16px;
-    font-weight: 600;
-
-    margin-bottom: 4px;
-}
-
-.appointment-details {
-    color: #6e6e73;
-
-    font-size: 14px;
-    line-height: 1.5;
+    line-height: 1.45;
 }
 
 
-/* =========================================
-   SUCCESS CARD
-========================================= */
+/* SUCCESS */
 
 .success-card {
     text-align: center;
 
     background: #ffffff;
 
-    border: 1px solid rgba(0, 0, 0, 0.07);
+    border: 1px solid rgba(0,0,0,0.07);
 
-    border-radius: 24px;
+    border-radius: 26px;
 
-    padding: 32px 22px;
+    padding: 36px 24px;
 
-    margin-top: 28px;
+    margin-top: 20px;
 
     box-shadow:
-        0 12px 40px rgba(0, 0, 0, 0.06);
+        0 12px 40px rgba(0,0,0,0.06);
 }
 
 .success-icon {
-    width: 58px;
-    height: 58px;
+    width: 62px;
+    height: 62px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    margin: 0 auto 18px auto;
+    margin: 0 auto 20px auto;
 
     border-radius: 50%;
 
     background: #e8f7ed;
     color: #147a35;
 
-    font-size: 28px;
+    font-size: 30px;
     font-weight: 700;
 }
 
 .success-title {
     color: #1d1d1f;
 
-    font-size: 24px;
+    font-size: 25px;
     font-weight: 700;
 
-    letter-spacing: -0.5px;
+    letter-spacing: -0.6px;
 }
 
-.success-text {
+.success-pharmacy {
+    color: #1d1d1f;
+
+    font-size: 18px;
+    font-weight: 600;
+
+    margin-top: 22px;
+}
+
+.success-time {
+    color: #1d1d1f;
+
+    font-size: 28px;
+    font-weight: 700;
+
+    letter-spacing: -0.6px;
+
+    margin-top: 7px;
+}
+
+.success-details {
     color: #6e6e73;
 
     font-size: 15px;
@@ -494,9 +413,7 @@ div[data-testid="stAlert"] {
 }
 
 
-/* =========================================
-   MOBILE
-========================================= */
+/* MOBILE */
 
 @media (max-width: 640px) {
 
@@ -513,6 +430,7 @@ div[data-testid="stAlert"] {
     .booking-icon {
         width: 54px;
         height: 54px;
+
         border-radius: 16px;
     }
 
@@ -524,13 +442,10 @@ div[data-testid="stAlert"] {
         font-size: 16px;
     }
 
-    .appointment-card {
-        padding: 21px;
+    .success-card {
+        padding: 30px 20px;
     }
 
-    .appointment-time {
-        font-size: 28px;
-    }
 }
 
 </style>
@@ -540,8 +455,63 @@ div[data-testid="stAlert"] {
 
 
 # =========================================================
+# SE PRENOTAZIONE COMPLETATA:
+# MOSTRIAMO SOLO LA CONFERMA
+# =========================================================
+
+if (
+    st.session_state.prenotazione_completata
+    and st.session_state.ultima_prenotazione
+):
+
+    dati = st.session_state.ultima_prenotazione
+
+    farmacia_html = html.escape(
+        dati["farmacia"]
+    )
+
+    cap_html = html.escape(
+        dati["cap"]
+    )
+
+    st.markdown(
+        f"""
+<div class="booking-hero">
+<div class="booking-icon">✓</div>
+<div class="booking-title">Prenotazione completata</div>
+<div class="booking-subtitle">La visita è stata registrata correttamente.</div>
+</div>
+
+<div class="success-card">
+<div class="success-icon">✓</div>
+<div class="success-title">Appuntamento confermato</div>
+<div class="success-pharmacy">{farmacia_html}</div>
+<div class="success-time">{dati["orario"]}</div>
+<div class="success-details">
+{dati["data"]}<br>
+Durata {dati["durata"]} minuti<br>
+CAP {cap_html}
+</div>
+</div>
+""",
+        unsafe_allow_html=True,
+    )
+
+    if st.button(
+        "Prenota un altro appuntamento",
+        use_container_width=True,
+    ):
+
+        st.session_state.prenotazione_completata = False
+        st.session_state.ultima_prenotazione = None
+
+        st.rerun()
+
+    st.stop()
+
+
+# =========================================================
 # HERO
-# IMPORTANTE: HTML SENZA INDENTAZIONE
 # =========================================================
 
 st.markdown(
@@ -549,7 +519,7 @@ st.markdown(
 <div class="booking-hero">
 <div class="booking-icon">◉</div>
 <div class="booking-title">Prenota una visita</div>
-<div class="booking-subtitle">Scegli il momento più comodo per incontrarci.</div>
+<div class="booking-subtitle">Scegli giorno e orario più comodi per te.</div>
 </div>
 """,
     unsafe_allow_html=True,
@@ -584,6 +554,7 @@ st.caption(
 
 st.subheader("Appuntamento")
 
+
 durate = {
     "30 minuti": 30,
     "45 minuti": 45,
@@ -594,6 +565,7 @@ durate = {
     "120 minuti": 120,
 }
 
+
 durata_label = st.selectbox(
     "Durata",
     options=list(durate.keys()),
@@ -603,7 +575,8 @@ durata_label = st.selectbox(
 durata = durate[durata_label]
 
 
-oggi = date.today()
+oggi = datetime.now(TIMEZONE).date()
+
 
 data_appuntamento = st.date_input(
     "Data",
@@ -614,7 +587,7 @@ data_appuntamento = st.date_input(
 
 
 # =========================================================
-# DISPONIBILITÀ
+# CONTROLLO GIORNO
 # =========================================================
 
 giorno_valido = (
@@ -622,6 +595,7 @@ giorno_valido = (
 )
 
 slots = []
+
 
 if not giorno_valido:
 
@@ -639,7 +613,26 @@ else:
             durata,
         )
 
+
+        # -------------------------------------------------
+        # SE È OGGI:
+        # ELIMINIAMO GLI ORARI GIÀ PASSATI
+        # -------------------------------------------------
+
+        if data_appuntamento == oggi:
+
+            adesso = datetime.now(TIMEZONE)
+
+            slots = [
+                slot
+                for slot in slots
+                if slot["start"] > adesso
+            ]
+
+
     except Exception:
+
+        slots = []
 
         st.error(
             "Non è stato possibile verificare "
@@ -653,13 +646,15 @@ else:
 
 slot_selezionato = None
 
+
 if giorno_valido and slots:
 
     slot_selezionato = st.selectbox(
-        "Orario",
+        "Orario disponibile",
         options=slots,
         format_func=format_slot,
     )
+
 
     if len(slots) == 1:
 
@@ -673,11 +668,12 @@ if giorno_valido and slots:
             f"{len(slots)} orari disponibili"
         )
 
+
 elif giorno_valido:
 
     st.info(
-        "Nessun orario disponibile per "
-        "questa data e questa durata."
+        "Non ci sono orari disponibili "
+        "per questa data e questa durata."
     )
 
 
@@ -691,15 +687,18 @@ st.caption(
     "Facoltativi — utili in caso di necessità."
 )
 
+
 referente = st.text_input(
     "Referente",
     placeholder="Nome e cognome",
 )
 
+
 telefono = st.text_input(
     "Telefono",
     placeholder="333 1234567",
 )
+
 
 email = st.text_input(
     "Email",
@@ -708,58 +707,57 @@ email = st.text_input(
 
 
 # =========================================================
-# FIRMA DATI
-# Se cambia qualcosa dopo la verifica,
-# la disponibilità viene invalidata.
+# PICCOLA NOTA
 # =========================================================
-
-firma_corrente = None
 
 if slot_selezionato:
 
-    firma_corrente = (
-        nome_farmacia.strip(),
-        cap.strip(),
-        durata,
-        slot_selezionato["start"],
-        slot_selezionato["end"],
+    st.markdown(
+        """
+<div class="availability-note">
+L'orario selezionato risulta disponibile.
+La disponibilità verrà ricontrollata automaticamente
+prima della conferma.
+</div>
+""",
+        unsafe_allow_html=True,
     )
 
 
-if (
-    st.session_state.slot_verificato
-    and
-    st.session_state.slot_verificato.get("firma")
-    != firma_corrente
-):
-
-    st.session_state.slot_verificato = None
-
-
 # =========================================================
-# VERIFICA DISPONIBILITÀ
+# PRENOTA
 # =========================================================
 
-verifica = st.button(
-    "Verifica disponibilità",
+prenota = st.button(
+    "Prenota appuntamento",
     type="primary",
     use_container_width=True,
     disabled=slot_selezionato is None,
 )
 
 
-if verifica:
+# =========================================================
+# GESTIONE PRENOTAZIONE
+# =========================================================
+
+if prenota:
 
     nome_pulito = nome_farmacia.strip()
     cap_pulito = cap.strip()
 
     errori = []
 
+
+    # -----------------------------------------------------
+    # VALIDAZIONE
+    # -----------------------------------------------------
+
     if not nome_pulito:
 
         errori.append(
             "Inserisci il nome della farmacia."
         )
+
 
     if not cap_pulito:
 
@@ -779,156 +777,55 @@ if verifica:
 
     if errori:
 
-        st.session_state.slot_verificato = None
-
         for errore in errori:
             st.error(errore)
+
 
     else:
 
         try:
 
-            # Ricontrollo Google Calendar
-            # al momento della verifica
-
-            slots_aggiornati = get_available_slots(
-                data_appuntamento,
-                durata,
-            )
-
-            ancora_disponibile = any(
-                slot["start"]
-                == slot_selezionato["start"]
-                and
-                slot["end"]
-                == slot_selezionato["end"]
-                for slot in slots_aggiornati
-            )
-
-
-            if ancora_disponibile:
-
-                st.session_state.slot_verificato = {
-                    "start":
-                        slot_selezionato["start"],
-
-                    "end":
-                        slot_selezionato["end"],
-
-                    "firma":
-                        firma_corrente,
-                }
-
-            else:
-
-                st.session_state.slot_verificato = None
-
-                st.warning(
-                    "Questa fascia non è più "
-                    "disponibile. Scegli un altro "
-                    "orario."
-                )
-
-                st.rerun()
-
-
-        except Exception:
-
-            st.session_state.slot_verificato = None
-
-            st.error(
-                "Non è stato possibile verificare "
-                "la disponibilità."
-            )
-
-
-# =========================================================
-# CARD DOPO VERIFICA
-# =========================================================
-
-if st.session_state.slot_verificato:
-
-    slot_salvato = (
-        st.session_state.slot_verificato
-    )
-
-    data_testo = (
-        data_appuntamento.strftime(
-            "%d/%m/%Y"
-        )
-    )
-
-    orario_testo = (
-        f"{slot_salvato['start'].strftime('%H:%M')}"
-        f" – "
-        f"{slot_salvato['end'].strftime('%H:%M')}"
-    )
-
-    # Evita che testo inserito dall'utente
-    # venga interpretato come HTML.
-
-    farmacia_html = html.escape(
-        nome_farmacia.strip()
-    )
-
-    cap_html = html.escape(
-        cap.strip()
-    )
-
-
-    st.markdown(
-        f"""
-<div class="appointment-card">
-<div class="available-badge">✓ Disponibile</div>
-<div class="appointment-date">{data_testo}</div>
-<div class="appointment-time">{orario_testo}</div>
-<div class="appointment-pharmacy">{farmacia_html}</div>
-<div class="appointment-details">
-CAP {cap_html}<br>
-Durata {durata} minuti
-</div>
-</div>
-""",
-        unsafe_allow_html=True,
-    )
-
-
-    # =====================================================
-    # PRENOTAZIONE
-    # =====================================================
-
-    prenota = st.button(
-        "Prenota appuntamento",
-        type="primary",
-        use_container_width=True,
-    )
-
-
-    if prenota:
-
-        try:
-
-            # Ultimo controllo immediatamente
-            # prima della scrittura su Calendar.
+            # =============================================
+            # RICONTROLLO SILENZIOSO GOOGLE CALENDAR
+            # =============================================
 
             slots_finali = get_available_slots(
                 data_appuntamento,
                 durata,
             )
 
+
+            # Anche nel controllo finale
+            # eliminiamo eventuali slot ormai trascorsi.
+
+            if data_appuntamento == oggi:
+
+                adesso = datetime.now(TIMEZONE)
+
+                slots_finali = [
+                    slot
+                    for slot in slots_finali
+                    if slot["start"] > adesso
+                ]
+
+
             ancora_libero = any(
                 slot["start"]
-                == slot_salvato["start"]
+                == slot_selezionato["start"]
                 and
                 slot["end"]
-                == slot_salvato["end"]
-                for slot in slots_finali
+                == slot_selezionato["end"]
+
+                for slot
+                in slots_finali
             )
 
 
-            if not ancora_libero:
+            # =============================================
+            # SLOT NON PIÙ DISPONIBILE
+            # =============================================
 
-                st.session_state.slot_verificato = None
+            if not ancora_libero:
 
                 st.error(
                     "Questo orario è stato appena "
@@ -938,59 +835,62 @@ Durata {durata} minuti
                 st.rerun()
 
 
-            else:
+            # =============================================
+            # CREA EVENTO
+            # =============================================
 
-                create_appointment(
-                    nome_farmacia=
-                        nome_farmacia.strip(),
+            create_appointment(
+                nome_farmacia=nome_pulito,
+                cap=cap_pulito,
 
-                    cap=
-                        cap.strip(),
+                start_datetime=
+                    slot_selezionato["start"],
 
-                    start_datetime=
-                        slot_salvato["start"],
+                end_datetime=
+                    slot_selezionato["end"],
 
-                    end_datetime=
-                        slot_salvato["end"],
+                durata=durata,
 
-                    durata=
-                        durata,
+                referente=
+                    referente.strip(),
 
-                    referente=
-                        referente.strip(),
+                telefono=
+                    telefono.strip(),
 
-                    telefono=
-                        telefono.strip(),
-
-                    email=
-                        email.strip(),
-                )
+                email=
+                    email.strip(),
+            )
 
 
-                st.session_state.slot_verificato = None
+            # =============================================
+            # SALVA DATI PER SCHERMATA FINALE
+            # =============================================
 
-                st.session_state.prenotazione_completata = True
+            st.session_state.ultima_prenotazione = {
+                "farmacia":
+                    nome_pulito,
+
+                "cap":
+                    cap_pulito,
+
+                "data":
+                    data_appuntamento.strftime(
+                        "%d/%m/%Y"
+                    ),
+
+                "orario":
+                    format_slot(
+                        slot_selezionato
+                    ),
+
+                "durata":
+                    durata,
+            }
 
 
-                farmacia_success = html.escape(
-                    nome_farmacia.strip()
-                )
+            st.session_state.prenotazione_completata = True
 
-
-                st.markdown(
-                    f"""
-<div class="success-card">
-<div class="success-icon">✓</div>
-<div class="success-title">Appuntamento confermato</div>
-<div class="success-text">
-{data_testo}<br>
-<strong>{orario_testo}</strong><br><br>
-{farmacia_success}
-</div>
-</div>
-""",
-                    unsafe_allow_html=True,
-                )
+            st.rerun()
 
 
         except Exception:
