@@ -38,453 +38,380 @@ if "ultima_prenotazione" not in st.session_state:
 # CSS
 # =========================================================
 
-st.markdown(
-    """
-    <style>
+st.markdown("""
+<style>
 
-    /* -----------------------------------------------------
-       PAGINA
-    ----------------------------------------------------- */
+.stApp {
+    background:
+        radial-gradient(circle at 10% 0%, rgba(52,199,89,.10), transparent 28%),
+        radial-gradient(circle at 95% 10%, rgba(0,122,255,.10), transparent 30%),
+        linear-gradient(180deg, #f7faf8 0%, #f4f7fb 50%, #ffffff 100%);
+}
 
-    .stApp {
-        background:
-            radial-gradient(
-                circle at 10% 0%,
-                rgba(52, 199, 89, 0.10),
-                transparent 28%
-            ),
-            radial-gradient(
-                circle at 95% 10%,
-                rgba(0, 122, 255, 0.10),
-                transparent 30%
-            ),
-            linear-gradient(
-                180deg,
-                #f7faf8 0%,
-                #f4f7fb 50%,
-                #ffffff 100%
-            );
-    }
+.block-container {
+    max-width: 720px;
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+}
+
+
+/* HEADER */
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 2.4rem;
+}
+
+.profile-monogram {
+    width: 74px;
+    height: 74px;
+    margin: 0 auto 18px auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 24px;
+
+    background: linear-gradient(
+        135deg,
+        #34c759 0%,
+        #16a66a 45%,
+        #007aff 100%
+    );
+
+    color: white;
+    font-size: 26px;
+    font-weight: 750;
+    letter-spacing: -1px;
+
+    box-shadow: 0 14px 34px rgba(22,166,106,.22);
+}
+
+.booking-title {
+    font-size: 34px;
+    line-height: 1.1;
+    font-weight: 750;
+    letter-spacing: -1.2px;
+    color: #111827;
+    margin-bottom: 18px;
+}
+
+.profile-name {
+    font-size: 21px;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 3px;
+}
+
+.profile-role {
+    font-size: 15px;
+    color: #667085;
+    margin-bottom: 5px;
+}
+
+.profile-brands {
+    font-size: 14px;
+    font-weight: 650;
+    color: #16864c;
+    letter-spacing: .3px;
+    margin-bottom: 18px;
+}
+
+.profile-description {
+    max-width: 500px;
+    margin: 0 auto;
+
+    font-size: 16px;
+    line-height: 1.55;
+    color: #667085;
+}
+
+
+/* SEZIONI */
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+
+    margin-top: 32px;
+    margin-bottom: 18px;
+}
+
+.section-number {
+    min-width: 34px;
+    width: 34px;
+    height: 34px;
+
+    border-radius: 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: linear-gradient(135deg, #34c759, #168f50);
+
+    color: white;
+    font-size: 14px;
+    font-weight: 750;
+
+    box-shadow: 0 7px 16px rgba(52,199,89,.20);
+}
+
+.section-title {
+    font-size: 19px;
+    font-weight: 720;
+    color: #111827;
+    margin: 0;
+}
+
+.section-subtitle {
+    font-size: 13px;
+    color: #8a94a3;
+    margin-top: 2px;
+}
+
+
+/* INPUT */
+
+div[data-baseweb="input"] > div,
+div[data-baseweb="select"] > div {
+    background: rgba(255,255,255,.96) !important;
+    border-radius: 14px !important;
+    border: 1px solid #e4e8ee !important;
+    min-height: 48px;
+
+    box-shadow: 0 3px 10px rgba(16,24,40,.025);
+}
+
+div[data-baseweb="input"] > div:focus-within,
+div[data-baseweb="select"] > div:focus-within {
+    border-color: #34c759 !important;
+    box-shadow: 0 0 0 3px rgba(52,199,89,.10) !important;
+}
+
+
+/* DISPONIBILITÀ */
+
+.availability-card {
+    margin-top: 8px;
+    margin-bottom: 18px;
+    padding: 15px 17px;
+
+    border-radius: 16px;
+
+    background: linear-gradient(
+        135deg,
+        rgba(52,199,89,.11),
+        rgba(52,199,89,.045)
+    );
+
+    border: 1px solid rgba(52,199,89,.20);
+
+    color: #176c39;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+
+/* BOTTONI */
+
+div[data-testid="stButton"] button {
+    min-height: 49px;
+    border-radius: 14px !important;
+    font-weight: 680 !important;
+}
+
+div[data-testid="stButton"] button[kind="primary"] {
+    background: linear-gradient(
+        135deg,
+        #34c759 0%,
+        #209447 100%
+    ) !important;
+
+    color: white !important;
+    border: none !important;
+
+    box-shadow: 0 10px 24px rgba(32,148,71,.24) !important;
+}
+
+div[data-testid="stButton"] button[kind="secondary"] {
+    background: white !important;
+    color: #344054 !important;
+    border: 1px solid #e4e7ec !important;
+}
+
+
+/* CONFERMA */
+
+.success-card {
+    margin-top: 20px;
+    padding: 28px;
+
+    border-radius: 24px;
+
+    background: linear-gradient(
+        145deg,
+        rgba(52,199,89,.12),
+        rgba(255,255,255,.92)
+    );
+
+    border: 1px solid rgba(52,199,89,.22);
+
+    box-shadow: 0 18px 45px rgba(16,24,40,.06);
+}
+
+.success-icon {
+    width: 52px;
+    height: 52px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #34c759;
+    color: white;
+
+    font-size: 26px;
+    font-weight: 700;
+
+    margin-bottom: 16px;
+}
+
+.success-title {
+    font-size: 25px;
+    font-weight: 750;
+    color: #111827;
+    margin-bottom: 8px;
+}
+
+.success-text {
+    color: #667085;
+    font-size: 15px;
+    line-height: 1.55;
+    margin-bottom: 20px;
+}
+
+.success-details {
+    padding: 17px;
+
+    border-radius: 16px;
+
+    background: rgba(255,255,255,.82);
+
+    color: #344054;
+    line-height: 1.8;
+}
+
+
+/* FOOTER */
+
+.footer-note {
+    text-align: center;
+
+    color: #98a2b3;
+
+    font-size: 12px;
+    line-height: 1.5;
+
+    margin-top: 34px;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 640px) {
 
     .block-container {
-        max-width: 720px;
-        padding-top: 2rem;
-        padding-bottom: 4rem;
-    }
-
-
-    /* -----------------------------------------------------
-       HEADER
-    ----------------------------------------------------- */
-
-    .profile-header {
-        text-align: center;
-        margin-bottom: 2.4rem;
-    }
-
-    .profile-monogram {
-        width: 74px;
-        height: 74px;
-
-        margin: 0 auto 18px auto;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        border-radius: 24px;
-
-        background:
-            linear-gradient(
-                135deg,
-                #34c759 0%,
-                #16a66a 45%,
-                #007aff 100%
-            );
-
-        color: white;
-
-        font-size: 26px;
-        font-weight: 750;
-
-        letter-spacing: -1px;
-
-        box-shadow:
-            0 14px 34px
-            rgba(22, 166, 106, 0.22);
+        padding-top: 1.25rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
     }
 
     .booking-title {
-        font-size: 34px;
-        line-height: 1.1;
-        font-weight: 750;
-        letter-spacing: -1.2px;
+        font-size: 29px;
+    }
 
-        color: #111827;
-
-        margin-bottom: 18px;
+    .profile-monogram {
+        width: 66px;
+        height: 66px;
+        border-radius: 21px;
+        font-size: 23px;
     }
 
     .profile-name {
-        font-size: 21px;
-        font-weight: 700;
-
-        color: #111827;
-
-        margin-bottom: 3px;
+        font-size: 19px;
     }
-
-    .profile-role {
-        font-size: 15px;
-        color: #667085;
-
-        margin-bottom: 5px;
-    }
-
-    .profile-brands {
-        font-size: 14px;
-        font-weight: 650;
-
-        color: #16864c;
-
-        letter-spacing: 0.3px;
-
-        margin-bottom: 18px;
-    }
-
-    .profile-description {
-        max-width: 500px;
-
-        margin: 0 auto;
-
-        font-size: 16px;
-        line-height: 1.55;
-
-        color: #667085;
-    }
-
-
-    /* -----------------------------------------------------
-       SEZIONI
-    ----------------------------------------------------- */
 
     .section-header {
-        display: flex;
-        align-items: center;
-
-        gap: 13px;
-
-        margin-top: 32px;
-        margin-bottom: 18px;
+        margin-top: 27px;
     }
+}
 
-    .section-number {
-        min-width: 34px;
-        width: 34px;
-        height: 34px;
-
-        border-radius: 12px;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        background:
-            linear-gradient(
-                135deg,
-                #34c759,
-                #168f50
-            );
-
-        color: white;
-
-        font-size: 14px;
-        font-weight: 750;
-
-        box-shadow:
-            0 7px 16px
-            rgba(52, 199, 89, 0.20);
-    }
-
-    .section-title {
-        font-size: 19px;
-        font-weight: 720;
-
-        color: #111827;
-
-        margin: 0;
-    }
-
-    .section-subtitle {
-        font-size: 13px;
-        color: #8a94a3;
-
-        margin-top: 2px;
-    }
-
-
-    /* -----------------------------------------------------
-       INPUT
-    ----------------------------------------------------- */
-
-    div[data-baseweb="input"] > div,
-    div[data-baseweb="select"] > div {
-        background: rgba(255, 255, 255, 0.96) !important;
-
-        border-radius: 14px !important;
-
-        border: 1px solid #e4e8ee !important;
-
-        min-height: 48px;
-
-        box-shadow:
-            0 3px 10px
-            rgba(16, 24, 40, 0.025);
-    }
-
-    div[data-baseweb="input"] > div:focus-within,
-    div[data-baseweb="select"] > div:focus-within {
-        border-color: #34c759 !important;
-
-        box-shadow:
-            0 0 0 3px
-            rgba(52, 199, 89, 0.10) !important;
-    }
-
-    .stDateInput > div > div {
-        background: white;
-        border-radius: 14px;
-    }
-
-
-    /* -----------------------------------------------------
-       DISPONIBILITÀ
-    ----------------------------------------------------- */
-
-    .availability-card {
-        margin-top: 8px;
-        margin-bottom: 18px;
-
-        padding: 15px 17px;
-
-        border-radius: 16px;
-
-        background:
-            linear-gradient(
-                135deg,
-                rgba(52, 199, 89, 0.11),
-                rgba(52, 199, 89, 0.045)
-            );
-
-        border:
-            1px solid
-            rgba(52, 199, 89, 0.20);
-
-        color: #176c39;
-
-        font-size: 14px;
-        font-weight: 600;
-    }
-
-
-    /* -----------------------------------------------------
-       BOTTONI
-    ----------------------------------------------------- */
-
-    div[data-testid="stButton"] button {
-        min-height: 49px;
-
-        border-radius: 14px !important;
-
-        font-weight: 680 !important;
-
-        transition:
-            transform 0.15s ease,
-            box-shadow 0.15s ease;
-    }
-
-    div[data-testid="stButton"] button:hover {
-        transform: translateY(-1px);
-    }
-
-    div[data-testid="stButton"] button[kind="primary"] {
-        background:
-            linear-gradient(
-                135deg,
-                #34c759 0%,
-                #209447 100%
-            ) !important;
-
-        color: white !important;
-
-        border: none !important;
-
-        box-shadow:
-            0 10px 24px
-            rgba(32, 148, 71, 0.24) !important;
-    }
-
-    div[data-testid="stButton"] button[kind="secondary"] {
-        background: white !important;
-
-        color: #344054 !important;
-
-        border:
-            1px solid
-            #e4e7ec !important;
-    }
-
-
-    /* -----------------------------------------------------
-       CONFERMA
-    ----------------------------------------------------- */
-
-    .success-card {
-        margin-top: 20px;
-
-        padding: 28px;
-
-        border-radius: 24px;
-
-        background:
-            linear-gradient(
-                145deg,
-                rgba(52, 199, 89, 0.12),
-                rgba(255, 255, 255, 0.92)
-            );
-
-        border:
-            1px solid
-            rgba(52, 199, 89, 0.22);
-
-        box-shadow:
-            0 18px 45px
-            rgba(16, 24, 40, 0.06);
-    }
-
-    .success-icon {
-        font-size: 34px;
-
-        margin-bottom: 12px;
-    }
-
-    .success-title {
-        font-size: 25px;
-        font-weight: 750;
-
-        color: #111827;
-
-        margin-bottom: 8px;
-    }
-
-    .success-text {
-        color: #667085;
-
-        font-size: 15px;
-        line-height: 1.55;
-
-        margin-bottom: 20px;
-    }
-
-    .success-details {
-        padding: 17px;
-
-        border-radius: 16px;
-
-        background: rgba(255,255,255,0.82);
-
-        color: #344054;
-
-        line-height: 1.8;
-    }
-
-
-    /* -----------------------------------------------------
-       FOOTER
-    ----------------------------------------------------- */
-
-    .footer-note {
-        text-align: center;
-
-        color: #98a2b3;
-
-        font-size: 12px;
-
-        line-height: 1.5;
-
-        margin-top: 34px;
-    }
-
-
-    /* -----------------------------------------------------
-       MOBILE
-    ----------------------------------------------------- */
-
-    @media (max-width: 640px) {
-
-        .block-container {
-            padding-top: 1.25rem;
-            padding-left: 1rem;
-            padding-right: 1rem;
-        }
-
-        .booking-title {
-            font-size: 29px;
-        }
-
-        .profile-monogram {
-            width: 66px;
-            height: 66px;
-
-            border-radius: 21px;
-
-            font-size: 23px;
-        }
-
-        .profile-name {
-            font-size: 19px;
-        }
-
-        .section-header {
-            margin-top: 27px;
-        }
-    }
-
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
+</style>
+""", unsafe_allow_html=True)
 
 
 # =========================================================
 # FUNZIONI UI
 # =========================================================
 
-def section_header(
-    number,
-    title,
-    subtitle,
-):
+def section_header(number, title, subtitle):
+
+    markup = (
+        '<div class="section-header">'
+        f'<div class="section-number">{number}</div>'
+        '<div>'
+        f'<div class="section-title">{title}</div>'
+        f'<div class="section-subtitle">{subtitle}</div>'
+        '</div>'
+        '</div>'
+    )
+
     st.markdown(
-        f"""
-        <div class="section-header">
+        markup,
+        unsafe_allow_html=True,
+    )
 
-            <div class="section-number">
-                {number}
-            </div>
 
-            <div>
-                <div class="section-title">
-                    {title}
-                </div>
+def render_main_header():
 
-                <div class="section-subtitle">
-                    {subtitle}
-                </div>
-            </div>
+    markup = (
+        '<div class="profile-header">'
+        '<div class="profile-monogram">AI</div>'
+        '<div class="booking-title">Prenota un appuntamento</div>'
+        '<div class="profile-name">Alessandro Iovine</div>'
+        '<div class="profile-role">Sales Manager</div>'
+        '<div class="profile-brands">PIC · CONTROL · EFFERDENT</div>'
+        '<div class="profile-description">'
+        'Scegli giorno e orario per fissare un appuntamento '
+        'presso la tua farmacia.'
+        '</div>'
+        '</div>'
+    )
 
-        </div>
-        """,
+    st.markdown(
+        markup,
+        unsafe_allow_html=True,
+    )
+
+
+def render_small_header():
+
+    markup = (
+        '<div class="profile-header">'
+        '<div class="profile-monogram">AI</div>'
+        '<div class="profile-name">Alessandro Iovine</div>'
+        '<div class="profile-role">Sales Manager</div>'
+        '<div class="profile-brands">PIC · CONTROL · EFFERDENT</div>'
+        '</div>'
+    )
+
+    st.markdown(
+        markup,
         unsafe_allow_html=True,
     )
 
@@ -495,9 +422,7 @@ def section_header(
 
 if st.session_state.prenotazione_completata:
 
-    prenotazione = (
-        st.session_state.ultima_prenotazione
-    )
+    prenotazione = st.session_state.ultima_prenotazione
 
     nome_farmacia = html.escape(
         prenotazione["nome_farmacia"]
@@ -522,74 +447,30 @@ if st.session_state.prenotazione_completata:
         .strftime("%H:%M")
     )
 
-    st.markdown(
-        """
-        <div class="profile-header">
+    render_small_header()
 
-            <div class="profile-monogram">
-                AI
-            </div>
-
-            <div class="profile-name">
-                Alessandro Iovine
-            </div>
-
-            <div class="profile-role">
-                Sales Manager
-            </div>
-
-            <div class="profile-brands">
-                PIC · CONTROL · EFFERDENT
-            </div>
-
-        </div>
-        """,
-        unsafe_allow_html=True,
+    success_markup = (
+        '<div class="success-card">'
+        '<div class="success-icon">✓</div>'
+        '<div class="success-title">'
+        'Appuntamento confermato'
+        '</div>'
+        '<div class="success-text">'
+        'Il tuo appuntamento con Alessandro Iovine '
+        'è stato registrato correttamente.'
+        '</div>'
+        '<div class="success-details">'
+        f'<strong>Farmacia:</strong> {nome_farmacia}<br>'
+        f'<strong>Data:</strong> {data_testo}<br>'
+        f'<strong>Orario:</strong> {ora_testo} – {fine_testo}<br>'
+        f'<strong>Durata:</strong> {prenotazione["durata"]} minuti<br>'
+        f'<strong>CAP:</strong> {cap}'
+        '</div>'
+        '</div>'
     )
 
     st.markdown(
-        f"""
-        <div class="success-card">
-
-            <div class="success-icon">
-                ✓
-            </div>
-
-            <div class="success-title">
-                Appuntamento confermato
-            </div>
-
-            <div class="success-text">
-                Il tuo appuntamento con
-                Alessandro Iovine è stato
-                registrato correttamente.
-            </div>
-
-            <div class="success-details">
-
-                <strong>Farmacia:</strong>
-                {nome_farmacia}
-                <br>
-
-                <strong>Data:</strong>
-                {data_testo}
-                <br>
-
-                <strong>Orario:</strong>
-                {ora_testo} – {fine_testo}
-                <br>
-
-                <strong>Durata:</strong>
-                {prenotazione["durata"]} minuti
-                <br>
-
-                <strong>CAP:</strong>
-                {cap}
-
-            </div>
-
-        </div>
-        """,
+        success_markup,
         unsafe_allow_html=True,
     )
 
@@ -613,39 +494,7 @@ if st.session_state.prenotazione_completata:
 # HEADER PRINCIPALE
 # =========================================================
 
-st.markdown(
-    """
-    <div class="profile-header">
-
-        <div class="profile-monogram">
-            AI
-        </div>
-
-        <div class="booking-title">
-            Prenota un appuntamento
-        </div>
-
-        <div class="profile-name">
-            Alessandro Iovine
-        </div>
-
-        <div class="profile-role">
-            Sales Manager
-        </div>
-
-        <div class="profile-brands">
-            PIC · CONTROL · EFFERDENT
-        </div>
-
-        <div class="profile-description">
-            Scegli giorno e orario per fissare
-            un appuntamento presso la tua farmacia.
-        </div>
-
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
+render_main_header()
 
 
 # =========================================================
@@ -695,9 +544,7 @@ durata = st.selectbox(
     format_func=lambda x: f"{x} minuti",
 )
 
-oggi = datetime.now(
-    TIMEZONE
-).date()
+oggi = datetime.now(TIMEZONE).date()
 
 data = st.date_input(
     "Data",
@@ -728,16 +575,9 @@ else:
             durata,
         )
 
-        # ---------------------------------------------
-        # Se la data selezionata è oggi,
-        # eliminiamo gli orari già trascorsi.
-        # ---------------------------------------------
-
         if data == oggi:
 
-            now = datetime.now(
-                TIMEZONE
-            )
+            now = datetime.now(TIMEZONE)
 
             slots = [
                 slot
@@ -745,7 +585,7 @@ else:
                 if slot["start"] > now
             ]
 
-    except Exception as e:
+    except Exception:
 
         slots = []
 
@@ -756,20 +596,22 @@ else:
 
 
 # =========================================================
-# SCELTA ORARIO
+# ORARIO
 # =========================================================
 
 selected_slot = None
 
 if slots:
 
+    availability_markup = (
+        '<div class="availability-card">'
+        f'✓ {len(slots)} orari disponibili '
+        'per la durata selezionata'
+        '</div>'
+    )
+
     st.markdown(
-        f"""
-        <div class="availability-card">
-            ✓ {len(slots)} orari disponibili
-            per la durata selezionata
-        </div>
-        """,
+        availability_markup,
         unsafe_allow_html=True,
     )
 
@@ -779,14 +621,12 @@ if slots:
         format_func=format_slot,
     )
 
-else:
+elif data.weekday() < 5:
 
-    if data.weekday() < 5:
-
-        st.info(
-            "Nessun orario disponibile "
-            "per la data e la durata selezionate."
-        )
+    st.info(
+        "Nessun orario disponibile "
+        "per la data e la durata selezionate."
+    )
 
 
 # =========================================================
@@ -831,10 +671,6 @@ prenota = st.button(
 
 if prenota:
 
-    # -----------------------------------------------------
-    # VALIDAZIONE
-    # -----------------------------------------------------
-
     if not nome_farmacia.strip():
 
         st.error(
@@ -847,10 +683,7 @@ if prenota:
             "Inserisci il CAP."
         )
 
-    elif (
-        not cap.isdigit()
-        or len(cap) != 5
-    ):
+    elif not cap.isdigit() or len(cap) != 5:
 
         st.error(
             "Inserisci un CAP valido di 5 cifre."
@@ -866,25 +699,18 @@ if prenota:
 
         try:
 
-            # -------------------------------------------------
-            # CONTROLLO FINALE DISPONIBILITÀ
-            #
-            # Prima di creare l'evento controlliamo di nuovo
-            # il calendario per evitare doppie prenotazioni.
-            # -------------------------------------------------
+            # ---------------------------------------------
+            # RICONTROLLO DISPONIBILITÀ
+            # ---------------------------------------------
 
-            updated_slots = (
-                get_available_slots(
-                    data,
-                    durata,
-                )
+            updated_slots = get_available_slots(
+                data,
+                durata,
             )
 
             if data == oggi:
 
-                now = datetime.now(
-                    TIMEZONE
-                )
+                now = datetime.now(TIMEZONE)
 
                 updated_slots = [
                     slot
@@ -893,15 +719,8 @@ if prenota:
                 ]
 
             slot_still_available = any(
-
-                slot["start"]
-                == selected_slot["start"]
-
-                and
-
-                slot["end"]
-                == selected_slot["end"]
-
+                slot["start"] == selected_slot["start"]
+                and slot["end"] == selected_slot["end"]
                 for slot in updated_slots
             )
 
@@ -909,78 +728,46 @@ if prenota:
 
                 st.warning(
                     "Questo orario è appena diventato "
-                    "non disponibile. "
-                    "Seleziona un altro orario."
+                    "non disponibile. Seleziona un altro orario."
                 )
 
             else:
 
-                # ---------------------------------------------
-                # CREAZIONE EVENTO GOOGLE CALENDAR
-                # ---------------------------------------------
+                # -----------------------------------------
+                # CREA EVENTO GOOGLE CALENDAR
+                # -----------------------------------------
 
                 create_appointment(
-                    nome_farmacia=
-                        nome_farmacia.strip(),
-
-                    cap=
-                        cap.strip(),
-
-                    start_datetime=
-                        selected_slot["start"],
-
-                    end_datetime=
-                        selected_slot["end"],
-
-                    durata=
-                        durata,
-
-                    referente=
-                        referente.strip(),
-
-                    telefono=
-                        telefono.strip(),
-
-                    email=
-                        email.strip(),
+                    nome_farmacia=nome_farmacia.strip(),
+                    cap=cap.strip(),
+                    start_datetime=selected_slot["start"],
+                    end_datetime=selected_slot["end"],
+                    durata=durata,
+                    referente=referente.strip(),
+                    telefono=telefono.strip(),
+                    email=email.strip(),
                 )
 
-                # ---------------------------------------------
-                # SALVA DATI CONFERMA
-                # ---------------------------------------------
+                # -----------------------------------------
+                # MEMORIZZA CONFERMA
+                # -----------------------------------------
 
                 st.session_state.ultima_prenotazione = {
-
-                    "nome_farmacia":
-                        nome_farmacia.strip(),
-
-                    "cap":
-                        cap.strip(),
-
-                    "start":
-                        selected_slot["start"],
-
-                    "end":
-                        selected_slot["end"],
-
-                    "durata":
-                        durata,
-
-                    "referente":
-                        referente.strip(),
-
-                    "telefono":
-                        telefono.strip(),
-
-                    "email":
-                        email.strip(),
+                    "nome_farmacia": nome_farmacia.strip(),
+                    "cap": cap.strip(),
+                    "start": selected_slot["start"],
+                    "end": selected_slot["end"],
+                    "durata": durata,
+                    "referente": referente.strip(),
+                    "telefono": telefono.strip(),
+                    "email": email.strip(),
                 }
 
                 st.session_state.prenotazione_completata = True
 
                 st.rerun()
 
-        except Exception as e:
+        except Exception:
 
             st.error(
                 "Non è stato possibile fissare "
@@ -992,38 +779,37 @@ if prenota:
 # FOOTER
 # =========================================================
 
+footer_markup = (
+    '<div class="footer-note">'
+    'La prenotazione verrà registrata direttamente '
+    'nel calendario di Alessandro Iovine.'
+    '</div>'
+)
+
 st.markdown(
-    """
-    <div class="footer-note">
-        La prenotazione verrà registrata
-        direttamente nel calendario di
-        Alessandro Iovine.
-    </div>
-    """,
+    footer_markup,
     unsafe_allow_html=True,
 )
 
 
 # =========================================================
-# TEST EMAIL RESEND
-# TEMPORANEO - LO RIMUOVEREMO DOPO IL TEST
+# TEST RESEND - TEMPORANEO
 # =========================================================
 
 st.write("")
 st.divider()
 
-with st.expander(
-    "Test sistema email"
-):
+with st.expander("Test sistema email"):
 
     st.caption(
-        "Pulsante temporaneo per verificare "
-        "il collegamento con Resend."
+        "Test temporaneo del collegamento "
+        "tra l'app e Resend."
     )
 
     if st.button(
         "Invia email di prova",
         use_container_width=True,
+        key="test_resend_button",
     ):
 
         try:
