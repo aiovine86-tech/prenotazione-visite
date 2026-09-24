@@ -15,7 +15,7 @@ from google_calendar import create_appointment
 TIMEZONE = ZoneInfo("Europe/Rome")
 
 st.set_page_config(
-    page_title="Prenota una visita | Alessandro Iovine",
+    page_title="Prenota un appuntamento | Alessandro Iovine",
     page_icon="📅",
     layout="centered",
     initial_sidebar_state="collapsed",
