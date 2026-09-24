@@ -1,5 +1,5 @@
 import streamlit as st
-
+from google_calendar import test_connection
 st.set_page_config(
     page_title="Prenota una visita",
     page_icon="📅",
@@ -137,3 +137,16 @@ if st.button(
             "Nel prossimo passaggio verranno mostrate "
             "le disponibilità del calendario."
         )
+st.divider()
+
+st.subheader("Test Google Calendar")
+
+if st.button("Verifica collegamento calendario"):
+    try:
+        nome_calendario = test_connection()
+        st.success(
+            f"Google Calendar collegato correttamente: {nome_calendario}"
+        )
+    except Exception as e:
+        st.error("Errore nel collegamento con Google Calendar.")
+        st.exception(e)
