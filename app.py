@@ -1017,7 +1017,7 @@ AI
 </div>
 
 <div class="booking-title">
-Prenota una visita
+Prenota un appuntamento
 </div>
 
 <div class="profile-name">
