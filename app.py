@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import datetime
 from zoneinfo import ZoneInfo
 import html
 
@@ -15,7 +15,7 @@ from google_calendar import create_appointment
 TIMEZONE = ZoneInfo("Europe/Rome")
 
 st.set_page_config(
-    page_title="Prenota una visita",
+    page_title="Prenota una visita | Alessandro Iovine",
     page_icon="📅",
     layout="centered",
     initial_sidebar_state="collapsed",
@@ -41,6 +41,10 @@ st.markdown(
     """
 <style>
 
+/* ======================================================
+   PAGINA
+====================================================== */
+
 html,
 body,
 .stApp {
@@ -49,11 +53,18 @@ body,
 
 .block-container {
     max-width: 560px !important;
+
     padding-top: 2rem !important;
     padding-bottom: 5rem !important;
+
     padding-left: 20px !important;
     padding-right: 20px !important;
 }
+
+
+/* ======================================================
+   NASCONDI ELEMENTI STREAMLIT
+====================================================== */
 
 #MainMenu {
     visibility: hidden;
@@ -71,6 +82,11 @@ div[data-testid="stToolbar"] {
     visibility: hidden;
 }
 
+
+/* ======================================================
+   FONT
+====================================================== */
+
 html,
 body,
 [class*="css"],
@@ -86,17 +102,22 @@ body,
 }
 
 
-/* HERO */
+/* ======================================================
+   HERO
+====================================================== */
 
 .booking-hero {
     text-align: center;
+
     padding-top: 8px;
-    margin-bottom: 36px;
+
+    margin-bottom: 38px;
 }
 
-.booking-icon {
-    width: 58px;
-    height: 58px;
+
+.profile-monogram {
+    width: 64px;
+    height: 64px;
 
     display: flex;
     align-items: center;
@@ -104,17 +125,20 @@ body,
 
     margin: 0 auto 20px auto;
 
-    border-radius: 17px;
+    border-radius: 19px;
 
     background: #1d1d1f;
     color: #ffffff;
 
-    font-size: 27px;
-    font-weight: 600;
+    font-size: 21px;
+    font-weight: 700;
+
+    letter-spacing: -0.5px;
 
     box-shadow:
-        0 5px 18px rgba(0,0,0,0.12);
+        0 6px 20px rgba(0,0,0,0.12);
 }
+
 
 .booking-title {
     color: #1d1d1f;
@@ -127,17 +151,67 @@ body,
     letter-spacing: -1.2px;
 }
 
-.booking-subtitle {
-    color: #6e6e73;
 
-    font-size: 17px;
-    line-height: 1.45;
+.profile-name {
+    margin-top: 22px;
 
-    margin-top: 10px;
+    color: #1d1d1f;
+
+    font-size: 20px;
+    font-weight: 650;
+
+    letter-spacing: -0.3px;
 }
 
 
-/* TITOLI */
+.profile-role {
+    margin-top: 3px;
+
+    color: #6e6e73;
+
+    font-size: 15px;
+    font-weight: 500;
+}
+
+
+.profile-brands {
+    display: inline-block;
+
+    margin-top: 13px;
+
+    padding: 7px 14px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e5e7;
+
+    border-radius: 100px;
+
+    color: #3a3a3c;
+
+    font-size: 12px;
+    font-weight: 650;
+
+    letter-spacing: 0.35px;
+}
+
+
+.booking-subtitle {
+    max-width: 420px;
+
+    margin: 18px auto 0 auto;
+
+    color: #6e6e73;
+
+    font-size: 16px;
+
+    line-height: 1.5;
+}
+
+
+/* ======================================================
+   TITOLI SEZIONI
+====================================================== */
 
 h3 {
     color: #1d1d1f !important;
@@ -153,22 +227,28 @@ h3 {
 }
 
 
-/* LABEL */
+/* ======================================================
+   LABEL
+====================================================== */
 
 div[data-testid="stWidgetLabel"] p {
     color: #3a3a3c !important;
 
     font-size: 14px !important;
+
     font-weight: 500 !important;
 }
 
 
-/* INPUT */
+/* ======================================================
+   INPUT
+====================================================== */
 
 div[data-baseweb="input"] {
     background: #ffffff !important;
 
     border: 1px solid #d2d2d7 !important;
+
     border-radius: 14px !important;
 
     min-height: 52px !important;
@@ -176,9 +256,11 @@ div[data-baseweb="input"] {
     box-shadow: none !important;
 }
 
+
 div[data-baseweb="input"] > div {
     background: #ffffff !important;
 }
+
 
 div[data-baseweb="input"] input {
     background: #ffffff !important;
@@ -192,6 +274,7 @@ div[data-baseweb="input"] input {
     min-height: 50px !important;
 }
 
+
 div[data-baseweb="input"] input::placeholder {
     color: #86868b !important;
 
@@ -199,6 +282,7 @@ div[data-baseweb="input"] input::placeholder {
 
     opacity: 1 !important;
 }
+
 
 div[data-baseweb="input"]:focus-within {
     border-color: #0071e3 !important;
@@ -209,12 +293,15 @@ div[data-baseweb="input"]:focus-within {
 }
 
 
-/* SELECT */
+/* ======================================================
+   SELECT
+====================================================== */
 
 div[data-baseweb="select"] > div {
     background: #ffffff !important;
 
     border: 1px solid #d2d2d7 !important;
+
     border-radius: 14px !important;
 
     min-height: 52px !important;
@@ -224,13 +311,16 @@ div[data-baseweb="select"] > div {
     color: #1d1d1f !important;
 }
 
+
 div[data-baseweb="select"] span {
     color: #1d1d1f !important;
 }
 
+
 div[data-baseweb="select"] svg {
     fill: #6e6e73 !important;
 }
+
 
 div[data-baseweb="select"] > div:focus-within {
     border-color: #0071e3 !important;
@@ -241,7 +331,9 @@ div[data-baseweb="select"] > div:focus-within {
 }
 
 
-/* DATA */
+/* ======================================================
+   DATA
+====================================================== */
 
 div[data-testid="stDateInput"] input {
     background: #ffffff !important;
@@ -254,19 +346,25 @@ div[data-testid="stDateInput"] input {
 }
 
 
-/* CAPTION */
+/* ======================================================
+   CAPTION
+====================================================== */
 
 div[data-testid="stCaptionContainer"] p {
     color: #86868b !important;
+
     font-size: 13px !important;
 }
 
 
-/* PULSANTE */
+/* ======================================================
+   PULSANTE
+====================================================== */
 
 div[data-testid="stButton"] {
     margin-top: 22px;
 }
+
 
 div[data-testid="stButton"] button {
     width: 100% !important;
@@ -276,6 +374,7 @@ div[data-testid="stButton"] button {
     border-radius: 15px !important;
 
     font-size: 16px !important;
+
     font-weight: 600 !important;
 
     border: none !important;
@@ -285,38 +384,52 @@ div[data-testid="stButton"] button {
         background 0.12s ease;
 }
 
+
 div[data-testid="stButton"] button[kind="primary"] {
     background: #1d1d1f !important;
+
     color: #ffffff !important;
 }
+
 
 div[data-testid="stButton"] button[kind="primary"] p {
     color: #ffffff !important;
 }
 
+
 div[data-testid="stButton"] button:hover {
     background: #000000 !important;
 }
+
 
 div[data-testid="stButton"] button:active {
     transform: scale(0.985);
 }
 
+
 div[data-testid="stButton"] button:disabled {
     background: #d2d2d7 !important;
+
     color: #86868b !important;
+
+    opacity: 1 !important;
 }
 
 
-/* ALERT */
+/* ======================================================
+   ALERT
+====================================================== */
 
 div[data-testid="stAlert"] {
     border-radius: 14px !important;
+
     border: none !important;
 }
 
 
-/* NOTA DISPONIBILITÀ */
+/* ======================================================
+   DISPONIBILITÀ
+====================================================== */
 
 .availability-note {
     background: #ffffff;
@@ -327,16 +440,33 @@ div[data-testid="stAlert"] {
 
     padding: 13px 15px;
 
-    margin-top: 12px;
+    margin-top: 14px;
 
     color: #6e6e73;
 
     font-size: 13px;
+
     line-height: 1.45;
 }
 
 
-/* SUCCESS */
+.availability-dot {
+    display: inline-block;
+
+    width: 7px;
+    height: 7px;
+
+    margin-right: 6px;
+
+    border-radius: 50%;
+
+    background: #34c759;
+}
+
+
+/* ======================================================
+   SUCCESS
+====================================================== */
 
 .success-card {
     text-align: center;
@@ -355,6 +485,7 @@ div[data-testid="stAlert"] {
         0 12px 40px rgba(0,0,0,0.06);
 }
 
+
 .success-icon {
     width: 62px;
     height: 62px;
@@ -368,79 +499,169 @@ div[data-testid="stAlert"] {
     border-radius: 50%;
 
     background: #e8f7ed;
+
     color: #147a35;
 
     font-size: 30px;
+
     font-weight: 700;
 }
+
 
 .success-title {
     color: #1d1d1f;
 
     font-size: 25px;
+
     font-weight: 700;
 
     letter-spacing: -0.6px;
 }
+
+
+.success-with {
+    color: #86868b;
+
+    font-size: 13px;
+
+    margin-top: 22px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.7px;
+}
+
+
+.success-name {
+    color: #1d1d1f;
+
+    font-size: 20px;
+
+    font-weight: 650;
+
+    margin-top: 4px;
+}
+
+
+.success-role {
+    color: #6e6e73;
+
+    font-size: 14px;
+
+    margin-top: 3px;
+}
+
+
+.success-brands {
+    color: #3a3a3c;
+
+    font-size: 12px;
+
+    font-weight: 650;
+
+    letter-spacing: 0.3px;
+
+    margin-top: 8px;
+}
+
+
+.success-divider {
+    height: 1px;
+
+    background: #e5e5e7;
+
+    margin: 25px 0;
+}
+
 
 .success-pharmacy {
     color: #1d1d1f;
 
     font-size: 18px;
-    font-weight: 600;
 
-    margin-top: 22px;
+    font-weight: 600;
 }
+
+
+.success-date {
+    color: #6e6e73;
+
+    font-size: 15px;
+
+    margin-top: 18px;
+}
+
 
 .success-time {
     color: #1d1d1f;
 
-    font-size: 28px;
+    font-size: 29px;
+
     font-weight: 700;
 
     letter-spacing: -0.6px;
 
-    margin-top: 7px;
+    margin-top: 4px;
 }
+
 
 .success-details {
     color: #6e6e73;
 
-    font-size: 15px;
+    font-size: 14px;
+
     line-height: 1.6;
 
-    margin-top: 10px;
+    margin-top: 9px;
 }
 
 
-/* MOBILE */
+/* ======================================================
+   MOBILE
+====================================================== */
 
 @media (max-width: 640px) {
 
     .block-container {
         padding-top: 1.25rem !important;
+
         padding-left: 16px !important;
+
         padding-right: 16px !important;
     }
 
+
     .booking-hero {
-        margin-bottom: 28px;
+        margin-bottom: 30px;
     }
 
-    .booking-icon {
-        width: 54px;
-        height: 54px;
 
-        border-radius: 16px;
+    .profile-monogram {
+        width: 58px;
+        height: 58px;
+
+        border-radius: 17px;
+
+        font-size: 19px;
     }
+
 
     .booking-title {
         font-size: 30px;
     }
 
-    .booking-subtitle {
-        font-size: 16px;
+
+    .profile-name {
+        font-size: 19px;
+
+        margin-top: 19px;
     }
+
+
+    .booking-subtitle {
+        font-size: 15px;
+    }
+
 
     .success-card {
         padding: 30px 20px;
@@ -455,8 +676,7 @@ div[data-testid="stAlert"] {
 
 
 # =========================================================
-# SE PRENOTAZIONE COMPLETATA:
-# MOSTRIAMO SOLO LA CONFERMA
+# SCHERMATA PRENOTAZIONE COMPLETATA
 # =========================================================
 
 if (
@@ -474,28 +694,65 @@ if (
         dati["cap"]
     )
 
+
     st.markdown(
         f"""
 <div class="booking-hero">
-<div class="booking-icon">✓</div>
+<div class="profile-monogram">AI</div>
 <div class="booking-title">Prenotazione completata</div>
-<div class="booking-subtitle">La visita è stata registrata correttamente.</div>
+<div class="booking-subtitle">
+La visita è stata registrata correttamente.
+</div>
 </div>
 
 <div class="success-card">
+
 <div class="success-icon">✓</div>
-<div class="success-title">Appuntamento confermato</div>
-<div class="success-pharmacy">{farmacia_html}</div>
-<div class="success-time">{dati["orario"]}</div>
+
+<div class="success-title">
+Appuntamento confermato
+</div>
+
+<div class="success-with">
+Appuntamento con
+</div>
+
+<div class="success-name">
+Alessandro Iovine
+</div>
+
+<div class="success-role">
+Sales Manager
+</div>
+
+<div class="success-brands">
+PIC · CONTROL · EFFERDENT
+</div>
+
+<div class="success-divider"></div>
+
+<div class="success-pharmacy">
+{farmacia_html}
+</div>
+
+<div class="success-date">
+{dati["data"]}
+</div>
+
+<div class="success-time">
+{dati["orario"]}
+</div>
+
 <div class="success-details">
-{dati["data"]}<br>
 Durata {dati["durata"]} minuti<br>
 CAP {cap_html}
 </div>
+
 </div>
 """,
         unsafe_allow_html=True,
     )
+
 
     if st.button(
         "Prenota un altro appuntamento",
@@ -503,23 +760,48 @@ CAP {cap_html}
     ):
 
         st.session_state.prenotazione_completata = False
+
         st.session_state.ultima_prenotazione = None
 
         st.rerun()
+
 
     st.stop()
 
 
 # =========================================================
-# HERO
+# HERO PRINCIPALE
 # =========================================================
 
 st.markdown(
     """
 <div class="booking-hero">
-<div class="booking-icon">◉</div>
-<div class="booking-title">Prenota una visita</div>
-<div class="booking-subtitle">Scegli giorno e orario più comodi per te.</div>
+
+<div class="profile-monogram">
+AI
+</div>
+
+<div class="booking-title">
+Prenota una visita
+</div>
+
+<div class="profile-name">
+Alessandro Iovine
+</div>
+
+<div class="profile-role">
+Sales Manager
+</div>
+
+<div class="profile-brands">
+PIC&nbsp;&nbsp;·&nbsp;&nbsp;CONTROL&nbsp;&nbsp;·&nbsp;&nbsp;EFFERDENT
+</div>
+
+<div class="booking-subtitle">
+Scegli giorno e orario per fissare un appuntamento
+presso la tua farmacia.
+</div>
+
 </div>
 """,
     unsafe_allow_html=True,
@@ -530,18 +812,21 @@ st.markdown(
 # FARMACIA
 # =========================================================
 
-st.subheader("Farmacia")
+st.subheader("La tua farmacia")
+
 
 nome_farmacia = st.text_input(
     "Nome farmacia",
     placeholder="Farmacia Centrale",
 )
 
+
 cap = st.text_input(
     "CAP",
     max_chars=5,
     placeholder="80100",
 )
+
 
 st.caption(
     "Nome farmacia e CAP sono obbligatori."
@@ -552,7 +837,9 @@ st.caption(
 # APPUNTAMENTO
 # =========================================================
 
-st.subheader("Appuntamento")
+st.subheader(
+    "Quando preferisci incontrarci?"
+)
 
 
 durate = {
@@ -567,15 +854,18 @@ durate = {
 
 
 durata_label = st.selectbox(
-    "Durata",
+    "Durata della visita",
     options=list(durate.keys()),
     index=3,
 )
 
+
 durata = durate[durata_label]
 
 
-oggi = datetime.now(TIMEZONE).date()
+oggi = datetime.now(
+    TIMEZONE
+).date()
 
 
 data_appuntamento = st.date_input(
@@ -587,12 +877,13 @@ data_appuntamento = st.date_input(
 
 
 # =========================================================
-# CONTROLLO GIORNO
+# DISPONIBILITÀ
 # =========================================================
 
 giorno_valido = (
     data_appuntamento.weekday() < 5
 )
+
 
 slots = []
 
@@ -604,6 +895,7 @@ if not giorno_valido:
         "dal lunedì al venerdì."
     )
 
+
 else:
 
     try:
@@ -614,14 +906,16 @@ else:
         )
 
 
-        # -------------------------------------------------
-        # SE È OGGI:
-        # ELIMINIAMO GLI ORARI GIÀ PASSATI
-        # -------------------------------------------------
+        # ---------------------------------------------
+        # SE LA DATA È OGGI:
+        # NASCONDE GLI ORARI GIÀ TRASCORSI
+        # ---------------------------------------------
 
         if data_appuntamento == oggi:
 
-            adesso = datetime.now(TIMEZONE)
+            adesso = datetime.now(
+                TIMEZONE
+            )
 
             slots = [
                 slot
@@ -681,7 +975,10 @@ elif giorno_valido:
 # CONTATTI
 # =========================================================
 
-st.subheader("Contatti")
+st.subheader(
+    "I tuoi contatti"
+)
+
 
 st.caption(
     "Facoltativi — utili in caso di necessità."
@@ -707,7 +1004,7 @@ email = st.text_input(
 
 
 # =========================================================
-# PICCOLA NOTA
+# NOTA DISPONIBILITÀ
 # =========================================================
 
 if slot_selezionato:
@@ -715,9 +1012,10 @@ if slot_selezionato:
     st.markdown(
         """
 <div class="availability-note">
-L'orario selezionato risulta disponibile.
+<span class="availability-dot"></span>
+L'orario selezionato è disponibile.
 La disponibilità verrà ricontrollata automaticamente
-prima della conferma.
+al momento della prenotazione.
 </div>
 """,
         unsafe_allow_html=True,
@@ -725,7 +1023,7 @@ prima della conferma.
 
 
 # =========================================================
-# PRENOTA
+# PULSANTE PRENOTA
 # =========================================================
 
 prenota = st.button(
@@ -737,19 +1035,24 @@ prenota = st.button(
 
 
 # =========================================================
-# GESTIONE PRENOTAZIONE
+# PRENOTAZIONE
 # =========================================================
 
 if prenota:
 
-    nome_pulito = nome_farmacia.strip()
-    cap_pulito = cap.strip()
+    nome_pulito = (
+        nome_farmacia.strip()
+    )
+
+    cap_pulito = (
+        cap.strip()
+    )
 
     errori = []
 
 
     # -----------------------------------------------------
-    # VALIDAZIONE
+    # VALIDAZIONE FARMACIA
     # -----------------------------------------------------
 
     if not nome_pulito:
@@ -758,6 +1061,10 @@ if prenota:
             "Inserisci il nome della farmacia."
         )
 
+
+    # -----------------------------------------------------
+    # VALIDAZIONE CAP
+    # -----------------------------------------------------
 
     if not cap_pulito:
 
@@ -775,10 +1082,17 @@ if prenota:
         )
 
 
+    # -----------------------------------------------------
+    # MOSTRA ERRORI
+    # -----------------------------------------------------
+
     if errori:
 
         for errore in errori:
-            st.error(errore)
+
+            st.error(
+                errore
+            )
 
 
     else:
@@ -786,7 +1100,7 @@ if prenota:
         try:
 
             # =============================================
-            # RICONTROLLO SILENZIOSO GOOGLE CALENDAR
+            # RICONTROLLO SILENZIOSO CALENDAR
             # =============================================
 
             slots_finali = get_available_slots(
@@ -795,12 +1109,15 @@ if prenota:
             )
 
 
-            # Anche nel controllo finale
-            # eliminiamo eventuali slot ormai trascorsi.
+            # ---------------------------------------------
+            # ESCLUDE ORARI TRASCORSI
+            # ---------------------------------------------
 
             if data_appuntamento == oggi:
 
-                adesso = datetime.now(TIMEZONE)
+                adesso = datetime.now(
+                    TIMEZONE
+                )
 
                 slots_finali = [
                     slot
@@ -809,10 +1126,17 @@ if prenota:
                 ]
 
 
+            # ---------------------------------------------
+            # CONTROLLA CHE LO SLOT SIA ANCORA PRESENTE
+            # ---------------------------------------------
+
             ancora_libero = any(
+
                 slot["start"]
                 == slot_selezionato["start"]
+
                 and
+
                 slot["end"]
                 == slot_selezionato["end"]
 
@@ -822,7 +1146,7 @@ if prenota:
 
 
             # =============================================
-            # SLOT NON PIÙ DISPONIBILE
+            # SLOT NON PIÙ LIBERO
             # =============================================
 
             if not ancora_libero:
@@ -836,12 +1160,16 @@ if prenota:
 
 
             # =============================================
-            # CREA EVENTO
+            # CREA APPUNTAMENTO
             # =============================================
 
             create_appointment(
-                nome_farmacia=nome_pulito,
-                cap=cap_pulito,
+
+                nome_farmacia=
+                    nome_pulito,
+
+                cap=
+                    cap_pulito,
 
                 start_datetime=
                     slot_selezionato["start"],
@@ -849,7 +1177,8 @@ if prenota:
                 end_datetime=
                     slot_selezionato["end"],
 
-                durata=durata,
+                durata=
+                    durata,
 
                 referente=
                     referente.strip(),
@@ -863,10 +1192,11 @@ if prenota:
 
 
             # =============================================
-            # SALVA DATI PER SCHERMATA FINALE
+            # DATI SCHERMATA CONFERMA
             # =============================================
 
             st.session_state.ultima_prenotazione = {
+
                 "farmacia":
                     nome_pulito,
 
@@ -889,6 +1219,7 @@ if prenota:
 
 
             st.session_state.prenotazione_completata = True
+
 
             st.rerun()
 
