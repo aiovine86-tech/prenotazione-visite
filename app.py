@@ -48,11 +48,27 @@ st.markdown(
 html,
 body,
 .stApp {
-    background: #f5f5f7 !important;
+    background:
+        radial-gradient(
+            circle at 10% 0%,
+            rgba(52, 199, 89, 0.10),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 95% 12%,
+            rgba(0, 122, 255, 0.08),
+            transparent 28%
+        ),
+        linear-gradient(
+            180deg,
+            #f8faf9 0%,
+            #f5f7f8 50%,
+            #f8f9fa 100%
+        ) !important;
 }
 
 .block-container {
-    max-width: 560px !important;
+    max-width: 590px !important;
 
     padding-top: 2rem !important;
     padding-bottom: 5rem !important;
@@ -63,7 +79,7 @@ body,
 
 
 /* ======================================================
-   NASCONDI ELEMENTI STREAMLIT
+   NASCONDE ELEMENTI STREAMLIT
 ====================================================== */
 
 #MainMenu {
@@ -111,13 +127,13 @@ body,
 
     padding-top: 8px;
 
-    margin-bottom: 38px;
+    margin-bottom: 32px;
 }
 
 
 .profile-monogram {
-    width: 64px;
-    height: 64px;
+    width: 68px;
+    height: 68px;
 
     display: flex;
     align-items: center;
@@ -125,42 +141,50 @@ body,
 
     margin: 0 auto 20px auto;
 
-    border-radius: 19px;
+    border-radius: 21px;
 
-    background: #1d1d1f;
+    background:
+        linear-gradient(
+            135deg,
+            #34c759 0%,
+            #168f69 55%,
+            #087ca7 100%
+        );
+
     color: #ffffff;
 
     font-size: 21px;
-    font-weight: 700;
+    font-weight: 750;
 
     letter-spacing: -0.5px;
 
     box-shadow:
-        0 6px 20px rgba(0,0,0,0.12);
+        0 12px 30px rgba(30, 150, 90, 0.22);
 }
 
 
 .booking-title {
-    color: #1d1d1f;
+    color: #161617;
 
-    font-size: 36px;
-    line-height: 1.08;
+    font-size: 38px;
+    line-height: 1.07;
 
-    font-weight: 700;
+    font-weight: 750;
 
-    letter-spacing: -1.2px;
+    letter-spacing: -1.4px;
 }
 
 
 .profile-name {
-    margin-top: 22px;
+    margin-top: 21px;
 
     color: #1d1d1f;
 
-    font-size: 20px;
-    font-weight: 650;
+    font-size: 21px;
 
-    letter-spacing: -0.3px;
+    font-weight: 680;
+
+    letter-spacing: -0.35px;
 }
 
 
@@ -170,6 +194,7 @@ body,
     color: #6e6e73;
 
     font-size: 15px;
+
     font-weight: 500;
 }
 
@@ -179,25 +204,31 @@ body,
 
     margin-top: 13px;
 
-    padding: 7px 14px;
+    padding: 8px 15px;
 
-    background: #ffffff;
+    background:
+        rgba(255, 255, 255, 0.86);
 
-    border: 1px solid #e5e5e7;
+    border:
+        1px solid rgba(0, 0, 0, 0.07);
 
     border-radius: 100px;
 
     color: #3a3a3c;
 
     font-size: 12px;
-    font-weight: 650;
 
-    letter-spacing: 0.35px;
+    font-weight: 700;
+
+    letter-spacing: 0.4px;
+
+    box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.04);
 }
 
 
 .booking-subtitle {
-    max-width: 420px;
+    max-width: 430px;
 
     margin: 18px auto 0 auto;
 
@@ -205,25 +236,70 @@ body,
 
     font-size: 16px;
 
-    line-height: 1.5;
+    line-height: 1.55;
 }
 
 
 /* ======================================================
-   TITOLI SEZIONI
+   SEZIONI
 ====================================================== */
 
-h3 {
-    color: #1d1d1f !important;
+.section-header {
+    display: flex;
 
-    font-size: 19px !important;
+    align-items: center;
 
-    font-weight: 650 !important;
+    gap: 10px;
 
-    letter-spacing: -0.3px !important;
+    margin-top: 30px;
+    margin-bottom: 13px;
+}
 
-    margin-top: 34px !important;
-    margin-bottom: 10px !important;
+
+.section-number {
+    width: 28px;
+    height: 28px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 9px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(52, 199, 89, 0.15),
+            rgba(0, 122, 255, 0.10)
+        );
+
+    color: #168548;
+
+    font-size: 13px;
+
+    font-weight: 750;
+}
+
+
+.section-title {
+    color: #1d1d1f;
+
+    font-size: 19px;
+
+    font-weight: 680;
+
+    letter-spacing: -0.35px;
+}
+
+
+.section-subtitle {
+    color: #86868b;
+
+    font-size: 13px;
+
+    margin-top: -5px;
+    margin-bottom: 14px;
 }
 
 
@@ -236,7 +312,7 @@ div[data-testid="stWidgetLabel"] p {
 
     font-size: 14px !important;
 
-    font-weight: 500 !important;
+    font-weight: 550 !important;
 }
 
 
@@ -247,13 +323,15 @@ div[data-testid="stWidgetLabel"] p {
 div[data-baseweb="input"] {
     background: #ffffff !important;
 
-    border: 1px solid #d2d2d7 !important;
+    border:
+        1px solid rgba(0, 0, 0, 0.12) !important;
 
     border-radius: 14px !important;
 
     min-height: 52px !important;
 
-    box-shadow: none !important;
+    box-shadow:
+        0 3px 10px rgba(0, 0, 0, 0.025) !important;
 }
 
 
@@ -267,7 +345,8 @@ div[data-baseweb="input"] input {
 
     color: #1d1d1f !important;
 
-    -webkit-text-fill-color: #1d1d1f !important;
+    -webkit-text-fill-color:
+        #1d1d1f !important;
 
     font-size: 16px !important;
 
@@ -276,19 +355,21 @@ div[data-baseweb="input"] input {
 
 
 div[data-baseweb="input"] input::placeholder {
-    color: #86868b !important;
+    color: #a1a1a6 !important;
 
-    -webkit-text-fill-color: #86868b !important;
+    -webkit-text-fill-color:
+        #a1a1a6 !important;
 
     opacity: 1 !important;
 }
 
 
 div[data-baseweb="input"]:focus-within {
-    border-color: #0071e3 !important;
+    border-color:
+        #27a956 !important;
 
     box-shadow:
-        0 0 0 3px rgba(0,113,227,0.12)
+        0 0 0 3px rgba(39, 169, 86, 0.12)
         !important;
 }
 
@@ -300,13 +381,15 @@ div[data-baseweb="input"]:focus-within {
 div[data-baseweb="select"] > div {
     background: #ffffff !important;
 
-    border: 1px solid #d2d2d7 !important;
+    border:
+        1px solid rgba(0, 0, 0, 0.12) !important;
 
     border-radius: 14px !important;
 
     min-height: 52px !important;
 
-    box-shadow: none !important;
+    box-shadow:
+        0 3px 10px rgba(0, 0, 0, 0.025) !important;
 
     color: #1d1d1f !important;
 }
@@ -323,10 +406,11 @@ div[data-baseweb="select"] svg {
 
 
 div[data-baseweb="select"] > div:focus-within {
-    border-color: #0071e3 !important;
+    border-color:
+        #27a956 !important;
 
     box-shadow:
-        0 0 0 3px rgba(0,113,227,0.12)
+        0 0 0 3px rgba(39, 169, 86, 0.12)
         !important;
 }
 
@@ -340,7 +424,8 @@ div[data-testid="stDateInput"] input {
 
     color: #1d1d1f !important;
 
-    -webkit-text-fill-color: #1d1d1f !important;
+    -webkit-text-fill-color:
+        #1d1d1f !important;
 
     font-size: 16px !important;
 }
@@ -358,37 +443,47 @@ div[data-testid="stCaptionContainer"] p {
 
 
 /* ======================================================
-   PULSANTE
+   PULSANTE PRENOTA - VERDE
 ====================================================== */
 
 div[data-testid="stButton"] {
-    margin-top: 22px;
+    margin-top: 24px;
 }
 
 
 div[data-testid="stButton"] button {
     width: 100% !important;
 
-    min-height: 56px !important;
+    min-height: 58px !important;
 
-    border-radius: 15px !important;
+    border-radius: 16px !important;
 
     font-size: 16px !important;
 
-    font-weight: 600 !important;
+    font-weight: 680 !important;
 
     border: none !important;
 
     transition:
-        transform 0.12s ease,
-        background 0.12s ease;
+        transform 0.15s ease,
+        box-shadow 0.15s ease,
+        background 0.15s ease;
 }
 
 
 div[data-testid="stButton"] button[kind="primary"] {
-    background: #1d1d1f !important;
+    background:
+        linear-gradient(
+            135deg,
+            #34c759 0%,
+            #209447 100%
+        ) !important;
 
     color: #ffffff !important;
+
+    box-shadow:
+        0 10px 24px rgba(32, 148, 71, 0.24)
+        !important;
 }
 
 
@@ -397,22 +492,58 @@ div[data-testid="stButton"] button[kind="primary"] p {
 }
 
 
-div[data-testid="stButton"] button:hover {
-    background: #000000 !important;
+div[data-testid="stButton"] button[kind="primary"]:hover {
+    background:
+        linear-gradient(
+            135deg,
+            #2eb653 0%,
+            #197d3b 100%
+        ) !important;
+
+    box-shadow:
+        0 12px 28px rgba(32, 148, 71, 0.30)
+        !important;
+
+    transform: translateY(-1px);
 }
 
 
-div[data-testid="stButton"] button:active {
+div[data-testid="stButton"] button[kind="primary"]:active {
     transform: scale(0.985);
 }
 
 
 div[data-testid="stButton"] button:disabled {
-    background: #d2d2d7 !important;
+    background: #d7d7da !important;
 
-    color: #86868b !important;
+    color: #8e8e93 !important;
+
+    box-shadow: none !important;
 
     opacity: 1 !important;
+}
+
+
+/* ======================================================
+   PULSANTE SECONDARIO
+====================================================== */
+
+div[data-testid="stButton"] button[kind="secondary"] {
+    background: #ffffff !important;
+
+    color: #1d1d1f !important;
+
+    border:
+        1px solid rgba(0, 0, 0, 0.10) !important;
+
+    box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.04)
+        !important;
+}
+
+
+div[data-testid="stButton"] button[kind="secondary"] p {
+    color: #1d1d1f !important;
 }
 
 
@@ -421,7 +552,7 @@ div[data-testid="stButton"] button:disabled {
 ====================================================== */
 
 div[data-testid="stAlert"] {
-    border-radius: 14px !important;
+    border-radius: 15px !important;
 
     border: none !important;
 }
@@ -431,36 +562,103 @@ div[data-testid="stAlert"] {
    DISPONIBILITÀ
 ====================================================== */
 
-.availability-note {
-    background: #ffffff;
+.availability-card {
+    display: flex;
 
-    border: 1px solid rgba(0,0,0,0.06);
+    align-items: center;
 
-    border-radius: 14px;
+    gap: 11px;
 
-    padding: 13px 15px;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(232, 248, 237, 0.95),
+            rgba(242, 250, 246, 0.95)
+        );
+
+    border:
+        1px solid rgba(52, 199, 89, 0.18);
+
+    border-radius: 15px;
+
+    padding: 14px 15px;
 
     margin-top: 14px;
-
-    color: #6e6e73;
-
-    font-size: 13px;
-
-    line-height: 1.45;
 }
 
 
-.availability-dot {
-    display: inline-block;
+.availability-icon {
+    width: 30px;
+    height: 30px;
 
-    width: 7px;
-    height: 7px;
+    min-width: 30px;
 
-    margin-right: 6px;
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
 
     border-radius: 50%;
 
     background: #34c759;
+
+    color: white;
+
+    font-size: 14px;
+
+    font-weight: 750;
+}
+
+
+.availability-text {
+    color: #315d3d;
+
+    font-size: 13px;
+
+    line-height: 1.4;
+}
+
+
+.availability-text strong {
+    color: #176b35;
+}
+
+
+/* ======================================================
+   DIVISORE
+====================================================== */
+
+.soft-divider {
+    height: 1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(0,0,0,0.08),
+            transparent
+        );
+
+    margin-top: 32px;
+}
+
+
+/* ======================================================
+   PRIVACY / INFO
+====================================================== */
+
+.booking-info {
+    text-align: center;
+
+    color: #86868b;
+
+    font-size: 12px;
+
+    line-height: 1.5;
+
+    margin-top: 15px;
+
+    padding: 0 10px;
 }
 
 
@@ -471,75 +669,86 @@ div[data-testid="stAlert"] {
 .success-card {
     text-align: center;
 
-    background: #ffffff;
+    background:
+        rgba(255,255,255,0.94);
 
-    border: 1px solid rgba(0,0,0,0.07);
+    border:
+        1px solid rgba(0,0,0,0.06);
 
-    border-radius: 26px;
+    border-radius: 28px;
 
-    padding: 36px 24px;
+    padding: 38px 25px;
 
     margin-top: 20px;
 
     box-shadow:
-        0 12px 40px rgba(0,0,0,0.06);
+        0 18px 55px rgba(0,0,0,0.08);
 }
 
 
 .success-icon {
-    width: 62px;
-    height: 62px;
+    width: 68px;
+    height: 68px;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
-    margin: 0 auto 20px auto;
+    margin: 0 auto 21px auto;
 
     border-radius: 50%;
 
-    background: #e8f7ed;
+    background:
+        linear-gradient(
+            135deg,
+            #34c759,
+            #209447
+        );
 
-    color: #147a35;
+    color: #ffffff;
 
-    font-size: 30px;
+    font-size: 31px;
 
-    font-weight: 700;
+    font-weight: 750;
+
+    box-shadow:
+        0 10px 25px rgba(32,148,71,0.22);
 }
 
 
 .success-title {
     color: #1d1d1f;
 
-    font-size: 25px;
+    font-size: 26px;
 
-    font-weight: 700;
+    font-weight: 750;
 
-    letter-spacing: -0.6px;
+    letter-spacing: -0.7px;
 }
 
 
 .success-with {
     color: #86868b;
 
-    font-size: 13px;
+    font-size: 12px;
 
-    margin-top: 22px;
+    margin-top: 24px;
 
     text-transform: uppercase;
 
-    letter-spacing: 0.7px;
+    letter-spacing: 0.8px;
 }
 
 
 .success-name {
     color: #1d1d1f;
 
-    font-size: 20px;
+    font-size: 21px;
 
-    font-weight: 650;
+    font-weight: 680;
 
-    margin-top: 4px;
+    margin-top: 5px;
 }
 
 
@@ -553,15 +762,23 @@ div[data-testid="stAlert"] {
 
 
 .success-brands {
-    color: #3a3a3c;
+    display: inline-block;
 
-    font-size: 12px;
+    color: #315d3d;
 
-    font-weight: 650;
+    background: #edf8f0;
 
-    letter-spacing: 0.3px;
+    border-radius: 100px;
 
-    margin-top: 8px;
+    padding: 6px 12px;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.35px;
+
+    margin-top: 10px;
 }
 
 
@@ -570,7 +787,7 @@ div[data-testid="stAlert"] {
 
     background: #e5e5e7;
 
-    margin: 25px 0;
+    margin: 27px 0;
 }
 
 
@@ -579,7 +796,7 @@ div[data-testid="stAlert"] {
 
     font-size: 18px;
 
-    font-weight: 600;
+    font-weight: 650;
 }
 
 
@@ -595,11 +812,11 @@ div[data-testid="stAlert"] {
 .success-time {
     color: #1d1d1f;
 
-    font-size: 29px;
+    font-size: 30px;
 
-    font-weight: 700;
+    font-weight: 750;
 
-    letter-spacing: -0.6px;
+    letter-spacing: -0.7px;
 
     margin-top: 4px;
 }
@@ -623,7 +840,7 @@ div[data-testid="stAlert"] {
 @media (max-width: 640px) {
 
     .block-container {
-        padding-top: 1.25rem !important;
+        padding-top: 1.2rem !important;
 
         padding-left: 16px !important;
 
@@ -632,29 +849,27 @@ div[data-testid="stAlert"] {
 
 
     .booking-hero {
-        margin-bottom: 30px;
+        margin-bottom: 27px;
     }
 
 
     .profile-monogram {
-        width: 58px;
-        height: 58px;
+        width: 62px;
+        height: 62px;
 
-        border-radius: 17px;
-
-        font-size: 19px;
+        border-radius: 19px;
     }
 
 
     .booking-title {
-        font-size: 30px;
+        font-size: 31px;
     }
 
 
     .profile-name {
         font-size: 19px;
 
-        margin-top: 19px;
+        margin-top: 18px;
     }
 
 
@@ -663,8 +878,13 @@ div[data-testid="stAlert"] {
     }
 
 
+    .section-header {
+        margin-top: 27px;
+    }
+
+
     .success-card {
-        padding: 30px 20px;
+        padding: 31px 20px;
     }
 
 }
@@ -676,7 +896,7 @@ div[data-testid="stAlert"] {
 
 
 # =========================================================
-# SCHERMATA PRENOTAZIONE COMPLETATA
+# SCHERMATA FINALE
 # =========================================================
 
 if (
@@ -698,20 +918,32 @@ if (
     st.markdown(
         f"""
 <div class="booking-hero">
-<div class="profile-monogram">AI</div>
-<div class="booking-title">Prenotazione completata</div>
+
+<div class="profile-monogram">
+AI
+</div>
+
+<div class="booking-title">
+Prenotazione completata
+</div>
+
 <div class="booking-subtitle">
 La visita è stata registrata correttamente.
 </div>
+
 </div>
+
 
 <div class="success-card">
 
-<div class="success-icon">✓</div>
+<div class="success-icon">
+✓
+</div>
 
 <div class="success-title">
 Appuntamento confermato
 </div>
+
 
 <div class="success-with">
 Appuntamento con
@@ -729,7 +961,10 @@ Sales Manager
 PIC · CONTROL · EFFERDENT
 </div>
 
-<div class="success-divider"></div>
+
+<div class="success-divider">
+</div>
+
 
 <div class="success-pharmacy">
 {farmacia_html}
@@ -770,7 +1005,7 @@ CAP {cap_html}
 
 
 # =========================================================
-# HERO PRINCIPALE
+# HERO
 # =========================================================
 
 st.markdown(
@@ -798,8 +1033,8 @@ PIC&nbsp;&nbsp;·&nbsp;&nbsp;CONTROL&nbsp;&nbsp;·&nbsp;&nbsp;EFFERDENT
 </div>
 
 <div class="booking-subtitle">
-Scegli giorno e orario per fissare un appuntamento
-presso la tua farmacia.
+Scegli giorno e orario per fissare
+un appuntamento presso la tua farmacia.
 </div>
 
 </div>
@@ -809,10 +1044,18 @@ presso la tua farmacia.
 
 
 # =========================================================
-# FARMACIA
+# SEZIONE 1 - FARMACIA
 # =========================================================
 
-st.subheader("La tua farmacia")
+st.markdown(
+    """
+<div class="section-header">
+<div class="section-number">1</div>
+<div class="section-title">La tua farmacia</div>
+</div>
+""",
+    unsafe_allow_html=True,
+)
 
 
 nome_farmacia = st.text_input(
@@ -834,11 +1077,31 @@ st.caption(
 
 
 # =========================================================
-# APPUNTAMENTO
+# DIVISORE
 # =========================================================
 
-st.subheader(
-    "Quando preferisci incontrarci?"
+st.markdown(
+    '<div class="soft-divider"></div>',
+    unsafe_allow_html=True,
+)
+
+
+# =========================================================
+# SEZIONE 2 - APPUNTAMENTO
+# =========================================================
+
+st.markdown(
+    """
+<div class="section-header">
+<div class="section-number">2</div>
+<div class="section-title">Quando preferisci incontrarci?</div>
+</div>
+
+<div class="section-subtitle">
+Scegli durata, giorno e orario della visita.
+</div>
+""",
+    unsafe_allow_html=True,
 )
 
 
@@ -860,7 +1123,9 @@ durata_label = st.selectbox(
 )
 
 
-durata = durate[durata_label]
+durata = durate[
+    durata_label
+]
 
 
 oggi = datetime.now(
@@ -907,8 +1172,7 @@ else:
 
 
         # ---------------------------------------------
-        # SE LA DATA È OGGI:
-        # NASCONDE GLI ORARI GIÀ TRASCORSI
+        # NASCONDE ORARI GIÀ TRASCORSI
         # ---------------------------------------------
 
         if data_appuntamento == oggi:
@@ -972,16 +1236,57 @@ elif giorno_valido:
 
 
 # =========================================================
-# CONTATTI
+# DISPONIBILITÀ VISIVA
 # =========================================================
 
-st.subheader(
-    "I tuoi contatti"
+if slot_selezionato:
+
+    st.markdown(
+        """
+<div class="availability-card">
+
+<div class="availability-icon">
+✓
+</div>
+
+<div class="availability-text">
+<strong>Orario disponibile</strong><br>
+La disponibilità verrà ricontrollata
+automaticamente prima della conferma.
+</div>
+
+</div>
+""",
+        unsafe_allow_html=True,
+    )
+
+
+# =========================================================
+# DIVISORE
+# =========================================================
+
+st.markdown(
+    '<div class="soft-divider"></div>',
+    unsafe_allow_html=True,
 )
 
 
-st.caption(
-    "Facoltativi — utili in caso di necessità."
+# =========================================================
+# SEZIONE 3 - CONTATTI
+# =========================================================
+
+st.markdown(
+    """
+<div class="section-header">
+<div class="section-number">3</div>
+<div class="section-title">I tuoi contatti</div>
+</div>
+
+<div class="section-subtitle">
+Facoltativi — utili in caso di necessità.
+</div>
+""",
+    unsafe_allow_html=True,
 )
 
 
@@ -1004,26 +1309,7 @@ email = st.text_input(
 
 
 # =========================================================
-# NOTA DISPONIBILITÀ
-# =========================================================
-
-if slot_selezionato:
-
-    st.markdown(
-        """
-<div class="availability-note">
-<span class="availability-dot"></span>
-L'orario selezionato è disponibile.
-La disponibilità verrà ricontrollata automaticamente
-al momento della prenotazione.
-</div>
-""",
-        unsafe_allow_html=True,
-    )
-
-
-# =========================================================
-# PULSANTE PRENOTA
+# PULSANTE PRENOTAZIONE
 # =========================================================
 
 prenota = st.button(
@@ -1031,6 +1317,17 @@ prenota = st.button(
     type="primary",
     use_container_width=True,
     disabled=slot_selezionato is None,
+)
+
+
+st.markdown(
+    """
+<div class="booking-info">
+La prenotazione verrà registrata direttamente
+nel calendario di Alessandro Iovine.
+</div>
+""",
+    unsafe_allow_html=True,
 )
 
 
@@ -1052,7 +1349,7 @@ if prenota:
 
 
     # -----------------------------------------------------
-    # VALIDAZIONE FARMACIA
+    # VALIDAZIONE NOME
     # -----------------------------------------------------
 
     if not nome_pulito:
@@ -1083,7 +1380,7 @@ if prenota:
 
 
     # -----------------------------------------------------
-    # MOSTRA ERRORI
+    # ERRORI
     # -----------------------------------------------------
 
     if errori:
@@ -1100,7 +1397,7 @@ if prenota:
         try:
 
             # =============================================
-            # RICONTROLLO SILENZIOSO CALENDAR
+            # RICONTROLLO GOOGLE CALENDAR
             # =============================================
 
             slots_finali = get_available_slots(
@@ -1127,7 +1424,7 @@ if prenota:
 
 
             # ---------------------------------------------
-            # CONTROLLA CHE LO SLOT SIA ANCORA PRESENTE
+            # VERIFICA SLOT
             # ---------------------------------------------
 
             ancora_libero = any(
@@ -1145,9 +1442,9 @@ if prenota:
             )
 
 
-            # =============================================
-            # SLOT NON PIÙ LIBERO
-            # =============================================
+            # ---------------------------------------------
+            # NON PIÙ DISPONIBILE
+            # ---------------------------------------------
 
             if not ancora_libero:
 
@@ -1160,7 +1457,7 @@ if prenota:
 
 
             # =============================================
-            # CREA APPUNTAMENTO
+            # CREA EVENTO GOOGLE CALENDAR
             # =============================================
 
             create_appointment(
@@ -1192,7 +1489,7 @@ if prenota:
 
 
             # =============================================
-            # DATI SCHERMATA CONFERMA
+            # DATI PER SCHERMATA FINALE
             # =============================================
 
             st.session_state.ultima_prenotazione = {
