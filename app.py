@@ -6,7 +6,6 @@ import streamlit as st
 
 from booking import get_available_slots, format_slot
 from google_calendar import create_appointment
-from email_service import send_test_email
 
 
 # =========================================================
