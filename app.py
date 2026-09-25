@@ -42,10 +42,6 @@ st.markdown(
     """
 <style>
 
-/* ========================================================
-   BASE
-   ======================================================== */
-
 .stApp {
     background:
         radial-gradient(
@@ -97,7 +93,6 @@ footer {
 .profile-monogram {
     width: 68px;
     height: 68px;
-
     margin: 0 auto 17px auto;
 
     display: flex;
@@ -295,36 +290,23 @@ footer {
 
 
 /* ========================================================
-   LABEL
+   INPUT
    ======================================================== */
 
 label[data-testid="stWidgetLabel"] p {
     font-size: 13px !important;
-
     font-weight: 600 !important;
-
     color: #475467 !important;
 }
 
-
-/* ========================================================
-   INPUT / SELECT
-   ======================================================== */
-
 div[data-baseweb="input"] > div,
 div[data-baseweb="select"] > div {
-    background:
-        rgba(255,255,255,.96)
-        !important;
 
-    border:
-        1px solid
-        #e4e7ec
-        !important;
+    background: rgba(255,255,255,.96) !important;
 
-    border-radius:
-        14px
-        !important;
+    border: 1px solid #e4e7ec !important;
+
+    border-radius: 14px !important;
 
     min-height: 48px;
 
@@ -339,9 +321,8 @@ div[data-baseweb="select"] > div {
 
 div[data-baseweb="input"] > div:focus-within,
 div[data-baseweb="select"] > div:focus-within {
-    border-color:
-        #34c759
-        !important;
+
+    border-color: #34c759 !important;
 
     box-shadow:
         0 0 0 3px
@@ -349,19 +330,11 @@ div[data-baseweb="select"] > div:focus-within {
         !important;
 }
 
-
-/* ========================================================
-   DATE INPUT
-   ======================================================== */
-
 div[data-testid="stDateInput"] input {
-    background:
-        rgba(255,255,255,.96)
-        !important;
 
-    border-radius:
-        14px
-        !important;
+    background: rgba(255,255,255,.96) !important;
+
+    border-radius: 14px !important;
 }
 
 
@@ -370,6 +343,7 @@ div[data-testid="stDateInput"] input {
    ======================================================== */
 
 .availability-card {
+
     display: flex;
     align-items: center;
 
@@ -387,16 +361,16 @@ div[data-testid="stDateInput"] input {
     color: #18743e;
 
     font-size: 13px;
-
     font-weight: 620;
 }
 
 
 /* ========================================================
-   ALERT STREAMLIT
+   ALERT
    ======================================================== */
 
 div[data-testid="stAlert"] {
+
     border-radius: 14px;
 
     border: 1px solid rgba(16,24,40,.05);
@@ -404,34 +378,34 @@ div[data-testid="stAlert"] {
 
 
 /* ========================================================
-   BUTTON
+   PULSANTI
    ======================================================== */
 
-div[data-testid="stButton"] button {
+div[data-testid="stButton"] button,
+div[data-testid="stDownloadButton"] button {
+
     min-height: 50px;
 
-    border-radius:
-        14px
-        !important;
+    border-radius: 14px !important;
 
-    font-size:
-        15px
-        !important;
+    font-size: 15px !important;
 
-    font-weight:
-        680
-        !important;
+    font-weight: 680 !important;
 
     transition:
         transform .12s ease,
         box-shadow .15s ease;
 }
 
-div[data-testid="stButton"] button:hover {
+div[data-testid="stButton"] button:hover,
+div[data-testid="stDownloadButton"] button:hover {
+
     transform: translateY(-1px);
 }
 
-div[data-testid="stButton"] button[kind="primary"] {
+div[data-testid="stButton"] button[kind="primary"],
+div[data-testid="stDownloadButton"] button[kind="primary"] {
+
     background:
         linear-gradient(
             135deg,
@@ -440,13 +414,9 @@ div[data-testid="stButton"] button[kind="primary"] {
         )
         !important;
 
-    color:
-        white
-        !important;
+    color: white !important;
 
-    border:
-        none
-        !important;
+    border: none !important;
 
     box-shadow:
         0 10px 24px
@@ -454,7 +424,9 @@ div[data-testid="stButton"] button[kind="primary"] {
         !important;
 }
 
-div[data-testid="stButton"] button[kind="primary"]:hover {
+div[data-testid="stButton"] button[kind="primary"]:hover,
+div[data-testid="stDownloadButton"] button[kind="primary"]:hover {
+
     box-shadow:
         0 13px 28px
         rgba(32,148,71,.25)
@@ -467,6 +439,7 @@ div[data-testid="stButton"] button[kind="primary"]:hover {
    ======================================================== */
 
 .success-card {
+
     margin-top: 18px;
 
     padding: 26px;
@@ -485,6 +458,7 @@ div[data-testid="stButton"] button[kind="primary"]:hover {
 }
 
 .success-icon {
+
     width: 54px;
     height: 54px;
 
@@ -514,6 +488,7 @@ div[data-testid="stButton"] button[kind="primary"]:hover {
 }
 
 .success-title {
+
     font-size: 25px;
 
     font-weight: 750;
@@ -526,6 +501,7 @@ div[data-testid="stButton"] button[kind="primary"]:hover {
 }
 
 .success-text {
+
     color: #667085;
 
     font-size: 14px;
@@ -536,6 +512,7 @@ div[data-testid="stButton"] button[kind="primary"]:hover {
 }
 
 .success-details {
+
     padding: 16px;
 
     border-radius: 15px;
@@ -553,10 +530,31 @@ div[data-testid="stButton"] button[kind="primary"]:hover {
 
 
 /* ========================================================
+   CALENDARIO
+   ======================================================== */
+
+.calendar-help {
+
+    text-align: center;
+
+    color: #667085;
+
+    font-size: 12px;
+
+    line-height: 1.45;
+
+    margin:
+        4px 10px
+        12px 10px;
+}
+
+
+/* ========================================================
    FOOTER
    ======================================================== */
 
 .footer-note {
+
     text-align: center;
 
     max-width: 440px;
@@ -578,18 +576,25 @@ div[data-testid="stButton"] button[kind="primary"]:hover {
 @media (max-width: 640px) {
 
     .block-container {
+
         padding-top: 1rem;
+
         padding-left: 1rem;
+
         padding-right: 1rem;
+
         padding-bottom: 2.5rem;
     }
 
     .profile-header {
+
         margin-bottom: 1.55rem;
     }
 
     .profile-monogram {
+
         width: 60px;
+
         height: 60px;
 
         border-radius: 19px;
@@ -600,32 +605,38 @@ div[data-testid="stButton"] button[kind="primary"]:hover {
     }
 
     .booking-title {
+
         font-size: 28px;
 
         letter-spacing: -.9px;
     }
 
     .profile-description {
+
         font-size: 14px;
 
         padding: 0 8px;
     }
 
     .profile-card {
+
         margin-top: 17px;
     }
 
     .section-header {
+
         margin-top: 24px;
 
         margin-bottom: 11px;
     }
 
     .section-title {
+
         font-size: 17px;
     }
 
     .success-card {
+
         padding: 21px;
     }
 }
@@ -645,6 +656,7 @@ def section_header(
     title,
     subtitle,
 ):
+
     markup = (
         '<div class="section-header">'
         f'<div class="section-number">{number}</div>'
@@ -662,6 +674,7 @@ def section_header(
 
 
 def render_main_header():
+
     markup = (
         '<div class="profile-header">'
 
@@ -710,6 +723,7 @@ def render_main_header():
 
 
 def render_small_header():
+
     markup = (
         '<div class="profile-header">'
         '<div class="profile-monogram">AI</div>'
@@ -730,22 +744,62 @@ def render_small_header():
         unsafe_allow_html=True,
     )
 
+
+# =========================================================
+# FILE CALENDARIO .ICS
+# =========================================================
+
+def escape_ics_text(value):
+
+    value = str(value)
+
+    value = value.replace("\\", "\\\\")
+    value = value.replace(";", "\\;")
+    value = value.replace(",", "\\,")
+    value = value.replace("\r\n", "\\n")
+    value = value.replace("\n", "\\n")
+
+    return value
+
+
 def create_ics_file(prenotazione):
+
     start = prenotazione["start"]
     end = prenotazione["end"]
 
     nome_farmacia = prenotazione["nome_farmacia"]
     cap = prenotazione["cap"]
 
-    start_ics = start.strftime("%Y%m%dT%H%M%S")
-    end_ics = end.strftime("%Y%m%dT%H%M%S")
+    start_ics = start.strftime(
+        "%Y%m%dT%H%M%S"
+    )
+
+    end_ics = end.strftime(
+        "%Y%m%dT%H%M%S"
+    )
+
+    farmacia_ics = escape_ics_text(
+        nome_farmacia
+    )
+
+    cap_ics = escape_ics_text(
+        cap
+    )
+
+    summary = escape_ics_text(
+        "Appuntamento con Alessandro Iovine"
+    )
 
     description = (
         "Appuntamento con Alessandro Iovine\\n"
         "Sales Manager\\n"
         "PIC · CONTROL · EFFERDENT\\n"
-        f"Farmacia: {nome_farmacia}\\n"
-        f"CAP: {cap}"
+        f"Farmacia: {farmacia_ics}\\n"
+        f"CAP: {cap_ics}"
+    )
+
+    location = (
+        f"{farmacia_ics} - CAP {cap_ics}"
     )
 
     ics_content = (
@@ -754,25 +808,52 @@ def create_ics_file(prenotazione):
         "PRODID:-//Alessandro Iovine//Prenotazione Visite//IT\r\n"
         "CALSCALE:GREGORIAN\r\n"
         "METHOD:PUBLISH\r\n"
+
+        "BEGIN:VTIMEZONE\r\n"
+        "TZID:Europe/Rome\r\n"
+        "X-LIC-LOCATION:Europe/Rome\r\n"
+        "BEGIN:DAYLIGHT\r\n"
+        "TZOFFSETFROM:+0100\r\n"
+        "TZOFFSETTO:+0200\r\n"
+        "TZNAME:CEST\r\n"
+        "DTSTART:19700329T020000\r\n"
+        "RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU\r\n"
+        "END:DAYLIGHT\r\n"
+        "BEGIN:STANDARD\r\n"
+        "TZOFFSETFROM:+0200\r\n"
+        "TZOFFSETTO:+0100\r\n"
+        "TZNAME:CET\r\n"
+        "DTSTART:19701025T030000\r\n"
+        "RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU\r\n"
+        "END:STANDARD\r\n"
+        "END:VTIMEZONE\r\n"
+
         "BEGIN:VEVENT\r\n"
         f"DTSTART;TZID=Europe/Rome:{start_ics}\r\n"
         f"DTEND;TZID=Europe/Rome:{end_ics}\r\n"
-        f"SUMMARY:Appuntamento con Alessandro Iovine\r\n"
+        f"SUMMARY:{summary}\r\n"
         f"DESCRIPTION:{description}\r\n"
-        f"LOCATION:{nome_farmacia} - CAP {cap}\r\n"
+        f"LOCATION:{location}\r\n"
         "STATUS:CONFIRMED\r\n"
         "END:VEVENT\r\n"
+
         "END:VCALENDAR\r\n"
     )
 
-    return ics_content.encode("utf-8")
+    return ics_content.encode(
+        "utf-8"
+    )
+
+
 # =========================================================
 # SCHERMATA CONFERMA
 # =========================================================
 
 if st.session_state.prenotazione_completata:
 
-    prenotazione = st.session_state.ultima_prenotazione
+    prenotazione = (
+        st.session_state.ultima_prenotazione
+    )
 
     nome_farmacia = html.escape(
         prenotazione["nome_farmacia"]
@@ -801,25 +882,37 @@ if st.session_state.prenotazione_completata:
 
     success_markup = (
         '<div class="success-card">'
-        '<div class="success-icon">✓</div>'
+
+        '<div class="success-icon">'
+        '✓'
+        '</div>'
+
         '<div class="success-title">'
         'Appuntamento confermato'
         '</div>'
+
         '<div class="success-text">'
         'Il tuo appuntamento con Alessandro Iovine '
         'è stato registrato correttamente.'
         '</div>'
+
         '<div class="success-details">'
+
         f'<strong>Farmacia:</strong> '
         f'{nome_farmacia}<br>'
+
         f'<strong>Data:</strong> '
         f'{data_testo}<br>'
+
         f'<strong>Orario:</strong> '
         f'{ora_testo} – {fine_testo}<br>'
+
         f'<strong>Durata:</strong> '
         f'{prenotazione["durata"]} minuti<br>'
+
         f'<strong>CAP:</strong> '
         f'{cap}'
+
         '</div>'
         '</div>'
     )
@@ -831,7 +924,11 @@ if st.session_state.prenotazione_completata:
 
     st.write("")
 
-        calendar_file = create_ics_file(
+    # =====================================================
+    # AGGIUNGI AL CALENDARIO DEL CLIENTE
+    # =====================================================
+
+    calendar_file = create_ics_file(
         prenotazione
     )
 
@@ -839,17 +936,26 @@ if st.session_state.prenotazione_completata:
         label="Aggiungi al calendario",
         data=calendar_file,
         file_name="appuntamento-alessandro-iovine.ics",
-        mime="text/calendar",
+        mime="text/calendar; charset=utf-8",
         use_container_width=True,
         type="primary",
     )
 
-    st.write("")
+    st.markdown(
+        (
+            '<div class="calendar-help">'
+            'Salva l’appuntamento anche '
+            'nel calendario del tuo smartphone.'
+            '</div>'
+        ),
+        unsafe_allow_html=True,
+    )
+
     if st.button(
         "Prenota un altro appuntamento",
         use_container_width=True,
-        type="primary",
     ):
+
         st.session_state.prenotazione_completata = False
         st.session_state.ultima_prenotazione = None
 
@@ -1080,9 +1186,9 @@ if prenota:
 
         try:
 
-            # =================================================
+            # =============================================
             # RICONTROLLO DISPONIBILITÀ
-            # =================================================
+            # =============================================
 
             updated_slots = get_available_slots(
                 data,
@@ -1118,33 +1224,57 @@ if prenota:
 
             else:
 
-                # =============================================
+                # =========================================
                 # GOOGLE CALENDAR
-                # =============================================
+                # =========================================
 
                 create_appointment(
-                    nome_farmacia=nome_farmacia.strip(),
-                    cap=cap.strip(),
-                    start_datetime=selected_slot["start"],
-                    end_datetime=selected_slot["end"],
-                    durata=durata,
-                    referente=referente.strip(),
-                    telefono=telefono.strip(),
-                    email=email.strip(),
+                    nome_farmacia=
+                        nome_farmacia.strip(),
+
+                    cap=
+                        cap.strip(),
+
+                    start_datetime=
+                        selected_slot["start"],
+
+                    end_datetime=
+                        selected_slot["end"],
+
+                    durata=
+                        durata,
+
+                    referente=
+                        referente.strip(),
+
+                    telefono=
+                        telefono.strip(),
+
+                    email=
+                        email.strip(),
                 )
 
-                # =============================================
+                # =========================================
                 # PUSHOVER
-                # =============================================
+                # =========================================
 
                 try:
 
                     send_booking_notification(
-                        nome_farmacia=nome_farmacia.strip(),
-                        cap=cap.strip(),
-                        start_datetime=selected_slot["start"],
-                        durata=durata,
-                        referente=referente.strip(),
+                        nome_farmacia=
+                            nome_farmacia.strip(),
+
+                        cap=
+                            cap.strip(),
+
+                        start_datetime=
+                            selected_slot["start"],
+
+                        durata=
+                            durata,
+
+                        referente=
+                            referente.strip(),
                     )
 
                 except Exception as e:
@@ -1154,36 +1284,12 @@ if prenota:
                         e,
                     )
 
-                # =============================================
-                # EMAIL DI CONFERMA
-                # =============================================
-
-                if email.strip():
-
-                    try:
-
-                        send_booking_confirmation(
-                            recipient_email=email.strip(),
-                            nome_farmacia=nome_farmacia.strip(),
-                            cap=cap.strip(),
-                            start_datetime=selected_slot["start"],
-                            end_datetime=selected_slot["end"],
-                            durata=durata,
-                            referente=referente.strip(),
-                        )
-
-                    except Exception as e:
-
-                        print(
-                            "Errore invio email conferma:",
-                            e,
-                        )
-
-                # =============================================
+                # =========================================
                 # SALVA CONFERMA
-                # =============================================
+                # =========================================
 
                 st.session_state.ultima_prenotazione = {
+
                     "nome_farmacia":
                         nome_farmacia.strip(),
 
