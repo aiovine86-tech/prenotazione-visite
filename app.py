@@ -35,147 +35,233 @@ if "ultima_prenotazione" not in st.session_state:
 
 
 # =========================================================
-# CSS
+# CSS — APPLE / iOS STYLE
 # =========================================================
 
 st.markdown(
     """
 <style>
 
+/* ========================================================
+   BASE
+   ======================================================== */
+
 .stApp {
     background:
         radial-gradient(
-            circle at 10% 0%,
+            circle at 8% -5%,
             rgba(52,199,89,.10),
-            transparent 28%
+            transparent 30%
         ),
         radial-gradient(
-            circle at 95% 10%,
-            rgba(0,122,255,.10),
-            transparent 30%
+            circle at 100% 5%,
+            rgba(0,122,255,.08),
+            transparent 28%
         ),
         linear-gradient(
             180deg,
-            #f7faf8 0%,
-            #f4f7fb 50%,
+            #f7f9fb 0%,
+            #f4f6f8 45%,
             #ffffff 100%
         );
 }
 
 .block-container {
-    max-width: 720px;
-    padding-top: 2rem;
-    padding-bottom: 4rem;
+    max-width: 680px;
+    padding-top: 1.6rem;
+    padding-bottom: 3.5rem;
 }
 
 
-/* HEADER */
+/* Nasconde elementi Streamlit non necessari */
+
+header[data-testid="stHeader"] {
+    background: transparent;
+}
+
+#MainMenu {
+    visibility: hidden;
+}
+
+footer {
+    visibility: hidden;
+}
+
+
+/* ========================================================
+   HEADER
+   ======================================================== */
 
 .profile-header {
     text-align: center;
-    margin-bottom: 2.4rem;
+    margin-bottom: 2rem;
 }
 
 .profile-monogram {
-    width: 74px;
-    height: 74px;
+    width: 68px;
+    height: 68px;
 
-    margin: 0 auto 18px auto;
+    margin: 0 auto 17px auto;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    border-radius: 24px;
+    border-radius: 21px;
 
-    background: linear-gradient(
-        135deg,
-        #34c759 0%,
-        #16a66a 45%,
-        #007aff 100%
-    );
+    background:
+        linear-gradient(
+            135deg,
+            #34c759 0%,
+            #18a45f 48%,
+            #007aff 100%
+        );
 
     color: white;
 
-    font-size: 26px;
-    font-weight: 750;
+    font-size: 24px;
+    font-weight: 760;
     letter-spacing: -1px;
 
     box-shadow:
-        0 14px 34px
-        rgba(22,166,106,.22);
+        0 12px 30px
+        rgba(20,150,80,.20);
 }
 
 .booking-title {
-    font-size: 34px;
-    line-height: 1.1;
+    font-size: 32px;
+    line-height: 1.12;
 
-    font-weight: 750;
-    letter-spacing: -1.2px;
+    font-weight: 760;
+    letter-spacing: -1.15px;
 
-    color: #111827;
+    color: #101828;
 
-    margin-bottom: 18px;
-}
-
-.profile-name {
-    font-size: 21px;
-    font-weight: 700;
-
-    color: #111827;
-
-    margin-bottom: 3px;
-}
-
-.profile-role {
-    font-size: 15px;
-
-    color: #667085;
-
-    margin-bottom: 5px;
-}
-
-.profile-brands {
-    font-size: 14px;
-    font-weight: 650;
-
-    color: #16864c;
-
-    letter-spacing: .3px;
-
-    margin-bottom: 18px;
+    margin-bottom: 10px;
 }
 
 .profile-description {
-    max-width: 500px;
+    max-width: 460px;
 
-    margin: 0 auto;
+    margin:
+        0 auto;
 
-    font-size: 16px;
+    font-size: 15px;
     line-height: 1.55;
 
     color: #667085;
 }
 
 
-/* SEZIONI */
+/* ========================================================
+   PROFILO
+   ======================================================== */
+
+.profile-card {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 12px;
+
+    margin-top: 20px;
+
+    padding:
+        10px 15px
+        10px 10px;
+
+    border-radius: 18px;
+
+    background:
+        rgba(255,255,255,.82);
+
+    border:
+        1px solid
+        rgba(16,24,40,.06);
+
+    box-shadow:
+        0 8px 26px
+        rgba(16,24,40,.055);
+
+    backdrop-filter:
+        blur(16px);
+}
+
+.profile-mini-avatar {
+    width: 40px;
+    height: 40px;
+
+    border-radius: 13px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        linear-gradient(
+            135deg,
+            #34c759,
+            #007aff
+        );
+
+    color: white;
+
+    font-size: 14px;
+    font-weight: 750;
+}
+
+.profile-card-content {
+    text-align: left;
+}
+
+.profile-name {
+    font-size: 15px;
+    line-height: 1.2;
+
+    font-weight: 720;
+
+    color: #101828;
+}
+
+.profile-role {
+    margin-top: 2px;
+
+    font-size: 12px;
+
+    color: #667085;
+}
+
+.profile-brands {
+    margin-top: 2px;
+
+    font-size: 11px;
+    font-weight: 650;
+
+    color: #16864c;
+
+    letter-spacing: .25px;
+}
+
+
+/* ========================================================
+   SEZIONI
+   ======================================================== */
 
 .section-header {
     display: flex;
     align-items: center;
 
-    gap: 13px;
+    gap: 11px;
 
-    margin-top: 32px;
-    margin-bottom: 18px;
+    margin-top: 29px;
+    margin-bottom: 13px;
 }
 
 .section-number {
-    min-width: 34px;
-    width: 34px;
-    height: 34px;
+    min-width: 31px;
+    width: 31px;
+    height: 31px;
 
-    border-radius: 12px;
+    border-radius: 10px;
 
     display: flex;
     align-items: center;
@@ -190,33 +276,51 @@ st.markdown(
 
     color: white;
 
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 750;
 
     box-shadow:
-        0 7px 16px
-        rgba(52,199,89,.20);
+        0 6px 15px
+        rgba(52,199,89,.17);
 }
 
 .section-title {
-    font-size: 19px;
+    font-size: 18px;
+
     font-weight: 720;
 
-    color: #111827;
+    letter-spacing: -.25px;
+
+    color: #101828;
 
     margin: 0;
 }
 
 .section-subtitle {
-    font-size: 13px;
+    margin-top: 1px;
 
-    color: #667085;
+    font-size: 12px;
 
-    margin-top: 2px;
+    color: #98a2b3;
 }
 
 
-/* INPUT */
+/* ========================================================
+   LABEL
+   ======================================================== */
+
+label[data-testid="stWidgetLabel"] p {
+    font-size: 13px !important;
+
+    font-weight: 600 !important;
+
+    color: #475467 !important;
+}
+
+
+/* ========================================================
+   INPUT / SELECT
+   ======================================================== */
 
 div[data-baseweb="input"] > div,
 div[data-baseweb="select"] > div {
@@ -225,19 +329,24 @@ div[data-baseweb="select"] > div {
         rgba(255,255,255,.96)
         !important;
 
-    border-radius:
-        14px
+    border:
+        1px solid
+        #e4e7ec
         !important;
 
-    border:
-        1px solid #e4e8ee
+    border-radius:
+        14px
         !important;
 
     min-height: 48px;
 
     box-shadow:
-        0 3px 10px
+        0 2px 7px
         rgba(16,24,40,.025);
+
+    transition:
+        border-color .18s ease,
+        box-shadow .18s ease;
 }
 
 div[data-baseweb="input"] > div:focus-within,
@@ -254,48 +363,103 @@ div[data-baseweb="select"] > div:focus-within {
 }
 
 
-/* DISPONIBILITÀ */
+/* ========================================================
+   DATE INPUT
+   ======================================================== */
 
-.availability-card {
-
-    margin-top: 8px;
-    margin-bottom: 18px;
-
-    padding: 15px 17px;
-
-    border-radius: 16px;
+div[data-testid="stDateInput"] input {
 
     background:
-        linear-gradient(
-            135deg,
-            rgba(52,199,89,.11),
-            rgba(52,199,89,.045)
-        );
+        rgba(255,255,255,.96)
+        !important;
 
-    border:
-        1px solid
-        rgba(52,199,89,.20);
-
-    color: #176c39;
-
-    font-size: 14px;
-    font-weight: 600;
+    border-radius:
+        14px
+        !important;
 }
 
 
-/* BOTTONI */
+/* ========================================================
+   DISPONIBILITÀ
+   ======================================================== */
+
+.availability-card {
+
+    display: flex;
+    align-items: center;
+
+    margin-top: 4px;
+    margin-bottom: 14px;
+
+    padding:
+        12px 14px;
+
+    border-radius:
+        14px;
+
+    background:
+        rgba(52,199,89,.075);
+
+    border:
+        1px solid
+        rgba(52,199,89,.15);
+
+    color:
+        #18743e;
+
+    font-size:
+        13px;
+
+    font-weight:
+        620;
+}
+
+
+/* ========================================================
+   ALERT STREAMLIT
+   ======================================================== */
+
+div[data-testid="stAlert"] {
+
+    border-radius:
+        14px;
+
+    border:
+        1px solid
+        rgba(16,24,40,.05);
+}
+
+
+/* ========================================================
+   BUTTON
+   ======================================================== */
 
 div[data-testid="stButton"] button {
 
-    min-height: 49px;
+    min-height:
+        50px;
 
     border-radius:
         14px
         !important;
 
+    font-size:
+        15px
+        !important;
+
     font-weight:
         680
         !important;
+
+    transition:
+        transform .12s ease,
+        box-shadow .15s ease;
+}
+
+div[data-testid="stButton"] button:hover {
+
+    transform:
+        translateY(-1px);
 }
 
 div[data-testid="stButton"] button[kind="primary"] {
@@ -318,168 +482,274 @@ div[data-testid="stButton"] button[kind="primary"] {
 
     box-shadow:
         0 10px 24px
-        rgba(32,148,71,.24)
+        rgba(32,148,71,.20)
         !important;
 }
 
-div[data-testid="stButton"] button[kind="secondary"] {
+div[data-testid="stButton"] button[kind="primary"]:hover {
 
-    background:
-        white
-        !important;
-
-    color:
-        #344054
-        !important;
-
-    border:
-        1px solid #e4e7ec
+    box-shadow:
+        0 13px 28px
+        rgba(32,148,71,.25)
         !important;
 }
 
 
-/* CONFERMA */
+/* ========================================================
+   SUCCESS
+   ======================================================== */
 
 .success-card {
 
-    margin-top: 20px;
+    margin-top:
+        18px;
 
-    padding: 28px;
+    padding:
+        26px;
 
-    border-radius: 24px;
+    border-radius:
+        24px;
 
     background:
-        linear-gradient(
-            145deg,
-            rgba(52,199,89,.12),
-            rgba(255,255,255,.92)
-        );
+        rgba(255,255,255,.90);
 
     border:
         1px solid
-        rgba(52,199,89,.22);
+        rgba(52,199,89,.16);
 
     box-shadow:
         0 18px 45px
-        rgba(16,24,40,.06);
+        rgba(16,24,40,.07);
+
+    backdrop-filter:
+        blur(18px);
 }
 
 .success-icon {
 
-    width: 52px;
-    height: 52px;
+    width:
+        54px;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    height:
+        54px;
 
-    border-radius: 50%;
+    display:
+        flex;
 
-    background: #34c759;
+    align-items:
+        center;
 
-    color: white;
+    justify-content:
+        center;
 
-    font-size: 26px;
-    font-weight: 700;
+    border-radius:
+        18px;
 
-    margin-bottom: 16px;
+    background:
+        linear-gradient(
+            135deg,
+            #34c759,
+            #1e9b4a
+        );
+
+    color:
+        white;
+
+    font-size:
+        27px;
+
+    font-weight:
+        700;
+
+    margin-bottom:
+        17px;
+
+    box-shadow:
+        0 9px 22px
+        rgba(52,199,89,.20);
 }
 
 .success-title {
 
-    font-size: 25px;
-    font-weight: 750;
+    font-size:
+        25px;
 
-    color: #111827;
+    font-weight:
+        750;
 
-    margin-bottom: 8px;
+    letter-spacing:
+        -.6px;
+
+    color:
+        #101828;
+
+    margin-bottom:
+        7px;
 }
 
 .success-text {
 
-    color: #667085;
+    color:
+        #667085;
 
-    font-size: 15px;
-    line-height: 1.55;
+    font-size:
+        14px;
 
-    margin-bottom: 20px;
+    line-height:
+        1.55;
+
+    margin-bottom:
+        18px;
 }
 
 .success-details {
 
-    padding: 17px;
+    padding:
+        16px;
 
-    border-radius: 16px;
+    border-radius:
+        15px;
 
     background:
-        rgba(255,255,255,.82);
+        #f8faf9;
 
-    color: #344054;
+    border:
+        1px solid
+        #edf1ee;
 
-    line-height: 1.8;
+    color:
+        #344054;
+
+    font-size:
+        14px;
+
+    line-height:
+        1.9;
 }
 
 
-/* FOOTER */
+/* ========================================================
+   FOOTER
+   ======================================================== */
 
 .footer-note {
 
-    text-align: center;
+    text-align:
+        center;
 
-    color: #667085;
+    max-width:
+        440px;
 
-    font-size: 12px;
-    line-height: 1.5;
+    margin:
+        30px auto 0 auto;
 
-    margin-top: 34px;
+    color:
+        #98a2b3;
+
+    font-size:
+        11px;
+
+    line-height:
+        1.5;
 }
 
 
-/* MOBILE */
+/* ========================================================
+   MOBILE
+   ======================================================== */
 
 @media (max-width: 640px) {
 
     .block-container {
 
-        padding-top: 1.25rem;
+        padding-top:
+            1rem;
 
-        padding-left: 1rem;
-        padding-right: 1rem;
+        padding-left:
+            1rem;
+
+        padding-right:
+            1rem;
+
+        padding-bottom:
+            2.5rem;
     }
 
-    .booking-title {
+    .profile-header {
 
-        font-size: 29px;
+        margin-bottom:
+            1.55rem;
     }
 
     .profile-monogram {
 
-        width: 66px;
-        height: 66px;
+        width:
+            60px;
 
-        border-radius: 21px;
+        height:
+            60px;
 
-        font-size: 23px;
+        border-radius:
+            19px;
+
+        font-size:
+            21px;
+
+        margin-bottom:
+            14px;
     }
 
-    .profile-name {
+    .booking-title {
 
-        font-size: 19px;
+        font-size:
+            28px;
+
+        letter-spacing:
+            -.9px;
+    }
+
+    .profile-description {
+
+        font-size:
+            14px;
+
+        padding:
+            0 8px;
+    }
+
+    .profile-card {
+
+        margin-top:
+            17px;
     }
 
     .section-header {
 
-        margin-top: 27px;
+        margin-top:
+            24px;
+
+        margin-bottom:
+            11px;
     }
+
+    .section-title {
+
+        font-size:
+            17px;
+    }
+
+    .success-card {
+
+        padding:
+            21px;
+    }
+
 }
 
 </style>
 """,
     unsafe_allow_html=True,
-)
-
-
-# =========================================================
+)# =========================================================
 # FUNZIONI UI
 # =========================================================
 
