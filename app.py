@@ -1203,39 +1203,23 @@ if prenota:
                         email.strip(),
                 )
 
-                # =========================================
-                # NOTIFICA PUSH PUSHOVER
-                # =========================================
-                #
-                # La prenotazione è già stata registrata
-                # su Google Calendar.
-                #
-                # Un eventuale problema di Pushover
-                # NON deve far fallire la prenotazione.
-                # =========================================
+                # =========================================================
+# NOTIFICA PUSHOVER
+# =========================================================
 
-                try:
+try:
+    send_booking_notification(
+        nome_farmacia=nome_farmacia.strip(),
+        cap=cap.strip(),
+        start_datetime=selected_slot["start"],
+        durata=durata,
+        referente=referente.strip(),
+    )
 
-                    send_booking_notification(
+except Exception as e:
+    print("Errore invio Pushover:", e)
 
-                        nome_farmacia=
-                            nome_farmacia.strip(),
 
-                        cap=
-                            cap.strip(),
-
-                        start_datetime=
-                            selected_slot["start"],
-
-                        durata=
-                            durata,
-
-                        referente=
-                            referente.strip(),
-                    )
-
-                except Exception:
-                    pass
 # =========================================================
 # EMAIL DI CONFERMA AL CLIENTE
 # =========================================================
@@ -1253,8 +1237,7 @@ if email.strip():
         )
 
     except Exception as e:
-        print("Errore invio email conferma:", e)
-                # =========================================
+        print("Errore invio email conferma:", e)                # =========================================
                 # SALVA CONFERMA
                 # =========================================
 
