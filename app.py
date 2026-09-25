@@ -6,6 +6,7 @@ import streamlit as st
 
 from booking import get_available_slots, format_slot
 from google_calendar import create_appointment
+from pushover_service import send_booking_notification
 
 
 # =========================================================
@@ -431,47 +432,6 @@ div[data-testid="stButton"] button[kind="secondary"] {
     line-height: 1.5;
 
     margin-top: 34px;
-}
-
-
-/* TEST EMAIL */
-
-.email-test-box {
-
-    margin-top: 40px;
-
-    padding: 22px;
-
-    border-radius: 20px;
-
-    background:
-        rgba(255,255,255,.90);
-
-    border:
-        1px solid
-        rgba(52,199,89,.20);
-
-    box-shadow:
-        0 8px 25px
-        rgba(16,24,40,.05);
-}
-
-.email-test-title {
-
-    color: #111827;
-
-    font-size: 19px;
-    font-weight: 720;
-
-    margin-bottom: 5px;
-}
-
-.email-test-text {
-
-    color: #667085;
-
-    font-size: 14px;
-    line-height: 1.5;
 }
 
 
@@ -974,6 +934,40 @@ if prenota:
                 )
 
                 # =========================================
+                # NOTIFICA PUSH PUSHOVER
+                # =========================================
+                #
+                # La prenotazione è già stata registrata
+                # su Google Calendar.
+                #
+                # Un eventuale problema di Pushover
+                # NON deve far fallire la prenotazione.
+                # =========================================
+
+                try:
+
+                    send_booking_notification(
+
+                        nome_farmacia=
+                            nome_farmacia.strip(),
+
+                        cap=
+                            cap.strip(),
+
+                        start_datetime=
+                            selected_slot["start"],
+
+                        durata=
+                            durata,
+
+                        referente=
+                            referente.strip(),
+                    )
+
+                except Exception:
+                    pass
+
+                # =========================================
                 # SALVA CONFERMA
                 # =========================================
 
@@ -1032,50 +1026,3 @@ st.markdown(
     footer_markup,
     unsafe_allow_html=True,
 )
-
-
-# =========================================================
-# TEST EMAIL RESEND
-# TEMPORANEO
-# =========================================================
-
-st.markdown(
-    (
-        '<div class="email-test-box">'
-        '<div class="email-test-title">'
-        'Test sistema email'
-        '</div>'
-        '<div class="email-test-text">'
-        'Premi il pulsante qui sotto per verificare '
-        'il collegamento tra questa applicazione '
-        'e Resend.'
-        '</div>'
-        '</div>'
-    ),
-    unsafe_allow_html=True,
-)
-
-st.write("")
-
-if st.button(
-    "Invia email di prova",
-    type="primary",
-    use_container_width=True,
-    key="test_resend_button",
-):
-
-    try:
-
-        send_test_email()
-
-        st.success(
-            "Email inviata correttamente. "
-            "Controlla la tua casella email "
-            "e anche la cartella Spam."
-        )
-
-    except Exception as e:
-
-        st.error(
-            f"Errore Resend: {e}"
-        )
