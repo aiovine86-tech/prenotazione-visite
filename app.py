@@ -730,7 +730,42 @@ def render_small_header():
         unsafe_allow_html=True,
     )
 
+def create_ics_file(prenotazione):
+    start = prenotazione["start"]
+    end = prenotazione["end"]
 
+    nome_farmacia = prenotazione["nome_farmacia"]
+    cap = prenotazione["cap"]
+
+    start_ics = start.strftime("%Y%m%dT%H%M%S")
+    end_ics = end.strftime("%Y%m%dT%H%M%S")
+
+    description = (
+        "Appuntamento con Alessandro Iovine\\n"
+        "Sales Manager\\n"
+        "PIC · CONTROL · EFFERDENT\\n"
+        f"Farmacia: {nome_farmacia}\\n"
+        f"CAP: {cap}"
+    )
+
+    ics_content = (
+        "BEGIN:VCALENDAR\r\n"
+        "VERSION:2.0\r\n"
+        "PRODID:-//Alessandro Iovine//Prenotazione Visite//IT\r\n"
+        "CALSCALE:GREGORIAN\r\n"
+        "METHOD:PUBLISH\r\n"
+        "BEGIN:VEVENT\r\n"
+        f"DTSTART;TZID=Europe/Rome:{start_ics}\r\n"
+        f"DTEND;TZID=Europe/Rome:{end_ics}\r\n"
+        f"SUMMARY:Appuntamento con Alessandro Iovine\r\n"
+        f"DESCRIPTION:{description}\r\n"
+        f"LOCATION:{nome_farmacia} - CAP {cap}\r\n"
+        "STATUS:CONFIRMED\r\n"
+        "END:VEVENT\r\n"
+        "END:VCALENDAR\r\n"
+    )
+
+    return ics_content.encode("utf-8")
 # =========================================================
 # SCHERMATA CONFERMA
 # =========================================================
