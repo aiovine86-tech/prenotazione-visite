@@ -18,8 +18,6 @@ def send_booking_confirmation(
     utilizzando Gmail SMTP.
     """
 
-    # Se non è stato inserito un indirizzo email,
-    # non viene effettuato alcun invio.
     if not recipient_email or not recipient_email.strip():
         return False
 
@@ -37,8 +35,7 @@ def send_booking_confirmation(
     else:
         greeting = "Buongiorno,"
 
-    body = f"""\
-{greeting}
+    body = f"""{greeting}
 
 la prenotazione è stata confermata.
 
@@ -63,11 +60,9 @@ Alessandro Iovine
 """
 
     message = EmailMessage()
-
     message["Subject"] = subject
     message["From"] = f"Alessandro Iovine <{sender_email}>"
     message["To"] = recipient_email.strip()
-
     message.set_content(body)
 
     with smtplib.SMTP_SSL(
@@ -75,12 +70,10 @@ Alessandro Iovine
         465,
         timeout=15,
     ) as smtp:
-
         smtp.login(
             sender_email,
             app_password,
         )
-
         smtp.send_message(message)
 
     return True
