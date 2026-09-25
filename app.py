@@ -7,6 +7,7 @@ import streamlit as st
 from booking import get_available_slots, format_slot
 from google_calendar import create_appointment
 from pushover_service import send_booking_notification
+from email_service import send_booking_confirmation
 
 
 # =========================================================
