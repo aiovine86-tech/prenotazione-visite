@@ -9,6 +9,7 @@ from google_calendar import create_appointment
 from pushover_service import send_booking_notification
 from email_service import send_booking_confirmation
 
+
 # =========================================================
 # CONFIGURAZIONE
 # =========================================================
@@ -71,9 +72,6 @@ st.markdown(
     padding-top: 1.6rem;
     padding-bottom: 3.5rem;
 }
-
-
-/* Nasconde elementi Streamlit non necessari */
 
 header[data-testid="stHeader"] {
     background: transparent;
@@ -142,9 +140,7 @@ footer {
 
 .profile-description {
     max-width: 460px;
-
-    margin:
-        0 auto;
+    margin: 0 auto;
 
     font-size: 15px;
     line-height: 1.55;
@@ -165,25 +161,19 @@ footer {
 
     margin-top: 20px;
 
-    padding:
-        10px 15px
-        10px 10px;
+    padding: 10px 15px 10px 10px;
 
     border-radius: 18px;
 
-    background:
-        rgba(255,255,255,.82);
+    background: rgba(255,255,255,.82);
 
-    border:
-        1px solid
-        rgba(16,24,40,.06);
+    border: 1px solid rgba(16,24,40,.06);
 
     box-shadow:
         0 8px 26px
         rgba(16,24,40,.055);
 
-    backdrop-filter:
-        blur(16px);
+    backdrop-filter: blur(16px);
 }
 
 .profile-mini-avatar {
@@ -324,7 +314,6 @@ label[data-testid="stWidgetLabel"] p {
 
 div[data-baseweb="input"] > div,
 div[data-baseweb="select"] > div {
-
     background:
         rgba(255,255,255,.96)
         !important;
@@ -351,7 +340,6 @@ div[data-baseweb="select"] > div {
 
 div[data-baseweb="input"] > div:focus-within,
 div[data-baseweb="select"] > div:focus-within {
-
     border-color:
         #34c759
         !important;
@@ -368,7 +356,6 @@ div[data-baseweb="select"] > div:focus-within {
    ======================================================== */
 
 div[data-testid="stDateInput"] input {
-
     background:
         rgba(255,255,255,.96)
         !important;
@@ -384,34 +371,25 @@ div[data-testid="stDateInput"] input {
    ======================================================== */
 
 .availability-card {
-
     display: flex;
     align-items: center;
 
     margin-top: 4px;
     margin-bottom: 14px;
 
-    padding:
-        12px 14px;
+    padding: 12px 14px;
 
-    border-radius:
-        14px;
+    border-radius: 14px;
 
-    background:
-        rgba(52,199,89,.075);
+    background: rgba(52,199,89,.075);
 
-    border:
-        1px solid
-        rgba(52,199,89,.15);
+    border: 1px solid rgba(52,199,89,.15);
 
-    color:
-        #18743e;
+    color: #18743e;
 
-    font-size:
-        13px;
+    font-size: 13px;
 
-    font-weight:
-        620;
+    font-weight: 620;
 }
 
 
@@ -420,13 +398,9 @@ div[data-testid="stDateInput"] input {
    ======================================================== */
 
 div[data-testid="stAlert"] {
+    border-radius: 14px;
 
-    border-radius:
-        14px;
-
-    border:
-        1px solid
-        rgba(16,24,40,.05);
+    border: 1px solid rgba(16,24,40,.05);
 }
 
 
@@ -435,9 +409,7 @@ div[data-testid="stAlert"] {
    ======================================================== */
 
 div[data-testid="stButton"] button {
-
-    min-height:
-        50px;
+    min-height: 50px;
 
     border-radius:
         14px
@@ -457,13 +429,10 @@ div[data-testid="stButton"] button {
 }
 
 div[data-testid="stButton"] button:hover {
-
-    transform:
-        translateY(-1px);
+    transform: translateY(-1px);
 }
 
 div[data-testid="stButton"] button[kind="primary"] {
-
     background:
         linear-gradient(
             135deg,
@@ -487,7 +456,6 @@ div[data-testid="stButton"] button[kind="primary"] {
 }
 
 div[data-testid="stButton"] button[kind="primary"]:hover {
-
     box-shadow:
         0 13px 28px
         rgba(32,148,71,.25)
@@ -500,50 +468,32 @@ div[data-testid="stButton"] button[kind="primary"]:hover {
    ======================================================== */
 
 .success-card {
+    margin-top: 18px;
 
-    margin-top:
-        18px;
+    padding: 26px;
 
-    padding:
-        26px;
+    border-radius: 24px;
 
-    border-radius:
-        24px;
+    background: rgba(255,255,255,.90);
 
-    background:
-        rgba(255,255,255,.90);
-
-    border:
-        1px solid
-        rgba(52,199,89,.16);
+    border: 1px solid rgba(52,199,89,.16);
 
     box-shadow:
         0 18px 45px
         rgba(16,24,40,.07);
 
-    backdrop-filter:
-        blur(18px);
+    backdrop-filter: blur(18px);
 }
 
 .success-icon {
+    width: 54px;
+    height: 54px;
 
-    width:
-        54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    height:
-        54px;
-
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    justify-content:
-        center;
-
-    border-radius:
-        18px;
+    border-radius: 18px;
 
     background:
         linear-gradient(
@@ -552,17 +502,12 @@ div[data-testid="stButton"] button[kind="primary"]:hover {
             #1e9b4a
         );
 
-    color:
-        white;
+    color: white;
 
-    font-size:
-        27px;
+    font-size: 27px;
+    font-weight: 700;
 
-    font-weight:
-        700;
-
-    margin-bottom:
-        17px;
+    margin-bottom: 17px;
 
     box-shadow:
         0 9px 22px
@@ -570,61 +515,41 @@ div[data-testid="stButton"] button[kind="primary"]:hover {
 }
 
 .success-title {
+    font-size: 25px;
 
-    font-size:
-        25px;
+    font-weight: 750;
 
-    font-weight:
-        750;
+    letter-spacing: -.6px;
 
-    letter-spacing:
-        -.6px;
+    color: #101828;
 
-    color:
-        #101828;
-
-    margin-bottom:
-        7px;
+    margin-bottom: 7px;
 }
 
 .success-text {
+    color: #667085;
 
-    color:
-        #667085;
+    font-size: 14px;
 
-    font-size:
-        14px;
+    line-height: 1.55;
 
-    line-height:
-        1.55;
-
-    margin-bottom:
-        18px;
+    margin-bottom: 18px;
 }
 
 .success-details {
+    padding: 16px;
 
-    padding:
-        16px;
+    border-radius: 15px;
 
-    border-radius:
-        15px;
+    background: #f8faf9;
 
-    background:
-        #f8faf9;
+    border: 1px solid #edf1ee;
 
-    border:
-        1px solid
-        #edf1ee;
+    color: #344054;
 
-    color:
-        #344054;
+    font-size: 14px;
 
-    font-size:
-        14px;
-
-    line-height:
-        1.9;
+    line-height: 1.9;
 }
 
 
@@ -633,24 +558,17 @@ div[data-testid="stButton"] button[kind="primary"]:hover {
    ======================================================== */
 
 .footer-note {
+    text-align: center;
 
-    text-align:
-        center;
+    max-width: 440px;
 
-    max-width:
-        440px;
+    margin: 30px auto 0 auto;
 
-    margin:
-        30px auto 0 auto;
+    color: #98a2b3;
 
-    color:
-        #98a2b3;
+    font-size: 11px;
 
-    font-size:
-        11px;
-
-    line-height:
-        1.5;
+    line-height: 1.5;
 }
 
 
@@ -661,95 +579,65 @@ div[data-testid="stButton"] button[kind="primary"]:hover {
 @media (max-width: 640px) {
 
     .block-container {
-
-        padding-top:
-            1rem;
-
-        padding-left:
-            1rem;
-
-        padding-right:
-            1rem;
-
-        padding-bottom:
-            2.5rem;
+        padding-top: 1rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        padding-bottom: 2.5rem;
     }
 
     .profile-header {
-
-        margin-bottom:
-            1.55rem;
+        margin-bottom: 1.55rem;
     }
 
     .profile-monogram {
+        width: 60px;
+        height: 60px;
 
-        width:
-            60px;
+        border-radius: 19px;
 
-        height:
-            60px;
+        font-size: 21px;
 
-        border-radius:
-            19px;
-
-        font-size:
-            21px;
-
-        margin-bottom:
-            14px;
+        margin-bottom: 14px;
     }
 
     .booking-title {
+        font-size: 28px;
 
-        font-size:
-            28px;
-
-        letter-spacing:
-            -.9px;
+        letter-spacing: -.9px;
     }
 
     .profile-description {
+        font-size: 14px;
 
-        font-size:
-            14px;
-
-        padding:
-            0 8px;
+        padding: 0 8px;
     }
 
     .profile-card {
-
-        margin-top:
-            17px;
+        margin-top: 17px;
     }
 
     .section-header {
+        margin-top: 24px;
 
-        margin-top:
-            24px;
-
-        margin-bottom:
-            11px;
+        margin-bottom: 11px;
     }
 
     .section-title {
-
-        font-size:
-            17px;
+        font-size: 17px;
     }
 
     .success-card {
-
-        padding:
-            21px;
+        padding: 21px;
     }
-
 }
 
 </style>
 """,
     unsafe_allow_html=True,
-)# =========================================================
+)
+
+
+# =========================================================
 # FUNZIONI UI
 # =========================================================
 
@@ -758,7 +646,6 @@ def section_header(
     title,
     subtitle,
 ):
-
     markup = (
         '<div class="section-header">'
         f'<div class="section-number">{number}</div>'
@@ -776,25 +663,43 @@ def section_header(
 
 
 def render_main_header():
-
     markup = (
         '<div class="profile-header">'
-        '<div class="profile-monogram">AI</div>'
+
+        '<div class="profile-monogram">'
+        'AI'
+        '</div>'
+
         '<div class="booking-title">'
         'Prenota un appuntamento'
         '</div>'
+
+        '<div class="profile-description">'
+        'Scegli giorno e orario per fissare '
+        'un appuntamento direttamente presso la tua farmacia.'
+        '</div>'
+
+        '<div class="profile-card">'
+
+        '<div class="profile-mini-avatar">'
+        'AI'
+        '</div>'
+
+        '<div class="profile-card-content">'
+
         '<div class="profile-name">'
         'Alessandro Iovine'
         '</div>'
+
         '<div class="profile-role">'
         'Sales Manager'
         '</div>'
+
         '<div class="profile-brands">'
         'PIC · CONTROL · EFFERDENT'
         '</div>'
-        '<div class="profile-description">'
-        'Scegli giorno e orario per fissare '
-        'un appuntamento presso la tua farmacia.'
+
+        '</div>'
         '</div>'
         '</div>'
     )
@@ -806,7 +711,6 @@ def render_main_header():
 
 
 def render_small_header():
-
     markup = (
         '<div class="profile-header">'
         '<div class="profile-monogram">AI</div>'
@@ -834,9 +738,7 @@ def render_small_header():
 
 if st.session_state.prenotazione_completata:
 
-    prenotazione = (
-        st.session_state.ultima_prenotazione
-    )
+    prenotazione = st.session_state.ultima_prenotazione
 
     nome_farmacia = html.escape(
         prenotazione["nome_farmacia"]
@@ -900,7 +802,6 @@ if st.session_state.prenotazione_completata:
         use_container_width=True,
         type="primary",
     ):
-
         st.session_state.prenotazione_completata = False
         st.session_state.ultima_prenotazione = None
 
@@ -1008,7 +909,12 @@ else:
                 if slot["start"] > now
             ]
 
-    except Exception:
+    except Exception as e:
+
+        print(
+            "Errore verifica disponibilità:",
+            e,
+        )
 
         slots = []
 
@@ -1126,15 +1032,13 @@ if prenota:
 
         try:
 
-            # =============================================
+            # =================================================
             # RICONTROLLO DISPONIBILITÀ
-            # =============================================
+            # =================================================
 
-            updated_slots = (
-                get_available_slots(
-                    data,
-                    durata,
-                )
+            updated_slots = get_available_slots(
+                data,
+                durata,
             )
 
             if data == oggi:
@@ -1150,15 +1054,9 @@ if prenota:
                 ]
 
             slot_still_available = any(
-
-                slot["start"]
-                == selected_slot["start"]
-
+                slot["start"] == selected_slot["start"]
                 and
-
-                slot["end"]
-                == selected_slot["end"]
-
+                slot["end"] == selected_slot["end"]
                 for slot in updated_slots
             )
 
@@ -1172,77 +1070,72 @@ if prenota:
 
             else:
 
-                # =========================================
+                # =============================================
                 # GOOGLE CALENDAR
-                # =========================================
+                # =============================================
 
                 create_appointment(
-
-                    nome_farmacia=
-                        nome_farmacia.strip(),
-
-                    cap=
-                        cap.strip(),
-
-                    start_datetime=
-                        selected_slot["start"],
-
-                    end_datetime=
-                        selected_slot["end"],
-
-                    durata=
-                        durata,
-
-                    referente=
-                        referente.strip(),
-
-                    telefono=
-                        telefono.strip(),
-
-                    email=
-                        email.strip(),
+                    nome_farmacia=nome_farmacia.strip(),
+                    cap=cap.strip(),
+                    start_datetime=selected_slot["start"],
+                    end_datetime=selected_slot["end"],
+                    durata=durata,
+                    referente=referente.strip(),
+                    telefono=telefono.strip(),
+                    email=email.strip(),
                 )
 
-                # =========================================================
-# NOTIFICA PUSHOVER
-# =========================================================
+                # =============================================
+                # PUSHOVER
+                # =============================================
 
-try:
-    send_booking_notification(
-        nome_farmacia=nome_farmacia.strip(),
-        cap=cap.strip(),
-        start_datetime=selected_slot["start"],
-        durata=durata,
-        referente=referente.strip(),
-    )
+                try:
 
-except Exception as e:
-    print("Errore invio Pushover:", e)
+                    send_booking_notification(
+                        nome_farmacia=nome_farmacia.strip(),
+                        cap=cap.strip(),
+                        start_datetime=selected_slot["start"],
+                        durata=durata,
+                        referente=referente.strip(),
+                    )
 
+                except Exception as e:
 
-# =========================================================
-# EMAIL DI CONFERMA AL CLIENTE
-# =========================================================
+                    print(
+                        "Errore invio Pushover:",
+                        e,
+                    )
 
-if email.strip():
-    try:
-        send_booking_confirmation(
-            recipient_email=email.strip(),
-            nome_farmacia=nome_farmacia.strip(),
-            cap=cap.strip(),
-            start_datetime=selected_slot["start"],
-            end_datetime=selected_slot["end"],
-            durata=durata,
-            referente=referente.strip(),
-        )
+                # =============================================
+                # EMAIL DI CONFERMA
+                # =============================================
 
-    except Exception as e:
-        print("Errore invio email conferma:", e)                # =========================================
+                if email.strip():
+
+                    try:
+
+                        send_booking_confirmation(
+                            recipient_email=email.strip(),
+                            nome_farmacia=nome_farmacia.strip(),
+                            cap=cap.strip(),
+                            start_datetime=selected_slot["start"],
+                            end_datetime=selected_slot["end"],
+                            durata=durata,
+                            referente=referente.strip(),
+                        )
+
+                    except Exception as e:
+
+                        print(
+                            "Errore invio email conferma:",
+                            e,
+                        )
+
+                # =============================================
                 # SALVA CONFERMA
-                # =========================================
+                # =============================================
 
                 st.session_state.ultima_prenotazione = {
-
                     "nome_farmacia":
                         nome_farmacia.strip(),
 
@@ -1272,7 +1165,12 @@ if email.strip():
 
                 st.rerun()
 
-        except Exception:
+        except Exception as e:
+
+            print(
+                "Errore prenotazione:",
+                e,
+            )
 
             st.error(
                 "Non è stato possibile fissare "
