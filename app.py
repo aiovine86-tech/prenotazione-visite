@@ -831,6 +831,20 @@ if st.session_state.prenotazione_completata:
 
     st.write("")
 
+        calendar_file = create_ics_file(
+        prenotazione
+    )
+
+    st.download_button(
+        label="Aggiungi al calendario",
+        data=calendar_file,
+        file_name="appuntamento-alessandro-iovine.ics",
+        mime="text/calendar",
+        use_container_width=True,
+        type="primary",
+    )
+
+    st.write("")
     if st.button(
         "Prenota un altro appuntamento",
         use_container_width=True,
