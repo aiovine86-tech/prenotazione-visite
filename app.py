@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 import html
+import base64
 
 import pandas as pd
 import streamlit as st
