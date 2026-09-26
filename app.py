@@ -1,14 +1,29 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 import html
 
+import pandas as pd
 import streamlit as st
 
-from booking import get_available_slots, format_slot
-from google_calendar import create_appointment
-from pushover_service import send_booking_notification
+from booking import (
+    get_available_slots,
+    format_slot,
+)
 
+from google_calendar import (
+    create_appointment,
+    get_territorial_appointments,
+)
 
+from pushover_service import (
+    send_booking_notification,
+)
+
+from vicinanze import (
+    normalizza_cap,
+    normalizza_comune,
+    sono_vicini,
+)
 # =========================================================
 # CONFIGURAZIONE
 # =========================================================
