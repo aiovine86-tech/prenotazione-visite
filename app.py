@@ -2,7 +2,20 @@ from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 import html
 import base64
+from pathlib import Path
 
+
+def get_background_image_base64():
+    try:
+        image_path = Path(__file__).parent / "sfondo.png"
+        encoded = base64.b64encode(
+            image_path.read_bytes()
+        ).decode()
+
+        return f"data:image/png;base64,{encoded}"
+
+    except Exception:
+        return ""
 import pandas as pd
 import streamlit as st
 
@@ -217,49 +230,82 @@ if "ultima_prenotazione" not in st.session_state:
 # CSS — APPLE / iOS STYLE
 # =========================================================
 
+background_image = get_background_image_base64()
+
 st.markdown(
-    """
+    f"""
 <style>
 
-.stApp {
+.stApp {{
     background:
-        radial-gradient(
-            circle at 8% -5%,
-            rgba(52,199,89,.10),
-            transparent 30%
-        ),
-        radial-gradient(
-            circle at 100% 5%,
-            rgba(0,122,255,.08),
-            transparent 28%
-        ),
         linear-gradient(
-            180deg,
-            #f7f9fb 0%,
-            #f4f6f8 45%,
-            #ffffff 100%
-        );
-}
+            rgba(255, 255, 255, 0.58),
+            rgba(255, 255, 255, 0.70)
+        ),
+        url("{background_image}");
 
-.block-container {
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}}
+
+.block-container {{
     max-width: 680px;
     padding-top: 1.6rem;
     padding-bottom: 3.5rem;
-}
+}}
 
-header[data-testid="stHeader"] {
+header[data-testid="stHeader"] {{
     background: transparent;
-}
+}}
 
-#MainMenu {
+#MainMenu {{
     visibility: hidden;
-}
+}}
 
-footer {
+footer {{
     visibility: hidden;
-}
+}}
 
 
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {{
+
+    .stApp {{
+        background:
+            linear-gradient(
+                rgba(255, 255, 255, 0.54),
+                rgba(255, 255, 255, 0.68)
+            ),
+            url("{background_image}");
+
+        /*
+        Il category PIC è sulla destra dell'immagine.
+        68% lo mantiene visibile su smartphone.
+        */
+        background-size: cover;
+        background-position: 68% top;
+        background-repeat: no-repeat;
+        background-attachment: scroll;
+    }}
+
+    .block-container {{
+        max-width: 100%;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        padding-top: 1rem;
+        padding-bottom: 3rem;
+    }}
+}}
+
+"""
+    ,
+    unsafe_allow_html=True,
+)
 /* ========================================================
    HEADER
    ======================================================== */
