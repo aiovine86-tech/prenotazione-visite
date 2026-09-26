@@ -484,10 +484,23 @@ footer {
    INPUT
    ======================================================== */
 
+/* ===============================================
+   TITOLI DEI CAMPI
+   CAP, Farmacia, Durata, Data, Orario, ecc.
+   =============================================== */
+
 label[data-testid="stWidgetLabel"] p {
-    font-size: 13px !important;
-    font-weight: 600 !important;
-    color: #475467 !important;
+    color: #101828 !important;
+
+    font-size: 15px !important;
+    line-height: 1.35 !important;
+
+    font-weight: 750 !important;
+
+    letter-spacing: -0.1px;
+
+    text-shadow:
+        0 1px 3px rgba(255, 255, 255, 0.95);
 }
 
 div[data-baseweb="input"] > div,
