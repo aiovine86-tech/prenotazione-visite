@@ -120,6 +120,79 @@ def load_farmacie():
 
 
 farmacie_df = load_farmacie()
+
+
+# =========================================================
+# DATE CONSIGLIATE
+# =========================================================
+
+def get_recommended_dates(cap, comune, durata, oggi, giorni=7, max_risultati=3):
+    if not cap or not comune:
+        return []
+
+    fine_periodo = oggi + timedelta(days=giorni - 1)
+    try:
+        appuntamenti = get_territorial_appointments(oggi, fine_periodo)
+    except Exception as e:
+        print("Errore lettura appuntamenti territoriali:", e)
+        return []
+
+    risultati = []
+    for offset in range(giorni):
+        giorno = oggi + timedelta(days=offset)
+        if giorno.weekday() >= 5:
+            continue
+        try:
+            slots_giorno = get_available_slots(giorno, durata)
+        except Exception as e:
+            print("Errore disponibilità data consigliata:", giorno, e)
+            continue
+
+        if giorno == oggi:
+            now = datetime.now(TIMEZONE)
+            slots_giorno = [s for s in slots_giorno if s["start"] > now]
+        if not slots_giorno:
+            continue
+
+        visite_vicine = []
+        for appuntamento in appuntamenti:
+            if appuntamento["start"].date() != giorno:
+                continue
+            cap_a = appuntamento.get("cap", "").strip()
+            comune_a = appuntamento.get("comune", "").strip()
+            if not cap_a or not comune_a:
+                continue
+            if sono_vicini(cap, comune, cap_a, comune_a):
+                visite_vicine.append(appuntamento)
+        if not visite_vicine:
+            continue
+
+        miglior_gap = None
+        miglior_slot = None
+        for slot in slots_giorno:
+            for visita in visite_vicine:
+                if slot["end"] <= visita["start"]:
+                    gap = (visita["start"] - slot["end"]).total_seconds() / 60
+                elif slot["start"] >= visita["end"]:
+                    gap = (slot["start"] - visita["end"]).total_seconds() / 60
+                else:
+                    continue
+                if miglior_gap is None or gap < miglior_gap:
+                    miglior_gap = gap
+                    miglior_slot = slot
+
+        if miglior_slot is not None:
+            risultati.append({
+                "data": giorno,
+                "numero_visite_vicine": len(visite_vicine),
+                "miglior_gap_minuti": miglior_gap,
+                "miglior_slot": miglior_slot,
+            })
+
+    risultati.sort(key=lambda x: (-x["numero_visite_vicine"], x["miglior_gap_minuti"], x["data"]))
+    return risultati[:max_risultati]
+
+
 st.set_page_config(
     page_title="Prenota un appuntamento | Alessandro Iovine",
     page_icon="📅",
@@ -874,6 +947,7 @@ def create_ics_file(prenotazione):
 
     nome_farmacia = prenotazione["nome_farmacia"]
     cap = prenotazione["cap"]
+    comune = prenotazione.get("comune", "")
 
     start_ics = start.strftime(
         "%Y%m%dT%H%M%S"
@@ -891,6 +965,10 @@ def create_ics_file(prenotazione):
         cap
     )
 
+    comune_ics = escape_ics_text(
+        comune
+    )
+
     summary = escape_ics_text(
         "Appuntamento con Alessandro Iovine"
     )
@@ -900,11 +978,12 @@ def create_ics_file(prenotazione):
         "Sales Manager\\n"
         "PIC · CONTROL · EFFERDENT\\n"
         f"Farmacia: {farmacia_ics}\\n"
-        f"CAP: {cap_ics}"
+        f"CAP: {cap_ics}\n"
+        f"Comune: {comune_ics}"
     )
 
     location = (
-        f"{farmacia_ics} - CAP {cap_ics}"
+        f"{farmacia_ics} - {comune_ics} - CAP {cap_ics}"
     )
 
     ics_content = (
@@ -968,6 +1047,10 @@ if st.session_state.prenotazione_completata:
         prenotazione["cap"]
     )
 
+    comune = html.escape(
+        prenotazione.get("comune", "")
+    )
+
     data_testo = (
         prenotazione["start"]
         .strftime("%d/%m/%Y")
@@ -1016,7 +1099,10 @@ if st.session_state.prenotazione_completata:
         f'{prenotazione["durata"]} minuti<br>'
 
         f'<strong>CAP:</strong> '
-        f'{cap}'
+        f'{cap}<br>'
+
+        f'<strong>Comune:</strong> '
+        f'{comune}'
 
         '</div>'
         '</div>'
@@ -1183,33 +1269,43 @@ if cap_input:
 section_header(
     "2",
     "Quando preferisci incontrarci?",
-    "Scegli data, durata e orario",
+    "Scegli durata, data e orario",
 )
 
 durata = st.selectbox(
     "Durata dell'appuntamento",
-    [
-        30,
-        45,
-        60,
-        75,
-        90,
-        105,
-        120,
-    ],
+    [30, 45, 60, 75, 90, 105, 120],
     index=3,
     format_func=lambda x: f"{x} minuti",
 )
 
-oggi = datetime.now(
-    TIMEZONE
-).date()
+oggi = datetime.now(TIMEZONE).date()
 
-data = st.date_input(
-    "Data",
-    min_value=oggi,
-    value=oggi,
-)
+recommended_dates = []
+if nome_farmacia and cap and comune:
+    recommended_dates = get_recommended_dates(cap, comune, durata, oggi)
+
+if recommended_dates:
+    st.markdown("**Date consigliate in base alle visite già in zona**")
+    opzioni = [r["data"] for r in recommended_dates]
+    data_consigliata = st.radio(
+        "Scegli una data consigliata",
+        opzioni,
+        index=None,
+        format_func=lambda d: next(
+            f"{d.strftime('%d/%m/%Y')} · {r['numero_visite_vicine']} visita{'e' if r['numero_visite_vicine'] != 1 else ''} in zona"
+            for r in recommended_dates if r["data"] == d
+        ),
+    )
+    altra_data = st.checkbox("Preferisci un'altra data?")
+    if altra_data or data_consigliata is None:
+        data = st.date_input("Data", min_value=oggi, value=oggi)
+    else:
+        data = data_consigliata
+else:
+    if nome_farmacia:
+        st.caption("Nessuna data con visite vicine trovata nei prossimi 7 giorni. Puoi scegliere liberamente la data.")
+    data = st.date_input("Data", min_value=oggi, value=oggi)
 
 
 # =========================================================
@@ -1340,7 +1436,7 @@ if prenota:
     if not nome_farmacia.strip():
 
         st.error(
-            "Inserisci il nome della farmacia."
+            "Seleziona la farmacia."
         )
 
     elif not cap.strip():
@@ -1418,6 +1514,9 @@ if prenota:
                     cap=
                         cap.strip(),
 
+                    comune=
+                        comune.strip(),
+
                     start_datetime=
                         selected_slot["start"],
 
@@ -1478,6 +1577,9 @@ if prenota:
 
                     "cap":
                         cap.strip(),
+
+                    "comune":
+                        comune.strip(),
 
                     "start":
                         selected_slot["start"],
