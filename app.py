@@ -850,7 +850,18 @@ def section_header(
         markup,
         unsafe_allow_html=True,
     )
+def get_profile_image_base64():
+    try:
+        with open("alessandro.png", "rb") as image_file:
+            encoded = base64.b64encode(
+                image_file.read()
+            ).decode()
 
+        return f"data:image/png;base64,{encoded}"
+
+    except Exception as e:
+        print("Errore caricamento foto profilo:", e)
+        return ""
 
 def render_main_header():
 
@@ -903,9 +914,30 @@ def render_main_header():
 
 def render_small_header():
 
+    profile_image = get_profile_image_base64()
+
+    if profile_image:
+
+        avatar = (
+            '<div class="profile-monogram" '
+            'style="padding:0; overflow:hidden;">'
+            f'<img src="{profile_image}" '
+            'style="width:100%; height:100%; '
+            'object-fit:cover; display:block;">'
+            '</div>'
+        )
+
+    else:
+
+        avatar = (
+            '<div class="profile-monogram">'
+            'AI'
+            '</div>'
+        )
+
     markup = (
         '<div class="profile-header">'
-        '<div class="profile-monogram">AI</div>'
+        f'{avatar}'
         '<div class="profile-name">'
         'Alessandro Iovine'
         '</div>'
@@ -922,7 +954,6 @@ def render_small_header():
         markup,
         unsafe_allow_html=True,
     )
-
 
 # =========================================================
 # FILE CALENDARIO .ICS
