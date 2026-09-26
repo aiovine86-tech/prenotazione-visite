@@ -1215,7 +1215,8 @@ def render_main_header():
     st.markdown(
         markup,
         unsafe_allow_html=True,
-    )render_main_header()
+    )
+    render_main_header()
 
 # =========================================================
 # 1 - FARMACIA
