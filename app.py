@@ -1083,20 +1083,98 @@ render_main_header()
 section_header(
     "1",
     "La tua farmacia",
-    "Inserisci i dati principali",
+    "Inserisci il CAP e seleziona la farmacia",
 )
 
-nome_farmacia = st.text_input(
-    "Nome farmacia *",
-    placeholder="Es. Farmacia Centrale",
-)
-
-cap = st.text_input(
+cap_input = st.text_input(
     "CAP *",
-    placeholder="Es. 80100",
+    placeholder="Es. 81030",
     max_chars=5,
 )
 
+cap = normalizza_cap(cap_input)
+
+nome_farmacia = ""
+comune = ""
+farmacia_selezionata = None
+
+
+# ---------------------------------------------------------
+# CERCA FARMACIE PER CAP
+# ---------------------------------------------------------
+
+if cap_input:
+
+    if (
+        not cap_input.isdigit()
+        or len(cap_input) != 5
+    ):
+
+        st.warning(
+            "Inserisci un CAP valido di 5 cifre."
+        )
+
+    else:
+
+        farmacie_cap = farmacie_df[
+            farmacie_df["CAP"] == cap
+        ].copy()
+
+        if farmacie_cap.empty:
+
+            st.info(
+                "Non risultano farmacie associate "
+                "a questo CAP."
+            )
+
+        else:
+
+            # Ordine alfabetico
+            farmacie_cap = farmacie_cap.sort_values(
+                by=[
+                    "Comune_normalizzato",
+                    "Nome_farmacia",
+                ]
+            )
+
+            # Creiamo una lista di record.
+            # In questo modo manteniamo associati
+            # nome farmacia, CAP e Comune.
+            records = farmacie_cap.to_dict(
+                orient="records"
+            )
+
+            farmacia_selezionata = st.selectbox(
+                "Farmacia *",
+                records,
+                index=None,
+                placeholder="Seleziona la farmacia",
+                format_func=lambda x: (
+                    f'{x["Nome_farmacia"]} · '
+                    f'{x["Comune_normalizzato"].title()}'
+                ),
+            )
+
+            if farmacia_selezionata:
+
+                nome_farmacia = (
+                    farmacia_selezionata[
+                        "Nome_farmacia"
+                    ]
+                    .strip()
+                )
+
+                comune = (
+                    farmacia_selezionata[
+                        "Comune_normalizzato"
+                    ]
+                    .strip()
+                )
+
+                st.caption(
+                    f"CAP {cap} · "
+                    f"{comune.title()}"
+                )
 
 # =========================================================
 # 2 - APPUNTAMENTO
