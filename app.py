@@ -874,15 +874,12 @@ if background_image:
 
         @media (max-width: 768px) {{
 
-            /*
-            Sfondo farmacia più visibile.
-            Il category PIC rimane sul lato destro.
-            */
+            /* FOTO FARMACIA BEN VISIBILE */
             .stApp {{
                 background-image:
                     linear-gradient(
-                        rgba(255, 255, 255, 0.38),
-                        rgba(255, 255, 255, 0.48)
+                        rgba(255, 255, 255, 0.20),
+                        rgba(255, 255, 255, 0.32)
                     ),
                     url("{background_image}") !important;
 
@@ -893,127 +890,173 @@ if background_image:
             }}
 
 
-            /*
-            Pannello principale effetto glass.
-            Separa nettamente il form dallo sfondo.
-            */
+            /* NESSUN PANNELLO BIANCO GENERALE */
             .block-container {{
-                background: rgba(255, 255, 255, 0.88) !important;
+                background: transparent !important;
+                box-shadow: none !important;
+                border: none !important;
 
-                backdrop-filter: blur(18px);
-                -webkit-backdrop-filter: blur(18px);
-
-                border: 1px solid rgba(255, 255, 255, 0.72);
-
-                border-radius: 26px;
-
-                box-shadow:
-                    0 16px 45px rgba(16, 24, 40, 0.12);
-
-                padding-top: 20px !important;
                 padding-left: 16px !important;
                 padding-right: 16px !important;
-                padding-bottom: 28px !important;
-
-                margin-top: 12px !important;
-                margin-bottom: 24px !important;
             }}
 
 
-            /*
-            INPUT E SELECT
-            Più bianchi e con bordo più evidente.
-            */
-            div[data-baseweb="input"] > div,
-            div[data-baseweb="select"] > div {{
-                background: rgba(255, 255, 255, 0.98) !important;
+            /* ===============================================
+               TITOLI DELLE SEZIONI
+               Piccoli pannelli glass
+               =============================================== */
+
+            .section-header {{
+                background: rgba(255, 255, 255, 0.84);
+
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+
+                padding: 10px 12px;
+
+                border-radius: 16px;
 
                 border:
-                    1px solid rgba(16, 24, 40, 0.14)
-                    !important;
+                    1px solid rgba(255, 255, 255, 0.72);
 
                 box-shadow:
-                    0 2px 8px rgba(16, 24, 40, 0.06)
-                    !important;
+                    0 4px 16px rgba(16, 24, 40, 0.08);
             }}
 
-
-            /*
-            DATE INPUT
-            */
-            div[data-testid="stDateInput"] input {{
-                background: rgba(255, 255, 255, 0.98) !important;
-
-                border:
-                    1px solid rgba(16, 24, 40, 0.14)
-                    !important;
-            }}
-
-
-            /*
-            LABEL DEI CAMPI
-            */
-            label[data-testid="stWidgetLabel"] p {{
-                color: #253047 !important;
-                font-weight: 650 !important;
-            }}
-
-
-            /*
-            Titoli delle sezioni più leggibili.
-            */
             .section-title {{
                 color: #101828 !important;
                 font-weight: 750 !important;
             }}
 
             .section-subtitle {{
-                color: #667085 !important;
-            }}
-
-
-            /*
-            Testo principale.
-            */
-            .booking-title {{
-                color: #101828 !important;
-            }}
-
-            .profile-description {{
                 color: #475467 !important;
             }}
 
 
-            /*
-            Box disponibilità leggermente più coprente.
-            */
-            .availability-card {{
-                background: rgba(235, 250, 239, 0.96) !important;
+            /* ===============================================
+               INPUT E SELECT
+               =============================================== */
+
+            div[data-baseweb="input"] > div,
+            div[data-baseweb="select"] > div {{
+                background:
+                    rgba(255, 255, 255, 0.96)
+                    !important;
 
                 border:
-                    1px solid rgba(52, 199, 89, 0.22)
+                    1px solid rgba(16, 24, 40, 0.18)
+                    !important;
+
+                box-shadow:
+                    0 4px 14px rgba(16, 24, 40, 0.10)
+                    !important;
+            }}
+
+
+            /* DATA */
+            div[data-testid="stDateInput"] input {{
+                background:
+                    rgba(255, 255, 255, 0.96)
+                    !important;
+
+                border:
+                    1px solid rgba(16, 24, 40, 0.18)
+                    !important;
+            }}
+
+
+            /* LABEL DEI CAMPI */
+            label[data-testid="stWidgetLabel"] p {{
+                color: #101828 !important;
+
+                font-weight: 700 !important;
+
+                text-shadow:
+                    0 1px 2px rgba(255, 255, 255, 0.75);
+            }}
+
+
+            /* ===============================================
+               HEADER
+               =============================================== */
+
+            .booking-title {{
+                color: #101828 !important;
+
+                text-shadow:
+                    0 1px 4px rgba(255, 255, 255, 0.85);
+            }}
+
+            .profile-name {{
+                color: #101828 !important;
+
+                text-shadow:
+                    0 1px 3px rgba(255, 255, 255, 0.90);
+            }}
+
+            .profile-role {{
+                color: #344054 !important;
+
+                text-shadow:
+                    0 1px 3px rgba(255, 255, 255, 0.90);
+            }}
+
+            .profile-description {{
+                color: #344054 !important;
+
+                text-shadow:
+                    0 1px 4px rgba(255, 255, 255, 0.90);
+            }}
+
+
+            /* ===============================================
+               DISPONIBILITÀ
+               =============================================== */
+
+            .availability-card {{
+                background:
+                    rgba(240, 253, 244, 0.94)
+                    !important;
+
+                border:
+                    1px solid rgba(52, 199, 89, 0.25)
                     !important;
 
                 color: #126c37 !important;
+
+                box-shadow:
+                    0 4px 14px rgba(16, 24, 40, 0.07);
             }}
 
 
-            /*
-            Alert Streamlit più leggibili sullo sfondo.
-            */
+            /* ===============================================
+               ALERT STREAMLIT
+               =============================================== */
+
             div[data-testid="stAlert"] {{
-                background: rgba(255, 255, 255, 0.94);
+                background:
+                    rgba(255, 255, 255, 0.94)
+                    !important;
+
                 backdrop-filter: blur(10px);
                 -webkit-backdrop-filter: blur(10px);
+
+                box-shadow:
+                    0 4px 14px rgba(16, 24, 40, 0.07);
             }}
 
 
-            /*
-            Footer leggibile.
-            */
+            /* ===============================================
+               FOOTER
+               =============================================== */
+
             .footer-note {{
-                color: #667085 !important;
+                color: #344054 !important;
+
+                text-shadow:
+                    0 1px 3px rgba(255, 255, 255, 0.90);
             }}
+
         }}
 
         </style>
