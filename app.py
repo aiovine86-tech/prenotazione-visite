@@ -29,7 +29,97 @@ from vicinanze import (
 # =========================================================
 
 TIMEZONE = ZoneInfo("Europe/Rome")
+# =========================================================
+# ARCHIVIO FARMACIE
+# =========================================================
 
+@st.cache_data
+def load_farmacie():
+    """
+    Carica l'archivio delle farmacie da farmacie.xlsx.
+    """
+
+    df = pd.read_excel(
+        "farmacie.xlsx",
+        sheet_name="Archivio definitivo",
+        dtype=str,
+    )
+
+    # Elimina eventuali spazi dai nomi delle colonne
+    df.columns = [
+        str(col).strip()
+        for col in df.columns
+    ]
+
+    # CAP sempre normalizzato a 5 cifre
+    df["CAP"] = (
+        df["CAP"]
+        .fillna("")
+        .apply(normalizza_cap)
+    )
+
+    # Comune normalizzato secondo le stesse regole
+    # utilizzate da vicinanze.py
+    df["Comune_normalizzato"] = (
+        df["Comune"]
+        .fillna("")
+        .apply(normalizza_comune)
+    )
+
+    # Nome farmacia:
+    # usiamo Nome finale quando presente,
+    # altrimenti Nome originale.
+    nome_finale = (
+        df["Nome finale"]
+        .fillna("")
+        .astype(str)
+        .str.strip()
+    )
+
+    nome_originale = (
+        df["Nome originale"]
+        .fillna("")
+        .astype(str)
+        .str.strip()
+    )
+
+    df["Nome_farmacia"] = nome_finale.where(
+        nome_finale != "",
+        nome_originale,
+    )
+
+    # Correzione territoriale già concordata:
+    # Frattamaggiore deve essere trattata come 80027.
+    mask_frattamaggiore = (
+        df["Comune_normalizzato"]
+        == "FRATTAMAGGIORE"
+    )
+
+    df.loc[
+        mask_frattamaggiore,
+        "CAP"
+    ] = "80027"
+
+    # Manteniamo solo record utilizzabili
+    df = df[
+        (df["CAP"] != "")
+        & (df["Comune_normalizzato"] != "")
+        & (df["Nome_farmacia"] != "")
+    ].copy()
+
+    # Evita eventuali duplicati nell'elenco mostrato
+    df = df.drop_duplicates(
+        subset=[
+            "CAP",
+            "Comune_normalizzato",
+            "Nome_farmacia",
+        ]
+    )
+
+    return df
+
+
+farmacie_df = load_farmacie()
 st.set_page_config(
     page_title="Prenota un appuntamento | Alessandro Iovine",
     page_icon="📅",
