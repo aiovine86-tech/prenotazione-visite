@@ -1270,7 +1270,7 @@ def render_main_header():
         markup,
         unsafe_allow_html=True,
     )
-
+render_main_header()
 
 # =========================================================
 # 1 - FARMACIA
