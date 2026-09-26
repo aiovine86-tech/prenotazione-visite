@@ -1191,7 +1191,85 @@ if st.session_state.prenotazione_completata:
 # HEADER
 # =========================================================
 
-render_main_header()
+def render_main_header():
+
+    profile_image = get_profile_image_base64()
+
+    if profile_image:
+
+        avatar_grande = (
+            '<div class="profile-monogram" '
+            'style="padding:0; overflow:hidden;">'
+            f'<img src="{profile_image}" '
+            'style="width:100%; height:100%; '
+            'object-fit:cover; display:block;">'
+            '</div>'
+        )
+
+        avatar_piccolo = (
+            '<div class="profile-mini-avatar" '
+            'style="padding:0; overflow:hidden;">'
+            f'<img src="{profile_image}" '
+            'style="width:100%; height:100%; '
+            'object-fit:cover; display:block;">'
+            '</div>'
+        )
+
+    else:
+
+        avatar_grande = (
+            '<div class="profile-monogram">'
+            'AI'
+            '</div>'
+        )
+
+        avatar_piccolo = (
+            '<div class="profile-mini-avatar">'
+            'AI'
+            '</div>'
+        )
+
+    markup = (
+        '<div class="profile-header">'
+
+        f'{avatar_grande}'
+
+        '<div class="booking-title">'
+        'Prenota un appuntamento'
+        '</div>'
+
+        '<div class="profile-description">'
+        'Scegli giorno e orario per fissare '
+        'un appuntamento direttamente presso la tua farmacia.'
+        '</div>'
+
+        '<div class="profile-card">'
+
+        f'{avatar_piccolo}'
+
+        '<div class="profile-card-content">'
+
+        '<div class="profile-name">'
+        'Alessandro Iovine'
+        '</div>'
+
+        '<div class="profile-role">'
+        'Sales Manager'
+        '</div>'
+
+        '<div class="profile-brands">'
+        'PIC · CONTROL · EFFERDENT'
+        '</div>'
+
+        '</div>'
+        '</div>'
+        '</div>'
+    )
+
+    st.markdown(
+        markup,
+        unsafe_allow_html=True,
+    )
 
 
 # =========================================================
