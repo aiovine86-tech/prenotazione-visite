@@ -1191,7 +1191,6 @@ def render_main_header():
 
         '<div class="profile-card">'
 
-        f'{avatar_piccolo}'
 
         '<div class="profile-card-content">'
 
