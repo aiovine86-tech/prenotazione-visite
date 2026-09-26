@@ -1149,28 +1149,18 @@ def render_main_header():
     profile_image = get_profile_image_base64()
 
     if profile_image:
-
         avatar_grande = (
             '<div class="profile-monogram" '
-            'style="padding:0; overflow:hidden;">'
+            'style="padding:0; overflow:hidden; margin:0;">'
             f'<img src="{profile_image}" '
             'style="width:100%; height:100%; '
             'object-fit:cover; display:block;">'
             '</div>'
         )
-
-
-
     else:
-
         avatar_grande = (
-            '<div class="profile-monogram">'
-            'AI'
-            '</div>'
-        )
-
-        avatar_piccolo = (
-            '<div class="profile-mini-avatar">'
+            '<div class="profile-monogram" '
+            'style="margin:0;">'
             'AI'
             '</div>'
         )
@@ -1178,8 +1168,38 @@ def render_main_header():
     markup = (
         '<div class="profile-header">'
 
+        # FOTO + DATI SULLA STESSA RIGA
+        '<div style="'
+        'display:flex; '
+        'align-items:center; '
+        'justify-content:center; '
+        'gap:16px; '
+        'margin-bottom:22px;'
+        '">'
+
         f'{avatar_grande}'
 
+        '<div style="text-align:left;">'
+
+        '<div class="profile-name" '
+        'style="font-size:17px;">'
+        'Alessandro Iovine'
+        '</div>'
+
+        '<div class="profile-role" '
+        'style="font-size:13px; margin-top:3px;">'
+        'Sales Manager'
+        '</div>'
+
+        '<div class="profile-brands" '
+        'style="font-size:12px; margin-top:4px;">'
+        'PIC · CONTROL · EFFERDENT'
+        '</div>'
+
+        '</div>'
+        '</div>'
+
+        # TITOLO
         '<div class="booking-title">'
         'Prenota un appuntamento'
         '</div>'
@@ -1189,33 +1209,13 @@ def render_main_header():
         'un appuntamento direttamente presso la tua farmacia.'
         '</div>'
 
-        '<div class="profile-card">'
-
-
-        '<div class="profile-card-content">'
-
-        '<div class="profile-name">'
-        'Alessandro Iovine'
-        '</div>'
-
-        '<div class="profile-role">'
-        'Sales Manager'
-        '</div>'
-
-        '<div class="profile-brands">'
-        'PIC · CONTROL · EFFERDENT'
-        '</div>'
-
-        '</div>'
-        '</div>'
         '</div>'
     )
 
     st.markdown(
         markup,
         unsafe_allow_html=True,
-    )
-render_main_header()
+    )render_main_header()
 
 # =========================================================
 # 1 - FARMACIA
