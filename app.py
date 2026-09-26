@@ -863,53 +863,6 @@ def get_profile_image_base64():
         print("Errore caricamento foto profilo:", e)
         return ""
 
-def render_main_header():
-
-    markup = (
-        '<div class="profile-header">'
-
-        '<div class="profile-monogram">'
-        'AI'
-        '</div>'
-
-        '<div class="booking-title">'
-        'Prenota un appuntamento'
-        '</div>'
-
-        '<div class="profile-description">'
-        'Scegli giorno e orario per fissare '
-        'un appuntamento direttamente presso la tua farmacia.'
-        '</div>'
-
-        '<div class="profile-card">'
-
-        '<div class="profile-mini-avatar">'
-        'AI'
-        '</div>'
-
-        '<div class="profile-card-content">'
-
-        '<div class="profile-name">'
-        'Alessandro Iovine'
-        '</div>'
-
-        '<div class="profile-role">'
-        'Sales Manager'
-        '</div>'
-
-        '<div class="profile-brands">'
-        'PIC · CONTROL · EFFERDENT'
-        '</div>'
-
-        '</div>'
-        '</div>'
-        '</div>'
-    )
-
-    st.markdown(
-        markup,
-        unsafe_allow_html=True,
-    )
 
 
 def render_small_header():
