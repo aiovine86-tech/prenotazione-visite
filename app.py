@@ -1184,6 +1184,8 @@ nome_farmacia = ""
 comune = ""
 farmacia_selezionata = None
 
+OPZIONE_ALTRA_FARMACIA = "La mia farmacia non è presente"
+
 
 # ---------------------------------------------------------
 # CERCA FARMACIE PER CAP
@@ -1206,16 +1208,68 @@ if cap_input:
             farmacie_df["CAP"] == cap
         ].copy()
 
+        # -------------------------------------------------
+        # COMUNI ASSOCIATI AL CAP
+        # -------------------------------------------------
+
+        comuni_cap = (
+            farmacie_cap["Comune_normalizzato"]
+            .dropna()
+            .astype(str)
+            .str.strip()
+        )
+
+        comuni_cap = sorted(
+            {
+                comune_item
+                for comune_item in comuni_cap
+                if comune_item
+            }
+        )
+
+        # -------------------------------------------------
+        # SE NON TROVIAMO FARMACIE PER QUESTO CAP
+        # -------------------------------------------------
+
         if farmacie_cap.empty:
 
             st.info(
-                "Non risultano farmacie associate "
-                "a questo CAP."
+                "La tua farmacia non è ancora presente "
+                "nel nostro archivio. "
+                "Puoi inserirla manualmente."
             )
+
+            nome_farmacia = st.text_input(
+                "Nome farmacia *",
+                placeholder="Es. Farmacia Rossi",
+                key="nome_farmacia_manuale_senza_archivio",
+            )
+
+            # Se il CAP non esiste nell'archivio non possiamo
+            # ricavare automaticamente il Comune.
+            comune_manuale = st.text_input(
+                "Comune *",
+                placeholder="Es. Napoli",
+                key="comune_manuale_senza_archivio",
+            )
+
+            if comune_manuale.strip():
+
+                comune = normalizza_comune(
+                    comune_manuale
+                )
+
+                st.caption(
+                    f"CAP {cap} · "
+                    f"{comune.title()}"
+                )
+
+        # -------------------------------------------------
+        # FARMACIE PRESENTI NELL'ARCHIVIO
+        # -------------------------------------------------
 
         else:
 
-            # Ordine alfabetico
             farmacie_cap = farmacie_cap.sort_values(
                 by=[
                     "Comune_normalizzato",
@@ -1223,36 +1277,74 @@ if cap_input:
                 ]
             )
 
-            # Creiamo una lista di record.
-            # In questo modo manteniamo associati
-            # nome farmacia, CAP e Comune.
             records = farmacie_cap.to_dict(
                 orient="records"
             )
 
+            # Creiamo opzioni leggibili.
+            # L'ultima permette l'inserimento manuale.
+            opzioni_farmacia = []
+
+            for record in records:
+
+                opzioni_farmacia.append(
+                    {
+                        "tipo": "archivio",
+                        "nome": record[
+                            "Nome_farmacia"
+                        ],
+                        "comune": record[
+                            "Comune_normalizzato"
+                        ],
+                        "record": record,
+                    }
+                )
+
+            opzioni_farmacia.append(
+                {
+                    "tipo": "manuale",
+                    "nome": OPZIONE_ALTRA_FARMACIA,
+                    "comune": "",
+                    "record": None,
+                }
+            )
+
             farmacia_selezionata = st.selectbox(
                 "Farmacia *",
-                records,
+                opzioni_farmacia,
                 index=None,
                 placeholder="Seleziona la farmacia",
                 format_func=lambda x: (
-                    f'{x["Nome_farmacia"]} · '
-                    f'{x["Comune_normalizzato"].title()}'
+                    (
+                        f'{x["nome"]} · '
+                        f'{x["comune"].title()}'
+                    )
+                    if x["tipo"] == "archivio"
+                    else x["nome"]
                 ),
             )
 
-            if farmacia_selezionata:
+            # =============================================
+            # FARMACIA PRESENTE NELL'ARCHIVIO
+            # =============================================
+
+            if (
+                farmacia_selezionata
+                and farmacia_selezionata[
+                    "tipo"
+                ] == "archivio"
+            ):
 
                 nome_farmacia = (
                     farmacia_selezionata[
-                        "Nome_farmacia"
+                        "nome"
                     ]
                     .strip()
                 )
 
                 comune = (
                     farmacia_selezionata[
-                        "Comune_normalizzato"
+                        "comune"
                     ]
                     .strip()
                 )
@@ -1261,6 +1353,84 @@ if cap_input:
                     f"CAP {cap} · "
                     f"{comune.title()}"
                 )
+
+            # =============================================
+            # FARMACIA NON PRESENTE
+            # =============================================
+
+            elif (
+                farmacia_selezionata
+                and farmacia_selezionata[
+                    "tipo"
+                ] == "manuale"
+            ):
+
+                nome_farmacia = st.text_input(
+                    "Nome farmacia *",
+                    placeholder="Es. Farmacia Rossi",
+                    key="nome_farmacia_manuale",
+                )
+
+                # -----------------------------------------
+                # UN SOLO COMUNE PER QUESTO CAP
+                # -----------------------------------------
+
+                if len(comuni_cap) == 1:
+
+                    comune = comuni_cap[0]
+
+                    st.caption(
+                        f"Comune: "
+                        f"{comune.title()}"
+                    )
+
+                # -----------------------------------------
+                # PIÙ COMUNI PER LO STESSO CAP
+                # -----------------------------------------
+
+                elif len(comuni_cap) > 1:
+
+                    comune_scelto = st.selectbox(
+                        "Comune *",
+                        comuni_cap,
+                        index=None,
+                        placeholder="Seleziona il Comune",
+                        format_func=lambda x: x.title(),
+                    )
+
+                    if comune_scelto:
+
+                        comune = comune_scelto
+
+                # -----------------------------------------
+                # NESSUN COMUNE DISPONIBILE
+                # -----------------------------------------
+
+                else:
+
+                    comune_manuale = st.text_input(
+                        "Comune *",
+                        placeholder="Es. Napoli",
+                        key="comune_manuale",
+                    )
+
+                    if comune_manuale.strip():
+
+                        comune = normalizza_comune(
+                            comune_manuale
+                        )
+
+                # Mostra riepilogo solo quando abbiamo
+                # sia farmacia sia Comune.
+                if (
+                    nome_farmacia.strip()
+                    and comune
+                ):
+
+                    st.caption(
+                        f"CAP {cap} · "
+                        f"{comune.title()}"
+                    )
 
 # =========================================================
 # 2 - APPUNTAMENTO
