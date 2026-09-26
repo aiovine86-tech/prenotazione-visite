@@ -1145,7 +1145,6 @@ if st.session_state.prenotazione_completata:
 # =========================================================
 
 def render_main_header():
-
     profile_image = get_profile_image_base64()
 
     if profile_image:
@@ -1168,7 +1167,6 @@ def render_main_header():
     markup = (
         '<div class="profile-header">'
 
-        # FOTO + DATI SULLA STESSA RIGA
         '<div style="'
         'display:flex; '
         'align-items:center; '
@@ -1199,7 +1197,6 @@ def render_main_header():
         '</div>'
         '</div>'
 
-        # TITOLO
         '<div class="booking-title">'
         'Prenota un appuntamento'
         '</div>'
@@ -1212,7 +1209,7 @@ def render_main_header():
         '</div>'
     )
 
-        st.markdown(
+    st.markdown(
         markup,
         unsafe_allow_html=True,
     )
@@ -1220,6 +1217,10 @@ def render_main_header():
 
 render_main_header()
 
+
+# =========================================================
+# 1 - FARMACIA
+# =========================================================
 
 # =========================================================
 # 1 - FARMACIA
