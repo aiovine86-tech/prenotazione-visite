@@ -848,6 +848,11 @@ if background_image:
     st.markdown(
         f"""
         <style>
+
+        /* =====================================================
+           DESKTOP
+           ===================================================== */
+
         .stApp {{
             background-image:
                 linear-gradient(
@@ -862,12 +867,22 @@ if background_image:
             background-attachment: fixed !important;
         }}
 
+
+        /* =====================================================
+           MOBILE
+           ===================================================== */
+
         @media (max-width: 768px) {{
+
+            /*
+            Sfondo farmacia più visibile.
+            Il category PIC rimane sul lato destro.
+            */
             .stApp {{
                 background-image:
                     linear-gradient(
-                        rgba(255, 255, 255, 0.54),
-                        rgba(255, 255, 255, 0.68)
+                        rgba(255, 255, 255, 0.38),
+                        rgba(255, 255, 255, 0.48)
                     ),
                     url("{background_image}") !important;
 
@@ -876,12 +891,135 @@ if background_image:
                 background-repeat: no-repeat !important;
                 background-attachment: scroll !important;
             }}
+
+
+            /*
+            Pannello principale effetto glass.
+            Separa nettamente il form dallo sfondo.
+            */
+            .block-container {{
+                background: rgba(255, 255, 255, 0.88) !important;
+
+                backdrop-filter: blur(18px);
+                -webkit-backdrop-filter: blur(18px);
+
+                border: 1px solid rgba(255, 255, 255, 0.72);
+
+                border-radius: 26px;
+
+                box-shadow:
+                    0 16px 45px rgba(16, 24, 40, 0.12);
+
+                padding-top: 20px !important;
+                padding-left: 16px !important;
+                padding-right: 16px !important;
+                padding-bottom: 28px !important;
+
+                margin-top: 12px !important;
+                margin-bottom: 24px !important;
+            }}
+
+
+            /*
+            INPUT E SELECT
+            Più bianchi e con bordo più evidente.
+            */
+            div[data-baseweb="input"] > div,
+            div[data-baseweb="select"] > div {{
+                background: rgba(255, 255, 255, 0.98) !important;
+
+                border:
+                    1px solid rgba(16, 24, 40, 0.14)
+                    !important;
+
+                box-shadow:
+                    0 2px 8px rgba(16, 24, 40, 0.06)
+                    !important;
+            }}
+
+
+            /*
+            DATE INPUT
+            */
+            div[data-testid="stDateInput"] input {{
+                background: rgba(255, 255, 255, 0.98) !important;
+
+                border:
+                    1px solid rgba(16, 24, 40, 0.14)
+                    !important;
+            }}
+
+
+            /*
+            LABEL DEI CAMPI
+            */
+            label[data-testid="stWidgetLabel"] p {{
+                color: #253047 !important;
+                font-weight: 650 !important;
+            }}
+
+
+            /*
+            Titoli delle sezioni più leggibili.
+            */
+            .section-title {{
+                color: #101828 !important;
+                font-weight: 750 !important;
+            }}
+
+            .section-subtitle {{
+                color: #667085 !important;
+            }}
+
+
+            /*
+            Testo principale.
+            */
+            .booking-title {{
+                color: #101828 !important;
+            }}
+
+            .profile-description {{
+                color: #475467 !important;
+            }}
+
+
+            /*
+            Box disponibilità leggermente più coprente.
+            */
+            .availability-card {{
+                background: rgba(235, 250, 239, 0.96) !important;
+
+                border:
+                    1px solid rgba(52, 199, 89, 0.22)
+                    !important;
+
+                color: #126c37 !important;
+            }}
+
+
+            /*
+            Alert Streamlit più leggibili sullo sfondo.
+            */
+            div[data-testid="stAlert"] {{
+                background: rgba(255, 255, 255, 0.94);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+            }}
+
+
+            /*
+            Footer leggibile.
+            */
+            .footer-note {{
+                color: #667085 !important;
+            }}
         }}
+
         </style>
         """,
         unsafe_allow_html=True,
     )
-
 
 # =========================================================
 # FUNZIONI UI
