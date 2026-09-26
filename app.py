@@ -230,82 +230,48 @@ if "ultima_prenotazione" not in st.session_state:
 # CSS — APPLE / iOS STYLE
 # =========================================================
 
-background_image = get_background_image_base64()
-
 st.markdown(
-    f"""
+    """
 <style>
 
-.stApp {{
+.stApp {
     background:
-        linear-gradient(
-            rgba(255, 255, 255, 0.58),
-            rgba(255, 255, 255, 0.70)
+        radial-gradient(
+            circle at 8% -5%,
+            rgba(52,199,89,.10),
+            transparent 30%
         ),
-        url("{background_image}");
+        radial-gradient(
+            circle at 100% 5%,
+            rgba(0,122,255,.08),
+            transparent 28%
+        ),
+        linear-gradient(
+            180deg,
+            #f7f9fb 0%,
+            #f4f6f8 45%,
+            #ffffff 100%
+        );
+}
 
-    background-size: cover;
-    background-position: center top;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-}}
-
-.block-container {{
+.block-container {
     max-width: 680px;
     padding-top: 1.6rem;
     padding-bottom: 3.5rem;
-}}
+}
 
-header[data-testid="stHeader"] {{
+header[data-testid="stHeader"] {
     background: transparent;
-}}
+}
 
-#MainMenu {{
+#MainMenu {
     visibility: hidden;
-}}
+}
 
-footer {{
+footer {
     visibility: hidden;
-}}
+}
 
-
-/* =========================================================
-   MOBILE
-   ========================================================= */
-
-@media (max-width: 768px) {{
-
-    .stApp {{
-        background:
-            linear-gradient(
-                rgba(255, 255, 255, 0.54),
-                rgba(255, 255, 255, 0.68)
-            ),
-            url("{background_image}");
-
-        /*
-        Il category PIC è sulla destra dell'immagine.
-        68% lo mantiene visibile su smartphone.
-        */
-        background-size: cover;
-        background-position: 68% top;
-        background-repeat: no-repeat;
-        background-attachment: scroll;
-    }}
-
-    .block-container {{
-        max-width: 100%;
-        padding-left: 1rem;
-        padding-right: 1rem;
-        padding-top: 1rem;
-        padding-bottom: 3rem;
-    }}
-}}
-
-"""
-    ,
-    unsafe_allow_html=True,
-)
 /* ========================================================
    HEADER
    ======================================================== */
@@ -870,6 +836,51 @@ div[data-testid="stDownloadButton"] button[kind="primary"]:hover {
 """,
     unsafe_allow_html=True,
 )
+
+
+# =========================================================
+# SFONDO FARMACIA / CATEGORY PIC
+# =========================================================
+
+background_image = get_background_image_base64()
+
+if background_image:
+    st.markdown(
+        f"""
+        <style>
+        .stApp {{
+            background-image:
+                linear-gradient(
+                    rgba(255, 255, 255, 0.58),
+                    rgba(255, 255, 255, 0.70)
+                ),
+                url("{background_image}") !important;
+
+            background-size: cover !important;
+            background-position: center top !important;
+            background-repeat: no-repeat !important;
+            background-attachment: fixed !important;
+        }}
+
+        @media (max-width: 768px) {{
+            .stApp {{
+                background-image:
+                    linear-gradient(
+                        rgba(255, 255, 255, 0.54),
+                        rgba(255, 255, 255, 0.68)
+                    ),
+                    url("{background_image}") !important;
+
+                background-size: cover !important;
+                background-position: 68% top !important;
+                background-repeat: no-repeat !important;
+                background-attachment: scroll !important;
+            }}
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
 
 
 # =========================================================
