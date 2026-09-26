@@ -162,13 +162,6 @@ def get_busy_slots(
 
         # -------------------------------------------------
         # EVENTO GIORNALIERO
-        #
-        # Esempi:
-        # Ferie
-        # Congresso
-        # Non disponibile
-        #
-        # Blocca l'intera giornata.
         # -------------------------------------------------
 
         elif (
@@ -199,15 +192,8 @@ def get_busy_slots(
                 tzinfo=TIMEZONE,
             )
 
-            # Google Calendar considera
-            # la data finale esclusiva.
-            #
-            # Esempio:
-            # 10 ottobre tutto il giorno
-            #
-            # start = 10 ottobre
-            # end   = 11 ottobre
-
+            # Google Calendar considera la data finale
+            # dell'evento giornaliero esclusiva.
             end_dt = datetime.combine(
                 end_date_event,
                 datetime.min.time(),
@@ -225,12 +211,145 @@ def get_busy_slots(
 
 
 # =========================================================
+# LETTURA CAMPI DALLA DESCRIZIONE
+# =========================================================
+
+def _get_description_value(
+    description,
+    field_name,
+):
+
+    if not description:
+        return ""
+
+    prefix = f"{field_name}:"
+
+    for line in description.splitlines():
+
+        line = line.strip()
+
+        if line.lower().startswith(
+            prefix.lower()
+        ):
+
+            return line[
+                len(prefix):
+            ].strip()
+
+    return ""
+
+
+# =========================================================
+# APPUNTAMENTI CON INFORMAZIONI TERRITORIALI
+# =========================================================
+
+def get_territorial_appointments(
+    start_date,
+    end_date,
+):
+    """
+    Restituisce gli eventi del calendario con le informazioni
+    necessarie per calcolare le date consigliate.
+
+    Gli eventi senza CAP/Comune continuano normalmente a bloccare
+    gli slot tramite get_busy_slots(), ma non vengono usati per
+    stabilire la vicinanza territoriale.
+    """
+
+    events = get_events(
+        start_date,
+        end_date,
+    )
+
+    appointments = []
+
+    for event in events:
+
+        start = event.get(
+            "start",
+            {},
+        )
+
+        end = event.get(
+            "end",
+            {},
+        )
+
+        # Gli eventi giornalieri non rappresentano
+        # una visita territoriale.
+        if (
+            "dateTime" not in start
+            or
+            "dateTime" not in end
+        ):
+            continue
+
+        try:
+
+            start_dt = datetime.fromisoformat(
+                start["dateTime"].replace(
+                    "Z",
+                    "+00:00",
+                )
+            ).astimezone(TIMEZONE)
+
+            end_dt = datetime.fromisoformat(
+                end["dateTime"].replace(
+                    "Z",
+                    "+00:00",
+                )
+            ).astimezone(TIMEZONE)
+
+        except (ValueError, TypeError):
+            continue
+
+        description = event.get(
+            "description",
+            "",
+        )
+
+        cap = _get_description_value(
+            description,
+            "CAP",
+        )
+
+        comune = _get_description_value(
+            description,
+            "Comune",
+        )
+
+        farmacia = _get_description_value(
+            description,
+            "Farmacia",
+        )
+
+        if not farmacia:
+            farmacia = event.get(
+                "summary",
+                "",
+            )
+
+        appointments.append(
+            {
+                "start": start_dt,
+                "end": end_dt,
+                "cap": cap,
+                "comune": comune,
+                "farmacia": farmacia,
+            }
+        )
+
+    return appointments
+
+
+# =========================================================
 # CREA APPUNTAMENTO
 # =========================================================
 
 def create_appointment(
     nome_farmacia,
     cap,
+    comune,
     start_datetime,
     end_datetime,
     durata,
@@ -253,6 +372,7 @@ def create_appointment(
         "",
         f"Farmacia: {nome_farmacia}",
         f"CAP: {cap}",
+        f"Comune: {comune}",
         f"Durata: {durata} minuti",
     ]
 
@@ -280,10 +400,8 @@ def create_appointment(
 
     event = {
 
-        # IMPORTANTE:
-        # nel calendario vedrai solamente
+        # Nel calendario viene visualizzato
         # il nome della farmacia.
-
         "summary": nome_farmacia,
 
         "description":
@@ -305,10 +423,6 @@ def create_appointment(
                 TIMEZONE_NAME,
         },
 
-        # -------------------------------------------------
-        # PROMEMORIA
-        # -------------------------------------------------
-
         "reminders": {
             "useDefault": False,
 
@@ -323,9 +437,6 @@ def create_appointment(
 
     # -----------------------------------------------------
     # CREA EVENTO
-    #
-    # NON aggiungiamo il cliente come attendee.
-    # Questo evita il problema del Service Account.
     # -----------------------------------------------------
 
     created_event = (
