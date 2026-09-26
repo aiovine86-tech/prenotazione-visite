@@ -1159,14 +1159,7 @@ def render_main_header():
             '</div>'
         )
 
-        avatar_piccolo = (
-            '<div class="profile-mini-avatar" '
-            'style="padding:0; overflow:hidden;">'
-            f'<img src="{profile_image}" '
-            'style="width:100%; height:100%; '
-            'object-fit:cover; display:block;">'
-            '</div>'
-        )
+
 
     else:
 
