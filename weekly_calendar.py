@@ -10,6 +10,15 @@ MONTHS = ('gen', 'feb', 'mar', 'apr', 'mag', 'giu', 'lug', 'ago', 'set', 'ott', 
 DAYS = ('Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato', 'Domenica')
 
 
+def _select_day(day):
+    st.session_state.weekly_day = day
+    st.session_state.pop('weekly_selected', None)
+
+
+def _select_slot(token):
+    st.session_state.weekly_selected = token
+
+
 def render_weekly_calendar(duration, today, pharmacy, cap, town, load_busy, recommend):
     monday = today - timedelta(days=today.weekday())
     st.session_state.setdefault('weekly_start', monday)
@@ -32,9 +41,26 @@ def render_weekly_calendar(duration, today, pharmacy, cap, town, load_busy, reco
     .st-key-week_days div[data-testid="stButton"] button[kind] {min-height:76px!important;padding:8px 4px!important;
         border-radius:12px!important;box-shadow:none!important;}
     .st-key-week_days button p {white-space:pre-line!important;font-size:12px!important;line-height:1.5!important;}
-    .st-key-week_days [class*="st-key-selected_day_"] div[data-testid="stButton"] button[kind] {
+    .st-key-weekly_calendar div[data-testid="stButton"] button[kind] {
+        transition:transform 160ms ease-out,box-shadow 160ms ease-out,border-color 160ms ease-out!important;
+        touch-action:manipulation;
+    }
+    .st-key-weekly_calendar [class*="st-key-slot_card_"] div[data-testid="stButton"] button[kind] {
+        box-shadow:none!important;
+    }
+    .st-key-weekly_calendar [class*="st-key-selected_day_"] div[data-testid="stButton"] button[kind],
+    .st-key-weekly_calendar [class*="st-key-selected_slot_"] div[data-testid="stButton"] button[kind] {
+        position:relative;z-index:1;
+        transform:scale(1.025)!important;
+        animation:selection-in 160ms ease-out;
         border:2px solid #21a65b!important;
         box-shadow:0 0 0 3px rgba(33,166,91,.18),0 0 16px rgba(33,166,91,.32)!important;
+    }
+    @keyframes selection-in {from {transform:scale(1);} to {transform:scale(1.025);}}
+    @media(prefers-reduced-motion:reduce){
+        .st-key-weekly_calendar div[data-testid="stButton"] button[kind] {
+            transition:none!important;animation:none!important;
+        }
     }
     .week-range {font-size:18px;font-weight:750;color:#24343a;margin:0 0 8px;}
     .week-range small {display:block;font-size:12px;font-weight:500;color:#667085;margin-bottom:2px;}
@@ -121,13 +147,12 @@ def render_weekly_calendar(duration, today, pharmacy, cap, town, load_busy, reco
                              ('Chiuso' if day.weekday() >= 5 else 'Non disponibile'))
                     label = f"{DAYS[day.weekday()][:3]} {day.day} {MONTHS[day.month - 1]}\n{status}"
                     with column.container(key=('selected_day_' if active else 'day_card_') + day.isoformat()):
-                        if st.button(label, key='day_' + day.isoformat(),
-                                         type='primary' if available else 'secondary',
-                                         disabled=not available, use_container_width=True,
-                                         help='Consigliato: visite già in zona' if day in suggested else None):
-                            st.session_state.weekly_day = day
-                            st.session_state.pop('weekly_selected', None)
-                            st.rerun()
+                        st.button(label, key='day_' + day.isoformat(),
+                                  type='primary' if available else 'secondary',
+                                  disabled=not available, use_container_width=True,
+                                  help='Consigliato: visite già in zona' if day in suggested else None,
+                                  on_click=_select_day, args=(day,))
+
 
         day = st.session_state.get('weekly_day')
         if day is None:
@@ -147,11 +172,11 @@ def render_weekly_calendar(duration, today, pharmacy, cap, town, load_busy, reco
                     active = st.session_state.get('weekly_selected') == token
                     label = format_slot(slot)
                     label += ' · ' + (slot['reason'] or ('✓ Selezionato' if active else 'Disponibile'))
-                    if column.button(label, key='slot_' + token,
-                                     type='secondary' if slot['reason'] else 'primary',
-                                     disabled=bool(slot['reason']), use_container_width=True):
-                        st.session_state.weekly_selected = token
-                        st.rerun()
+                    with column.container(key=('selected_slot_' if active else 'slot_card_') + token):
+                        st.button(label, key='slot_' + token,
+                                  type='secondary' if slot['reason'] else 'primary',
+                                  disabled=bool(slot['reason']), use_container_width=True,
+                                  on_click=_select_slot, args=(token,))
                     if not slot['reason'] and st.session_state.get('weekly_selected') == token:
                         selected = {'start': slot['start'], 'end': slot['end']}
         if selected:
