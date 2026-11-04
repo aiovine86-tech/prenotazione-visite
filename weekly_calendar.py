@@ -58,7 +58,7 @@ def render_weekly_calendar(duration, today, pharmacy, cap, town, load_busy, reco
                 st.session_state.weekly_start -= timedelta(days=7)
                 st.session_state.pop('weekly_selected', None)
                 st.rerun()
-            if current.button('Questa settimana', disabled=start == monday,
+            if current.button('Attuale', disabled=start == monday,
                               help='Torna alla settimana attuale', use_container_width=True):
                 st.session_state.weekly_start = monday
                 st.session_state.pop('weekly_selected', None)
