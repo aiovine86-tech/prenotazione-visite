@@ -21,8 +21,10 @@ if slot:
 '''
     at = AppTest.from_string(source, default_timeout=30).run()
     assert not at.exception
+    assert not any(b.key and b.key.startswith('slot_') for b in at.button)
+    next(b for b in at.button if b.key and b.key.startswith('day_') and not b.disabled).click().run()
     assert any(b.disabled and 'Occupato' in b.label for b in at.button)
-    available = next(b for b in at.button if 'Disponibile' in b.label and not b.disabled)
+    available = next(b for b in at.button if b.key and b.key.startswith('slot_') and 'Disponibile' in b.label and not b.disabled)
     available.click().run()
     assert not at.exception
     assert any('CHOSEN' in m.value for m in at.markdown)
