@@ -32,6 +32,10 @@ def render_weekly_calendar(duration, today, pharmacy, cap, town, load_busy, reco
     .st-key-week_days button {min-height:76px!important;padding:8px 4px!important;
         border-radius:12px!important;box-shadow:none!important;}
     .st-key-week_days button p {white-space:pre-line!important;font-size:12px!important;line-height:1.5!important;}
+    .st-key-week_days [class*="st-key-selected_day_"] button {
+        border:2px solid #21a65b!important;
+        box-shadow:0 0 0 3px rgba(33,166,91,.18),0 0 16px rgba(33,166,91,.32)!important;
+    }
     .week-range {font-size:18px;font-weight:750;color:#24343a;margin:0 0 8px;}
     .week-range small {display:block;font-size:12px;font-weight:500;color:#667085;margin-bottom:2px;}
     .st-key-week_navigation [data-testid="stHorizontalBlock"] {flex-wrap:nowrap!important;gap:6px!important;}
@@ -116,13 +120,14 @@ def render_weekly_calendar(duration, today, pharmacy, cap, town, load_busy, reco
                     status = '✓ Scelto' if active else ('Disponibile' if available else
                              ('Chiuso' if day.weekday() >= 5 else 'Non disponibile'))
                     label = f"{DAYS[day.weekday()][:3]} {day.day} {MONTHS[day.month - 1]}\n{status}"
-                    if column.button(label, key='day_' + day.isoformat(),
-                                     type='primary' if available else 'secondary',
-                                     disabled=not available, use_container_width=True,
-                                     help='Consigliato: visite già in zona' if day in suggested else None):
-                        st.session_state.weekly_day = day
-                        st.session_state.pop('weekly_selected', None)
-                        st.rerun()
+                    with column.container(key=('selected_day_' if active else 'day_card_') + day.isoformat()):
+                        if st.button(label, key='day_' + day.isoformat(),
+                                         type='primary' if available else 'secondary',
+                                         disabled=not available, use_container_width=True,
+                                         help='Consigliato: visite già in zona' if day in suggested else None):
+                            st.session_state.weekly_day = day
+                            st.session_state.pop('weekly_selected', None)
+                            st.rerun()
 
         day = st.session_state.get('weekly_day')
         if day is None:
