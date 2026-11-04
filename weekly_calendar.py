@@ -30,8 +30,8 @@ def render_weekly_calendar(duration, today, pharmacy, cap, town, load_busy, reco
     with st.container(key='weekly_calendar'):
         st.markdown('### Scegli un orario')
         st.caption('Seleziona un orario verde. La prenotazione viene confermata direttamente, senza registrazione.')
-        st.markdown('<div class="week-legend">🟢 Disponibile · ⚪ Non disponibile<br>'
-                    'Orari di Roma · pausa di 15 minuti tra le visite</div>', unsafe_allow_html=True)
+        st.markdown('<div class="week-legend">🟢 Disponibile · ⚪ Non disponibile</div>',
+                    unsafe_allow_html=True)
         prev, current, nxt = st.columns(3)
         if prev.button('← Precedente', disabled=st.session_state.weekly_start <= monday,
                        use_container_width=True):
