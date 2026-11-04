@@ -5,6 +5,8 @@ import streamlit as st
 
 from booking import get_day_slots, format_slot, WORKING_PERIODS
 
+MONTHS = ('gen', 'feb', 'mar', 'apr', 'mag', 'giu', 'lug', 'ago', 'set', 'ott', 'nov', 'dic')
+
 DAYS = ('Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato', 'Domenica')
 
 
@@ -23,7 +25,17 @@ def render_weekly_calendar(duration, today, pharmacy, cap, town, load_busy, reco
         opacity:1!important;border:1px solid #ddd!important;}
     .week-day {background:#eff3f2;padding:12px;border-radius:8px;color:#286461;
         font-weight:750;margin-top:12px;}
-    .week-legend {font-size:14px;color:#475467;margin:8px 0 16px;}
+    .week-legend {font-size:13px;color:#475467;margin:4px 0 10px;}
+    .week-range {font-size:18px;font-weight:750;color:#24343a;margin:0 0 8px;}
+    .week-range small {display:block;font-size:12px;font-weight:500;color:#667085;margin-bottom:2px;}
+    .st-key-week_navigation [data-testid="stHorizontalBlock"] {flex-wrap:nowrap!important;gap:6px!important;}
+    .st-key-week_navigation [data-testid="stColumn"] {min-width:0!important;flex:1 1 0!important;}
+    .st-key-week_navigation button {min-height:42px!important;padding:6px 8px!important;
+        border-radius:10px!important;box-shadow:none!important;}
+    .st-key-week_navigation button p {font-size:12px!important;line-height:1.25!important;}
+    .st-key-week_refresh button {min-height:32px!important;padding:4px 8px!important;
+        font-size:12px!important;border:0!important;box-shadow:none!important;}
+
     @media(max-width:640px){.st-key-weekly_calendar{padding:10px;}}
     </style>''', unsafe_allow_html=True)
 
@@ -32,25 +44,32 @@ def render_weekly_calendar(duration, today, pharmacy, cap, town, load_busy, reco
         st.caption('Seleziona un orario verde. La prenotazione viene confermata direttamente, senza registrazione.')
         st.markdown('<div class="week-legend">🟢 Disponibile · ⚪ Non disponibile</div>',
                     unsafe_allow_html=True)
-        prev, current, nxt = st.columns(3)
-        if prev.button('← Precedente', disabled=st.session_state.weekly_start <= monday,
-                       use_container_width=True):
-            st.session_state.weekly_start -= timedelta(days=7)
-            st.session_state.pop('weekly_selected', None)
-            st.rerun()
-        if current.button('Oggi', use_container_width=True):
-            st.session_state.weekly_start = monday
-            st.session_state.pop('weekly_selected', None)
-            st.rerun()
-        if nxt.button('Successiva →', use_container_width=True):
-            st.session_state.weekly_start += timedelta(days=7)
-            st.session_state.pop('weekly_selected', None)
-            st.rerun()
         start = st.session_state.weekly_start
         end = start + timedelta(days=6)
-        st.markdown(f'**{start:%d/%m/%Y} – {end:%d/%m/%Y}**')
-        if st.button('Aggiorna disponibilità', use_container_width=True):
-            load_busy.clear()
+        date_range = f'{start.day} {MONTHS[start.month - 1]} – {end.day} {MONTHS[end.month - 1]} {end.year}'
+        if start.year != end.year:
+            date_range = f'{start.day} {MONTHS[start.month - 1]} {start.year} – {end.day} {MONTHS[end.month - 1]} {end.year}'
+        st.markdown(f'<div class="week-range"><small>Settimana visualizzata</small>{date_range}</div>',
+                    unsafe_allow_html=True)
+        with st.container(key='week_navigation'):
+            prev, current, nxt = st.columns(3, gap='small')
+            if prev.button('← Settimana', disabled=start <= monday,
+                           help='Vai alla settimana precedente', use_container_width=True):
+                st.session_state.weekly_start -= timedelta(days=7)
+                st.session_state.pop('weekly_selected', None)
+                st.rerun()
+            if current.button('Questa settimana', disabled=start == monday,
+                              help='Torna alla settimana attuale', use_container_width=True):
+                st.session_state.weekly_start = monday
+                st.session_state.pop('weekly_selected', None)
+                st.rerun()
+            if nxt.button('Settimana →', help='Vai alla settimana successiva', use_container_width=True):
+                st.session_state.weekly_start += timedelta(days=7)
+                st.session_state.pop('weekly_selected', None)
+                st.rerun()
+        with st.container(key='week_refresh'):
+            if st.button('↻ Aggiorna disponibilità'):
+                load_busy.clear()
         if not (pharmacy.strip() and cap and town):
             st.info('Inserisci CAP e farmacia per visualizzare le disponibilità reali.')
             return None

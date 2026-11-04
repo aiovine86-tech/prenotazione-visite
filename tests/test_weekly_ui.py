@@ -28,14 +28,14 @@ if slot:
     assert any('CHOSEN' in m.value for m in at.markdown)
     at.selectbox[0].select(75).run()
     assert not any('CHOSEN' in m.value for m in at.markdown)
-    next(b for b in at.button if b.label == 'Successiva →').click().run()
-    assert any('16/11/2026' in m.value for m in at.markdown)
-    previous = next(b for b in at.button if b.label == '← Precedente')
+    next(b for b in at.button if b.label == 'Settimana →').click().run()
+    assert any('16 nov – 22 nov 2026' in m.value for m in at.markdown)
+    previous = next(b for b in at.button if b.label == '← Settimana')
     assert not previous.disabled
     previous.click().run()
-    assert any('09/11/2026' in m.value for m in at.markdown)
+    assert any('9 nov – 15 nov 2026' in m.value for m in at.markdown)
     with patch('tests.test_weekly_ui.busy', side_effect=RuntimeError('offline')):
-        next(b for b in at.button if b.label == 'Aggiorna disponibilità').click().run()
+        next(b for b in at.button if b.label == '↻ Aggiorna disponibilità').click().run()
     assert at.error
     assert not any('Disponibile' in b.label for b in at.button)
 
