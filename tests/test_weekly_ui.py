@@ -30,7 +30,9 @@ if slot:
     assert not any('CHOSEN' in m.value for m in at.markdown)
     next(b for b in at.button if b.label == 'Successiva →').click().run()
     assert any('16/11/2026' in m.value for m in at.markdown)
-    next(b for b in at.button if b.label == 'Oggi').click().run()
+    previous = next(b for b in at.button if b.label == '← Precedente')
+    assert not previous.disabled
+    previous.click().run()
     assert any('09/11/2026' in m.value for m in at.markdown)
     with patch('tests.test_weekly_ui.busy', side_effect=RuntimeError('offline')):
         next(b for b in at.button if b.label == 'Aggiorna disponibilità').click().run()

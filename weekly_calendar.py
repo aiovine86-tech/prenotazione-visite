@@ -37,12 +37,15 @@ def render_weekly_calendar(duration, today, pharmacy, cap, town, load_busy, reco
                        use_container_width=True):
             st.session_state.weekly_start -= timedelta(days=7)
             st.session_state.pop('weekly_selected', None)
+            st.rerun()
         if current.button('Oggi', use_container_width=True):
             st.session_state.weekly_start = monday
             st.session_state.pop('weekly_selected', None)
+            st.rerun()
         if nxt.button('Successiva →', use_container_width=True):
             st.session_state.weekly_start += timedelta(days=7)
             st.session_state.pop('weekly_selected', None)
+            st.rerun()
         start = st.session_state.weekly_start
         end = start + timedelta(days=6)
         st.markdown(f'**{start:%d/%m/%Y} – {end:%d/%m/%Y}**')
