@@ -29,10 +29,10 @@ def render_weekly_calendar(duration, today, pharmacy, cap, town, load_busy, reco
     .week-legend {font-size:13px;color:#475467;margin:4px 0 10px;}
     .st-key-week_days [data-testid="stHorizontalBlock"] {flex-wrap:nowrap!important;gap:6px!important;}
     .st-key-week_days [data-testid="stColumn"] {min-width:0!important;flex:1 1 0!important;}
-    .st-key-week_days button {min-height:76px!important;padding:8px 4px!important;
+    .st-key-week_days div[data-testid="stButton"] button[kind] {min-height:76px!important;padding:8px 4px!important;
         border-radius:12px!important;box-shadow:none!important;}
     .st-key-week_days button p {white-space:pre-line!important;font-size:12px!important;line-height:1.5!important;}
-    .st-key-week_days [class*="st-key-selected_day_"] button {
+    .st-key-week_days [class*="st-key-selected_day_"] div[data-testid="stButton"] button[kind] {
         border:2px solid #21a65b!important;
         box-shadow:0 0 0 3px rgba(33,166,91,.18),0 0 16px rgba(33,166,91,.32)!important;
     }
