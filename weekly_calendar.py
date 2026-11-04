@@ -71,6 +71,8 @@ def render_weekly_calendar(duration, today, pharmacy, cap, town, load_busy, reco
         selected = None
         for offset in range(7):
             day = start + timedelta(days=offset)
+            if day < today:
+                continue
             suffix = ' · Consigliato in zona' if day in suggested else ''
             st.markdown(f'<div class="week-day">{DAYS[day.weekday()]} · {day:%d/%m/%Y}{suffix}</div>',
                         unsafe_allow_html=True)
