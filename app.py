@@ -18,14 +18,15 @@ def get_background_image_base64():
         return ""
 import pandas as pd
 import streamlit as st
+from weekly_calendar import render_weekly_calendar
 
 from booking import (
     get_available_slots,
-    format_slot,
 )
 
 from google_calendar import (
     create_appointment,
+    get_busy_slots,
     get_territorial_appointments,
 )
 
@@ -140,13 +141,24 @@ farmacie_df = load_farmacie()
 # DATE CONSIGLIATE
 # =========================================================
 
+@st.cache_data(ttl=60, show_spinner=False, max_entries=32)
+def cached_busy(start, end):
+    return get_busy_slots(start, end)
+
+
+@st.cache_data(ttl=60, show_spinner=False, max_entries=32)
+def cached_territorial(start, end):
+    return get_territorial_appointments(start, end)
+
+
 def get_recommended_dates(cap, comune, durata, oggi, giorni=7, max_risultati=3):
     if not cap or not comune:
         return []
 
     fine_periodo = oggi + timedelta(days=giorni - 1)
     try:
-        appuntamenti = get_territorial_appointments(oggi, fine_periodo)
+        appuntamenti = cached_territorial(oggi, fine_periodo)
+        busy = cached_busy(oggi - timedelta(days=1), fine_periodo + timedelta(days=1))
     except Exception as e:
         print("Errore lettura appuntamenti territoriali:", e)
         return []
@@ -157,7 +169,7 @@ def get_recommended_dates(cap, comune, durata, oggi, giorni=7, max_risultati=3):
         if giorno.weekday() >= 5:
             continue
         try:
-            slots_giorno = get_available_slots(giorno, durata)
+            slots_giorno = get_available_slots(giorno, durata, busy)
         except Exception as e:
             print("Errore disponibilità data consigliata:", giorno, e)
             continue
@@ -1765,114 +1777,11 @@ durata = st.selectbox(
 
 oggi = datetime.now(TIMEZONE).date()
 
-recommended_dates = []
-if nome_farmacia and cap and comune:
-    recommended_dates = get_recommended_dates(cap, comune, durata, oggi)
-
-if recommended_dates:
-    st.markdown("**Date consigliate in base alle visite già in zona**")
-    opzioni = [r["data"] for r in recommended_dates]
-    data_consigliata = st.radio(
-        "Scegli una data consigliata",
-        opzioni,
-        index=None,
-        format_func=lambda d: next(
-            f"{d.strftime('%d/%m/%Y')} · {r['numero_visite_vicine']} visita{'e' if r['numero_visite_vicine'] != 1 else ''} in zona"
-            for r in recommended_dates if r["data"] == d
-        ),
-    )
-    altra_data = st.checkbox("Preferisci un'altra data?")
-    if altra_data or data_consigliata is None:
-        data = st.date_input("Data", min_value=oggi, value=oggi)
-    else:
-        data = data_consigliata
-else:
-    if nome_farmacia:
-        st.caption("Nessuna data con visite vicine trovata nei prossimi 7 giorni. Puoi scegliere liberamente la data.")
-    data = st.date_input("Data", min_value=oggi, value=oggi)
-
-
-# =========================================================
-# DISPONIBILITÀ
-# =========================================================
-
-slots = []
-
-if data.weekday() >= 5:
-
-    st.warning(
-        "Gli appuntamenti sono disponibili "
-        "dal lunedì al venerdì."
-    )
-
-else:
-
-    try:
-
-        slots = get_available_slots(
-            data,
-            durata,
-        )
-
-        if data == oggi:
-
-            now = datetime.now(
-                TIMEZONE
-            )
-
-            slots = [
-                slot
-                for slot in slots
-                if slot["start"] > now
-            ]
-
-    except Exception as e:
-
-        print(
-            "Errore verifica disponibilità:",
-            e,
-        )
-
-        slots = []
-
-        st.error(
-            "Non è stato possibile verificare "
-            "la disponibilità del calendario."
-        )
-
-
-# =========================================================
-# ORARIO
-# =========================================================
-
-selected_slot = None
-
-if slots:
-
-    availability_markup = (
-        '<div class="availability-card">'
-        f'✓ {len(slots)} orari disponibili '
-        'per la durata selezionata'
-        '</div>'
-    )
-
-    st.markdown(
-        availability_markup,
-        unsafe_allow_html=True,
-    )
-
-    selected_slot = st.selectbox(
-        "Orario disponibile",
-        slots,
-        format_func=format_slot,
-    )
-
-elif data.weekday() < 5:
-
-    st.info(
-        "Nessun orario disponibile "
-        "per la data e la durata selezionate."
-    )
+selected_slot = render_weekly_calendar(
+    durata, oggi, nome_farmacia, cap, comune,
+    cached_busy, get_recommended_dates,
+)
+data = selected_slot["start"].date() if selected_slot else oggi
 
 
 # =========================================================
@@ -1979,6 +1888,9 @@ if prenota:
 
             if not slot_still_available:
 
+                cached_busy.clear()
+                st.session_state.pop("weekly_selected", None)
+
                 st.warning(
                     "Questo orario è appena diventato "
                     "non disponibile. "
@@ -2084,6 +1996,9 @@ if prenota:
                         email.strip(),
                 }
 
+                cached_busy.clear()
+                cached_territorial.clear()
+                st.session_state.pop("weekly_selected", None)
                 st.session_state.prenotazione_completata = True
 
                 st.rerun()

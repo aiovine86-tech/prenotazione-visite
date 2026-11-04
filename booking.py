@@ -17,77 +17,45 @@ def _overlaps(start_a, end_a, start_b, end_b):
     return start_a < end_b and end_a > start_b
 
 
-def get_available_slots(selected_date, duration_minutes):
-    """
-    Calcola gli orari disponibili per una determinata data
-    e durata dell'appuntamento.
-    """
-
-    # 0 = lunedì, 6 = domenica
+def get_day_slots(selected_date, duration_minutes, busy_slots, now=None):
+    """All candidate starts, with a reason when they cannot be booked."""
     if selected_date.weekday() >= 5:
         return []
-
-    busy_slots = get_busy_slots(
-        selected_date,
-        selected_date
-    )
-
-    available_slots = []
-
+    if duration_minutes not in range(30, 121, 15):
+        raise ValueError("Durata non valida")
+    now = now or datetime.now(TIMEZONE)
     duration = timedelta(minutes=duration_minutes)
     buffer_time = timedelta(minutes=BUFFER_MINUTES)
-
+    slots = []
     for period_start, period_end in WORKING_PERIODS:
-
-        current = datetime.combine(
-            selected_date,
-            period_start,
-            tzinfo=TIMEZONE
-        )
-
-        working_end = datetime.combine(
-            selected_date,
-            period_end,
-            tzinfo=TIMEZONE
-        )
-
-        # Proponiamo partenze ogni 15 minuti.
+        current = datetime.combine(selected_date, period_start, tzinfo=TIMEZONE)
+        working_end = datetime.combine(selected_date, period_end, tzinfo=TIMEZONE)
         while current + duration <= working_end:
-
-            appointment_end = current + duration
-
-            slot_valid = True
-
-            for busy in busy_slots:
-
-                busy_start = busy["start"].astimezone(TIMEZONE)
-                busy_end = busy["end"].astimezone(TIMEZONE)
-
-                # Proteggiamo 15 minuti prima e dopo
-                # ciascun appuntamento già presente.
-                protected_start = busy_start - buffer_time
-                protected_end = busy_end + buffer_time
-
-                if _overlaps(
-                    current,
-                    appointment_end,
-                    protected_start,
-                    protected_end
-                ):
-                    slot_valid = False
-                    break
-
-            if slot_valid:
-                available_slots.append(
-                    {
-                        "start": current,
-                        "end": appointment_end
-                    }
-                )
-
+            end = current + duration
+            reason = ""
+            if current <= now:
+                reason = "Trascorso"
+            elif any(_overlaps(current, end, b["start"], b["end"]) for b in busy_slots):
+                reason = "Occupato"
+            elif any(_overlaps(current, end, b["start"] - buffer_time,
+                               b["end"] + buffer_time) for b in busy_slots):
+                reason = "Pausa tra visite"
+            slots.append({"start": current, "end": end, "reason": reason})
             current += timedelta(minutes=15)
+    return slots
 
-    return available_slots
+
+def get_available_slots(selected_date, duration_minutes, busy_slots=None):
+    """Fresh Calendar read by default, including the final booking check."""
+    if selected_date.weekday() >= 5:
+        return []
+    if busy_slots is None:
+        # Include adjacent days so the 15-minute buffer also crosses midnight.
+        busy_slots = get_busy_slots(selected_date - timedelta(days=1),
+                                    selected_date + timedelta(days=1))
+    return [{"start": s["start"], "end": s["end"]}
+            for s in get_day_slots(selected_date, duration_minutes, busy_slots)
+            if not s["reason"]]
 
 
 def format_slot(slot):

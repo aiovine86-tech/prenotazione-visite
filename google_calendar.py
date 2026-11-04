@@ -82,23 +82,21 @@ def get_events(
         tzinfo=TIMEZONE,
     )
 
-    result = (
-        service
-        .events()
-        .list(
+    events = []
+    page_token = None
+    while True:
+        result = service.events().list(
             calendarId=calendar_id,
             timeMin=start_datetime.isoformat(),
             timeMax=end_datetime.isoformat(),
             singleEvents=True,
             orderBy="startTime",
-        )
-        .execute()
-    )
-
-    return result.get(
-        "items",
-        [],
-    )
+            pageToken=page_token,
+        ).execute()
+        events.extend(result.get("items", []))
+        page_token = result.get("nextPageToken")
+        if not page_token:
+            return events
 
 
 # =========================================================
@@ -118,6 +116,9 @@ def get_busy_slots(
     busy_slots = []
 
     for event in events:
+
+        if event.get("status") == "cancelled" or event.get("transparency") == "transparent":
+            continue
 
         start = event.get(
             "start",
@@ -264,6 +265,9 @@ def get_territorial_appointments(
     appointments = []
 
     for event in events:
+
+        if event.get("status") == "cancelled" or event.get("transparency") == "transparent":
+            continue
 
         start = event.get(
             "start",
