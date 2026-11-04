@@ -79,10 +79,16 @@ def render_weekly_calendar(duration, today, pharmacy, cap, town, load_busy, reco
             if day.weekday() >= 5:
                 st.caption('Chiuso · appuntamenti dal lunedì al venerdì')
                 continue
-            candidates = get_day_slots(day, duration, busy)
+            candidates = [slot for slot in get_day_slots(day, duration, busy)
+                          if slot['reason'] != 'Trascorso']
+            if not candidates:
+                st.caption('Nessun altro orario per oggi.')
+                continue
             for period_start, period_end in WORKING_PERIODS:
-                st.caption(f'{period_start:%H:%M} – {period_end:%H:%M}')
                 period = [s for s in candidates if period_start <= s['start'].time() < period_end]
+                if not period:
+                    continue
+                st.caption(f'{period_start:%H:%M} – {period_end:%H:%M}')
                 # Two columns remain comfortably tappable on phones; Streamlit stacks on narrow screens.
                 for row in range(0, len(period), 2):
                     for column, slot in zip(st.columns(2), period[row:row + 2]):
